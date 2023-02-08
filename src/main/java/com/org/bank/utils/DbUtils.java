@@ -2,6 +2,8 @@ package com.org.bank.utils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
 import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +34,12 @@ public class DbUtils {
 	public DbUtils() {
 		fileReaderUtil = new FileReaderUtil();
 		awsUtils = new AwsUtils();
-		dataSource = new DriverManagerDataSource(getSecretsValues().getJdbcUrl(), getSecretsValues().getUserName(),
-				getSecretsValues().getPassword());
-		jdbcTemplate = new JdbcTemplate(dataSource);
+		SecretsModal secretsModal = getSecretsValues();
+		if (Objects.nonNull(secretsModal.getJdbcUrl()) || Objects.nonNull(secretsModal.getPassword())) {
+			dataSource = new DriverManagerDataSource(secretsModal.getJdbcUrl(), secretsModal.getUserName(),
+					secretsModal.getPassword());
+			jdbcTemplate = new JdbcTemplate(dataSource);
+		}
 	}
 
 	/**
@@ -60,7 +65,9 @@ public class DbUtils {
 			secretsModal = awsUtils.getS3Object(awsRegion, awsSecretKeyId, awsSecretAccessKey, bucketName, objectKey);
 			secretsModal.setDriverClassName(driverClassName);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(
+					"Error occured while fetching the data from s3 and setting in secret modal class with error : {}",
+					e.getMessage());
 		}
 		return secretsModal;
 	}
@@ -71,12 +78,19 @@ public class DbUtils {
 	 * @param query : Query to insert the data
 	 */
 	public synchronized void insertQuery(String query) {
-		try {
-			logger.info("Query to insert data is : {}", query);
-			int result = jdbcTemplate.update(query);
-			logger.info("Rows impacted with query : {} are : {}", query, result);
-		} catch (Exception e) {
-			logger.error("Error occured while inserting data with query : {} with error : {}", query, e.getMessage());
+		synchronized (this) {
+			if (Objects.nonNull(jdbcTemplate)) {
+				try {
+					logger.info("Query to insert data is : {}", query);
+					int result = jdbcTemplate.update(query);
+					logger.info("Rows impacted with query : {} are : {}", query, result);
+				} catch (Exception e) {
+					logger.error("Error occured while inserting data with query : {} with error : {}", query,
+							e.getMessage());
+				}
+			} else {
+				logger.warn("Query : {} can not be executed as connection with database is not establised", query);
+			}
 		}
 	}
 
@@ -88,14 +102,20 @@ public class DbUtils {
 	 */
 	public synchronized List<Map<String, Object>> selectQueryResult(String query) {
 		List<Map<String, Object>> result = null;
-		try {
-			logger.info("Query to select data is : {}", query);
-			result = jdbcTemplate.queryForList(query);
-		} catch (Exception e) {
-			logger.error("Error occured while fetching the data from query : {} with error : {}", query,
-					e.getMessage());
+		synchronized (this) {
+			if (Objects.nonNull(jdbcTemplate)) {
+				try {
+					logger.info("Query to select data is : {}", query);
+					result = jdbcTemplate.queryForList(query);
+				} catch (Exception e) {
+					logger.error("Error occured while fetching the data from query : {} with error : {}", query,
+							e.getMessage());
+				}
+			} else {
+				logger.warn("Query : {} can not be executed as connection with database is not establised", query);
+			}
+			return result;
 		}
-		return result;
 	}
 
 	/**
@@ -104,13 +124,19 @@ public class DbUtils {
 	 * @param query : Query to update data
 	 */
 	public synchronized void updateQuery(String query) {
-		try {
-			logger.info("Query to update data is  : {}", query);
-			int result = jdbcTemplate.update(query);
-			logger.info("Rows impacted with query : {} are : {}", query, result);
-		} catch (Exception e) {
-			logger.error("Error occured while updating the data from query : {} with error : {}", query,
-					e.getMessage());
+		synchronized (this) {
+			if (Objects.nonNull(jdbcTemplate)) {
+				try {
+					logger.info("Query to update data is  : {}", query);
+					int result = jdbcTemplate.update(query);
+					logger.info("Rows impacted with query : {} are : {}", query, result);
+				} catch (Exception e) {
+					logger.error("Error occured while updating the data from query : {} with error : {}", query,
+							e.getMessage());
+				}
+			} else {
+				logger.warn("Query : {} can not be executed as connection with database is not establised", query);
+			}
 		}
 	}
 
@@ -120,13 +146,19 @@ public class DbUtils {
 	 * @param query : Query to delete data
 	 */
 	public synchronized void deleteQuery(String query) {
-		try {
-			logger.info("Query to delete data is  : {}", query);
-			int result = jdbcTemplate.update(query);
-			logger.info("Rows impacted with query : {} are : {}", query, result);
-		} catch (Exception e) {
-			logger.error("Error occured while deleting the data from query : {} with error : {}", query,
-					e.getMessage());
+		synchronized (this) {
+			if (Objects.nonNull(jdbcTemplate)) {
+				try {
+					logger.info("Query to delete data is  : {}", query);
+					int result = jdbcTemplate.update(query);
+					logger.info("Rows impacted with query : {} are : {}", query, result);
+				} catch (Exception e) {
+					logger.error("Error occured while deleting the data from query : {} with error : {}", query,
+							e.getMessage());
+				}
+			} else {
+				logger.warn("Query : {} can not be executed as connection with database is not establised", query);
+			}
 		}
 	}
 }

@@ -1,60 +1,77 @@
 package com.org.bank.driverFactory;
 
 import java.util.Objects;
+
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.org.bank.utils.FileReaderUtil;
 
+/**
+ * This class contains the method related to webdriver initializaton
+ * @author Lavendra Kumar Rajput
+ *
+ * @Date 09/02/2023
+ */
 public class DriverFactory {
 
-	Logger logger = LoggerFactory.getLogger(DriverFactory.class);
-	protected Driver driver;
-	private static String browserName;
-	private static String environment;
+	private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
 	private FileReaderUtil fileReaderUtil = new FileReaderUtil();
+	private String currentEnvironment;
+	private String currentBrowser;
+	private ThreadLocal<WebDriver> threadLocal = new ThreadLocal<WebDriver>();
 
 	public DriverFactory() {
-		System.setProperty("env", "cloud");
-		System.setProperty("browser", "firefox");
-		driver = setWebDriver();
-	}
-
-	private void readEnvVariables() {
-		String currentEnviroment = System.getProperty("env");
-		String currentBrowser = System.getProperty("browser");
-		if (Objects.isNull(currentEnviroment) && Objects.isNull(currentBrowser)) {
+		String setEnvironment = System.getProperty("env");
+		String setBrowser = System.getProperty("browser");
+		if (Objects.isNull(setEnvironment) && Objects.isNull(setBrowser)) {
 			try {
-				currentEnviroment = fileReaderUtil.getPropertyValue("env");
-				currentBrowser = fileReaderUtil.getPropertyValue("browser");
-				logger.info("Setting the environment to : {} and browser to : {}",currentEnviroment, currentBrowser);
+				setEnvironment = fileReaderUtil.getPropertyValue("env");
+				setBrowser = fileReaderUtil.getPropertyValue("browser");
+				logger.info("Setting the environment to : {} and browser to : {}", setEnvironment, setBrowser);
 			} catch (Exception e) {
 				logger.error("Error occured while setting the env variables with error message : {} ", e.getMessage());
 			}
 		}
-		browserName = currentBrowser;
-		environment = currentEnviroment;
-		logger.info("Current environment is : {} and browser is {} : ", environment, browserName);
+		currentEnvironment = setEnvironment;
+		currentBrowser = setBrowser;
+		logger.info("Current environment is : {} and browser is {} : ", currentEnvironment, currentBrowser);
+		threadLocal.set(setupWebDriver());
 	}
 
-	public Driver setWebDriver() {
-		readEnvVariables();
-		switch (browserName.toLowerCase()) {
+	/**
+	 * Setup the web driver;
+	 * 
+	 * @return Webdriver instance
+	 */
+	private WebDriver setupWebDriver() {
+		switch (currentBrowser.toLowerCase()) {
 		case "chrome":
-			driver = new ChromeDriverImpl();
-			break;
+			logger.info("Launching the browser : {}", currentBrowser.toLowerCase());
+			return new ChromerDriverManager().getWebDriver();
 		case "firefox":
-			driver = new FireFoxDriverImpl();
-			break;
+			logger.info("Launching the browser : {}", currentBrowser.toLowerCase());
+			return new FirefoxDriverManager().getWebDriver();
 		case "edge":
-			driver = new EdgerDriverImpl();
-			break;
+			logger.info("Launching the browser : {}", currentBrowser.toLowerCase());
+			return new EdgerDriverManager().getWebDriver();
 		case "safari":
-			driver = new SafariDriverImpl();
-			break;
+			logger.info("Launching the browser : {}", currentBrowser.toLowerCase());
+			return new SafariDriverManager().getWebDriver();
 		default:
-			driver = new ChromeDriverImpl();
+			logger.info("Launching the browser : {}", currentBrowser.toLowerCase());
+			return new ChromerDriverManager().getWebDriver();
 		}
-		return driver;
+	}
+
+	/**
+	 * Get the webdrivers
+	 * 
+	 * @return
+	 */
+	public WebDriver getWebDriver() {
+		return threadLocal.get();
 	}
 
 }

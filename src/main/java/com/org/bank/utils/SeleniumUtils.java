@@ -17,16 +17,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * This Class contains the method related to selenium utility
  * 
  * @author Lavendra Kumar Rajput
  *
- * @Date
+ * @Date 08/02/2023
  */
 public class SeleniumUtils {
 
-	private static int defaultTime = 30;
+	private static final int defaultTime = 30;
 
-	Logger logger = LoggerFactory.getLogger(SeleniumUtils.class);
+	private final Logger logger = LoggerFactory.getLogger(SeleniumUtils.class);
 
 	private WebDriver driver;
 
@@ -36,9 +37,10 @@ public class SeleniumUtils {
 
 	/**
 	 * 
+	 * This method will return the instance of WebDriverWait classSS
 	 * 
-	 * @param waitTimeInSecond
-	 * @return
+	 * @param waitTimeInSecond : Max time to wait in seconds
+	 * @return Instance of {@link WebDriverWait} class
 	 */
 	private WebDriverWait getWebdriverWait(int waitTimeInSecond) {
 		return new WebDriverWait(driver, Duration.ofSeconds(waitTimeInSecond));
@@ -46,25 +48,29 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * This method will return the instance of Action class
 	 * 
-	 * @return
+	 * @return Instance of {@link Actions} class
 	 */
 	private Actions getActions() {
 		return new Actions(driver);
 	}
 
 	/**
+	 * Get the locatoe for webelement
 	 * 
-	 * @param element
-	 * @return
+	 * @param element : Webelement to fetch locator
+	 * @return Locator with finding strategy Example : Xpath : //*[@className =
+	 *         'abc']
 	 */
 	private String getLocatorFromWebElement(WebElement element) {
 		return element.toString().split("->")[1].replaceFirst("(?s)(.*)\\]", "$1" + "");
 	}
 
 	/**
+	 * Wait for the visisblity of webelement for default 30 second
 	 * 
-	 * @param element
+	 * @param element : Webelement to check the visiblity
 	 */
 	public void waitForElementVisiblity(WebElement element) {
 		getWebdriverWait(defaultTime).until(ExpectedConditions.visibilityOf(element));
@@ -72,9 +78,10 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * Wait for the visisblity of webelement for given time
 	 * 
-	 * @param element
-	 * @param time
+	 * @param element : Webelement to check visiblity
+	 * @param time    : Time to check visiblity in seconds
 	 */
 	public void waitForElementVisiblity(WebElement element, int time) {
 		getWebdriverWait(time).until(ExpectedConditions.visibilityOf(element));
@@ -82,8 +89,9 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * Wait for element to be in clickable state for default max 30 second
 	 * 
-	 * @param element
+	 * @param element : Webelement to check clickable state
 	 */
 	public void waitForElementToBeClickable(WebElement element) {
 		getWebdriverWait(defaultTime).until(ExpectedConditions.elementToBeClickable(element));
@@ -91,9 +99,10 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * Wait for element to be in clickable state for given time in seconds
 	 * 
-	 * @param element
-	 * @param time
+	 * @param element : Webelement to check clickable state
+	 * @param time    : Max time to wait
 	 */
 	public void waitForElementToBeClickable(WebElement element, int time) {
 		getWebdriverWait(time).until(ExpectedConditions.elementToBeClickable(element));
@@ -101,7 +110,7 @@ public class SeleniumUtils {
 	}
 
 	/**
-	 * 
+	 * Wait for alert to be present for max default time of 30 second
 	 */
 	public void waitUntilAlertIsPresent() {
 		getWebdriverWait(defaultTime).until(ExpectedConditions.alertIsPresent());
@@ -109,8 +118,9 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * Wait for alert to be present for max given time in seconds
 	 * 
-	 * @param time
+	 * @param time : Max time to wait for an alert
 	 */
 	public void waitUntilAlertIsPresent(int time) {
 		getWebdriverWait(time).until(ExpectedConditions.alertIsPresent());
@@ -118,25 +128,28 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * Wait for invisiblity of webelement for max default time of 30 second
 	 * 
-	 * @param element
+	 * @param element : Webelement to check invisiblity
 	 */
 	public void waitForInvisisblityOfElement(WebElement element) {
 		getWebdriverWait(defaultTime).until(ExpectedConditions.invisibilityOf(element));
 	}
 
 	/**
+	 * Wait for invisiblity of webelement for max given time in seconds
 	 * 
-	 * @param element
-	 * @param time
+	 * @param element : Webelement to check invisiblity
+	 * @param time    : Max time to checkin seconds
 	 */
 	public void waitForInvisisblityOfElement(WebElement element, int time) {
 		getWebdriverWait(time).until(ExpectedConditions.invisibilityOf(element));
 	}
 
 	/**
+	 * This method will set an implicit of time in seconds for
 	 * 
-	 * @param timeInSecond
+	 * @param timeInSecond : Maximum time to wait for an element in seconds
 	 */
 	public void setImplicitWait(int timeInSecond) {
 		try {
@@ -148,9 +161,11 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * This method will wait for webelement to check the desired text of the
+	 * webelement for max default time of 30 seconds
 	 * 
-	 * @param element
-	 * @param expectedText
+	 * @param element      : Webelement to check the text
+	 * @param expectedText : Expected text
 	 */
 	public void waitForExpectedText(WebElement element, String expectedText) {
 		getWebdriverWait(defaultTime).until(ExpectedConditions.textToBePresentInElement(element, expectedText));
@@ -158,8 +173,9 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * This method will perform click using actions class
 	 * 
-	 * @param element
+	 * @param element : Webelement to perform click action
 	 */
 	public void performClickUsingActionClass(WebElement element) {
 		waitForElementToBeClickable(element);
@@ -174,8 +190,9 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * This method will perform click using JavaScript executor
 	 * 
-	 * @param element
+	 * @param element : Webelement to perform click action
 	 */
 	public void performClickUsingJSExecutor(WebElement element) {
 		waitForElementToBeClickable(element);
@@ -190,8 +207,9 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * This method will perform click by trying different ways of click
 	 * 
-	 * @param element
+	 * @param element : Webelement to perform click action
 	 */
 	public void performClick(WebElement element) {
 		waitForElementToBeClickable(element);
@@ -215,9 +233,10 @@ public class SeleniumUtils {
 
 	/**
 	 * 
+	 * Get the text of the webelement
 	 * 
-	 * @param element
-	 * @return
+	 * @param element : Webelement to get text
+	 * @return Text of the webelement
 	 */
 	public String getTextOfElement(WebElement element) {
 		waitForElementVisiblity(element);
@@ -230,15 +249,16 @@ public class SeleniumUtils {
 			logger.error("Error occured while getting the text for {} with error message {}", locator,
 					exception.getMessage());
 		}
-		return "";
+		return "No text is found";
 	}
 
 	/**
 	 * 
+	 * Get the attribute value of the webelement
 	 * 
-	 * @param element
-	 * @param attributeName
-	 * @return
+	 * @param element       : Webelement to get attribute
+	 * @param attributeName : Name of the attribute
+	 * @return attribute value
 	 */
 	public String getAttribute(WebElement element, String attributeName) {
 		waitForElementVisiblity(element);
@@ -251,13 +271,14 @@ public class SeleniumUtils {
 			logger.error("Error occured while getting the attribute for {} with error message {}", locator,
 					exception.getMessage());
 		}
-		return "";
+		return "No attribute value found";
 	}
 
 	/**
+	 * This method will check whether a webelement is present or not
 	 * 
-	 * @param element
-	 * @return
+	 * @param element : Webelement to check presence
+	 * @return True if webelement is present else False
 	 */
 	public boolean isWebElementPresent(WebElement element) {
 		boolean isElementVisible = true;
@@ -271,9 +292,10 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * This method will check whether a webelement is enabled or not
 	 * 
-	 * @param element
-	 * @return
+	 * @param element : Webelement to check
+	 * @return True if webelement is enabled else False
 	 */
 	public boolean isWebElementEnabled(WebElement element) {
 		waitForElementVisiblity(element);
@@ -289,9 +311,10 @@ public class SeleniumUtils {
 	}
 
 	/**
+	 * This method will take the screenshot of the webelement
 	 * 
-	 * @param element
-	 * @param destination
+	 * @param element:    Webelement to take screenshot
+	 * @param destination : Destination to copy the screenshot
 	 */
 	public void takeScreenShotOfWebElement(WebElement element, String destination) {
 		try {
@@ -307,15 +330,15 @@ public class SeleniumUtils {
 	}
 
 	/**
-	 * 
+	 * This method will maximize the window
 	 */
 	public void maxiMizeWindow() {
 		driver.manage().window().fullscreen();
 	}
 
 	/**
-	 * 
-	 * @param url
+	 * This method will lauch the url
+	 * @param url : Url to launch
 	 */
 	public void launchUrl(String url) {
 		driver.navigate().to(url);
@@ -323,8 +346,8 @@ public class SeleniumUtils {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * This method will return the title of the the current page
+	 * @return : Title of the current page
 	 */
 	public String getTitle() {
 		String title = driver.getTitle();
@@ -333,7 +356,7 @@ public class SeleniumUtils {
 	}
 
 	/**
-	 * 
+	 * This method will refresh the page
 	 */
 	public void refresh() {
 		driver.navigate().refresh();
@@ -341,7 +364,7 @@ public class SeleniumUtils {
 	}
 
 	/**
-	 * 
+	 * This method will navigate forward
 	 */
 	public void navigateForward() {
 		driver.navigate().forward();
@@ -349,7 +372,7 @@ public class SeleniumUtils {
 	}
 
 	/**
-	 * 
+	 * This method will navigate backword
 	 */
 	public void navigateBackward() {
 		driver.navigate().back();

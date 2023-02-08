@@ -35,4 +35,22 @@ public class StreamMapperUtils {
 		return null;
 	}
 
+	/**
+	 * Mapped the string to respective class
+	 * 
+	 * @param <T>    Class to mapped the response
+	 * @param bs     Stream for which response needs to mapped
+	 * @param class1 className
+	 * @return Object of the class with mapped response
+	 */
+	public <T> T getClassMappedResponse(String string, Class<T> class1) {
+		try {
+			T response = new ObjectMapper().readValue(string, class1);
+			logger.info("Successfully mapped the response with class : {}", class1.getName());
+			return response;
+		} catch (IOException e) {
+			logger.error("Error occured while mapping the response : {}", e.getMessage());
+		}
+		return null;
+	}
 }

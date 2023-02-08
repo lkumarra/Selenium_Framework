@@ -9,7 +9,7 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<Selenium1.version>4.7.2</Selenium1.version>
+		<selenium.version>4.7.2</selenium.version>
 		<TestNg.version>7.7.1</TestNg.version>
 		<SpringJdbc.version>5.3.25</SpringJdbc.version>
 		<Fillo.version>1.18</Fillo.version>
@@ -19,6 +19,10 @@
 		<hssql.version>2.7.1</hssql.version>
 		<lombok.version>1.18.20</lombok.version>
 		<postgresql.version>42.5.3</postgresql.version>
+		<json.version>20190722</json.version>
+		<awssdk.version>2.15.0</awssdk.version>
+		<commonio.version>2.11.0</commonio.version>
+		<json.version>20190722</json.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -29,9 +33,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
-
-
 
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -68,12 +69,13 @@
 			<version>${TestNg.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<version>${sl4j.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -97,21 +99,29 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${SpringJdbc.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>4.7.2</version>
+			<version>${selenium.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.11.0</version>
+			<version>${commonio.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.codoid.products</groupId>
 			<artifactId>fillo</artifactId>
 			<version>${Fillo.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${json.version}</version>
 		</dependency>
 	</dependencies>
 </project>

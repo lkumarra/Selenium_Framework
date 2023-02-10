@@ -1,6 +1,7 @@
 package com.org.bank.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Objects;
 
@@ -8,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -338,6 +340,7 @@ public class SeleniumUtils {
 
 	/**
 	 * This method will lauch the url
+	 * 
 	 * @param url : Url to launch
 	 */
 	public void launchUrl(String url) {
@@ -347,6 +350,7 @@ public class SeleniumUtils {
 
 	/**
 	 * This method will return the title of the the current page
+	 * 
 	 * @return : Title of the current page
 	 */
 	public String getTitle() {
@@ -427,6 +431,25 @@ public class SeleniumUtils {
 			logger.info("Enterd text : {} in : {}", text, locator);
 		} catch (Exception e) {
 			logger.error("Error while entering text in : {} with error message : {}", locator, e.getMessage());
+		}
+	}
+
+	/**
+	 * This method is responsible for taking the screenshot and copying that on
+	 * desired destination
+	 * 
+	 * @param destination : Destination to copy the screenshot
+	 */
+	public void takesWebPageScreenShot(String destination) {
+		TakesScreenshot screenshot = (TakesScreenshot) driver;
+		File srcFile = screenshot.getScreenshotAs(OutputType.FILE);
+		File destFile = new File(destination);
+		try {
+			FileUtils.copyFile(srcFile, destFile);
+			logger.info("Successfully copied the screenshot at destination : {}", destination);
+		} catch (IOException e) {
+			logger.error("Error occured file copying the screenshot at destination : {} with error message :{}",
+					destination, e.getMessage());
 		}
 	}
 

@@ -3,7 +3,6 @@ package com.org.bank.tests;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
-import org.testng.asserts.SoftAssert;
 
 import com.org.bank.listners.Listners;
 

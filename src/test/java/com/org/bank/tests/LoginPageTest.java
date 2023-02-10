@@ -9,6 +9,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import com.org.bank.constants.WebDriverContext;
 import com.org.bank.driverFactory.DriverFactory;
 import com.org.bank.listners.Listners;
 import com.org.bank.pages.BasePage;
@@ -21,12 +22,14 @@ public class LoginPageTest extends BasePageTest {
 	private CredPage credPage;
 	private LoginPage loginPage;
 	private BasePage basePage;
-	private DriverFactory driverFactory;
+	public DriverFactory driverFactory;
 	private SoftAssert softAssert;
+	
 
 	@BeforeClass(alwaysRun = true)
 	protected void initialization() {
 		driverFactory = new DriverFactory();
+		WebDriverContext.setWebDriverContext(LoginPageTest.class.getName(), driverFactory.getWebDriver());
 		basePage = new BasePage(driverFactory.getWebDriver());
 		loginPage = new LoginPage(driverFactory.getWebDriver());
 		credPage = new CredPage(driverFactory.getWebDriver());
@@ -41,7 +44,8 @@ public class LoginPageTest extends BasePageTest {
 		softAssert.assertAll();
 	}
 
-	@Test(description = "Verify the title of login page", priority = 1, groups = { "loginPage" })
+	@Test(testName = "Verify Login Page Title", description = "Verify the title of login page", priority = 1, groups = {
+			"loginPage", "all", "smoke" })
 	private void test_verify_title_on_login_page() {
 		String actualTitle = loginPage.getTitleOfLoginPage().trim();
 		String expectedTitle = loginPage.getLoginPageLabelsText().getTitle().trim();
@@ -49,8 +53,8 @@ public class LoginPageTest extends BasePageTest {
 				String.format("Actual Title is : %s but expected is : %s", actualTitle, expectedTitle));
 	}
 
-	@Test(description = "Verify the userId label on login page", priority = 2, groups = {
-			"loginPage" }, dependsOnMethods = { "test_verify_title_on_login_page" })
+	@Test(testName = "Verify UserId Label", description = "Verify the userId label on login page", priority = 2, groups = {
+			"loginPage", "sanity", "all" }, dependsOnMethods = { "test_verify_title_on_login_page" })
 	private void test_verify_userId_label() {
 		String actualLabel = loginPage.getUserIDLabelText().trim();
 		String expectedText = loginPage.getLoginPageLabelsText().getUsedidlabel().trim();
@@ -58,8 +62,8 @@ public class LoginPageTest extends BasePageTest {
 				String.format("Actual lable is : %s and expected is : %s", actualLabel, expectedText));
 	}
 
-	@Test(description = "Verify password label text on login page", priority = 3, groups = {
-			"loginPage" }, dependsOnMethods = { "test_verify_title_on_login_page" })
+	@Test(testName = "Verify Password Label", description = "Verify password label text on login page", priority = 3, groups = {
+			"loginPage", "all", "smoke" }, dependsOnMethods = { "test_verify_title_on_login_page" })
 	private void test_verify_password_test() {
 		String actualText = loginPage.getPasswordLabelText();
 		String expectedText = loginPage.getLoginPageLabelsText().getPasswordlabel();
@@ -67,8 +71,8 @@ public class LoginPageTest extends BasePageTest {
 				String.format("Actual lable is : %s and expected is : %s", actualText, expectedText));
 	}
 
-	@Test(description = "Verify submit button text on login page", priority = 4, groups = {
-			"loginPage" }, dependsOnMethods = { "test_verify_title_on_login_page" })
+	@Test(testName = "Verify Submit Button Label", description = "Verify submit button text on login page", priority = 4, groups = {
+			"loginPage", "all", "sanity" }, dependsOnMethods = { "test_verify_title_on_login_page" })
 	private void test_verify_submit_button_label() {
 		String actualText = loginPage.getLoginButtonText();
 		String expectedText = loginPage.getLoginPageLabelsText().getSubmitbuttonlabel();
@@ -76,8 +80,8 @@ public class LoginPageTest extends BasePageTest {
 				String.format("Actual lable is : %s and expected is : %s", actualText, expectedText));
 	}
 
-	@Test(description = "Verify reset button text on login page", priority = 5, groups = {
-			"loginPage" }, dependsOnMethods = { "test_verify_title_on_login_page" })
+	@Test(testName = "Verify Reset Button Label", description = "Verify reset button text on login page", priority = 5, groups = {
+			"loginPage", "all", "smoke" }, dependsOnMethods = { "test_verify_title_on_login_page" })
 	private void test_verify_reset_button_label() {
 		String actualText = loginPage.getResetButtonText();
 		String expectedText = loginPage.getLoginPageLabelsText().getResetbuttonlabel();
@@ -85,8 +89,8 @@ public class LoginPageTest extends BasePageTest {
 				String.format("Actual lable is : %s and expected is : %s", actualText, expectedText));
 	}
 
-	@Test(description = "Verify error alert message by entering invalid credentials", priority = 6, groups = {
-			"loginPage", "smoke" }, dependsOnMethods = { "test_verify_title_on_login_page" })
+	@Test(testName = "Verify Login Functionality", description = "Verify error alert message by entering invalid credentials", priority = 6, groups = {
+			"loginPage", "smoke", "all" }, dependsOnMethods = { "test_verify_title_on_login_page" })
 	private void test_verify_invalid_cred_error_message() {
 		List<String> actualMessages = loginPage.getErrorAlertMessagesForInvalidCredentials();
 		List<String> expectedMessage = loginPage.getExpectedErrorMessages();

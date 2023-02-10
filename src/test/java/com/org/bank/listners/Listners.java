@@ -11,8 +11,13 @@ import org.testng.ISuiteListener;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.org.bank.constants.Constants;
+import com.org.bank.constants.WebDriverContext;
 import com.org.bank.utils.DbUtils;
+import com.org.bank.utils.ExtentReportUtil;
+import com.org.bank.utils.SeleniumUtils;
 
 public class Listners implements ITestListener, ISuiteListener {
 
@@ -25,6 +30,9 @@ public class Listners implements ITestListener, ISuiteListener {
 	private String rawQuery = "Insert into test_execution_status (module_name, test_name, test_status, execution_time, execution_date) values ('%s', '%s', '%s', %s, '%s')";
 	private String suiteQuery = "Insert into test_suite_status(total_tests, passed_tests, failed_tests, skipped_tests, execution_date) values (%s, %s, %s, %s,'%s')";
 	private Hashtable<String, Integer> hashtable = new Hashtable<String, Integer>();
+	private ExtentReportUtil extentReportUtil = new ExtentReportUtil();
+	ExtentReports extentReports = extentReportUtil.getExtentReports();
+	private ExtentTest extentTest;
 
 	private String getCurrentDate() {
 		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
@@ -38,7 +46,7 @@ public class Listners implements ITestListener, ISuiteListener {
 	}
 
 	public void onTestStart(ITestResult result) {
-
+		extentTest = extentReports.createTest(result.getName());
 	}
 
 	public void onTestSuccess(ITestResult result) {
@@ -53,10 +61,10 @@ public class Listners implements ITestListener, ISuiteListener {
 		String insertQuery = String.format(rawQuery, result.getTestClass().getRealClass().getName(), result.getName(),
 				status, time, date);
 		dbUtils.insertQuery(insertQuery);
+		extentTest.pass(String.format("%s : is passed ", result.getName()));
 	}
 
 	public void onTestFailure(ITestResult result) {
-
 		if (hashtable.containsKey(FAILED_TESTS)) {
 			hashtable.put(FAILED_TESTS, hashtable.get(FAILED_TESTS) + 1);
 		} else {
@@ -68,6 +76,13 @@ public class Listners implements ITestListener, ISuiteListener {
 		String insertQuery = String.format(rawQuery, result.getTestClass().getRealClass().getName(), result.getName(),
 				status, time, date);
 		dbUtils.insertQuery(insertQuery);
+		extentTest.fail(String.format("%s : is failed with error message : %s", result.getName(),
+				result.getThrowable().getMessage()));
+		String screenshotName = Constants.ScreenShotDirectory.concat("/").concat(result.getName()).concat(".png");
+		SeleniumUtils seleniumUtils = new SeleniumUtils(
+				WebDriverContext.getWebDriverContext(result.getTestClass().getRealClass().getName()));
+		seleniumUtils.takesWebPageScreenShot(screenshotName);
+		extentTest.addScreenCaptureFromPath(screenshotName);
 	}
 
 	public void onTestSkipped(ITestResult result) {
@@ -82,6 +97,12 @@ public class Listners implements ITestListener, ISuiteListener {
 		String insertQuery = String.format(rawQuery, result.getTestClass().getRealClass().getName(), result.getName(),
 				status, time, date);
 		dbUtils.insertQuery(insertQuery);
+		extentTest.skip(String.format("%s : is skipped", result.getName()));
+		String screenshotName = Constants.ScreenShotDirectory.concat("/").concat(result.getName()).concat(".png");
+		SeleniumUtils seleniumUtils = new SeleniumUtils(
+				WebDriverContext.getWebDriverContext(result.getTestClass().getRealClass().getName()));
+		seleniumUtils.takesWebPageScreenShot(screenshotName);
+		extentTest.addScreenCaptureFromPath(screenshotName);
 	}
 
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
@@ -100,6 +121,13 @@ public class Listners implements ITestListener, ISuiteListener {
 		String insertQuery = String.format(rawQuery, result.getTestClass().getRealClass().getName(), result.getName(),
 				status, time, date);
 		dbUtils.insertQuery(insertQuery);
+		extentTest.fail(String.format("%s is failed with error message %s", result.getName(),
+				result.getThrowable().getMessage()));
+		String screenshotName = Constants.ScreenShotDirectory.concat("/").concat(result.getName()).concat(".png");
+		SeleniumUtils seleniumUtils = new SeleniumUtils(
+				WebDriverContext.getWebDriverContext(result.getTestClass().getRealClass().getName()));
+		seleniumUtils.takesWebPageScreenShot(screenshotName);
+		extentTest.addScreenCaptureFromPath(screenshotName);
 	}
 
 	public void onStart(ITestContext context) {
@@ -125,5 +153,6 @@ public class Listners implements ITestListener, ISuiteListener {
 		Integer skippedTests = hashtable.get(SKIPPED_TESTS);
 		String query = String.format(suiteQuery, totalTests, passedTest, failedTest, skippedTests, date);
 		dbUtils.insertQuery(query);
+		extentReports.flush();
 	}
 }

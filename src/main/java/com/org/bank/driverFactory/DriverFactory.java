@@ -10,6 +10,7 @@ import com.org.bank.utils.FileReaderUtil;
 
 /**
  * This class contains the method related to webdriver initializaton
+ * 
  * @author Lavendra Kumar Rajput
  *
  * @Date 09/02/2023
@@ -21,6 +22,7 @@ public class DriverFactory {
 	private String currentEnvironment;
 	private String currentBrowser;
 	private ThreadLocal<WebDriver> threadLocal = new ThreadLocal<WebDriver>();
+	public static WebDriver screenShotDriver;
 
 	public DriverFactory() {
 		String setEnvironment = System.getProperty("env");
@@ -37,7 +39,11 @@ public class DriverFactory {
 		currentEnvironment = setEnvironment;
 		currentBrowser = setBrowser;
 		logger.info("Current environment is : {} and browser is {} : ", currentEnvironment, currentBrowser);
-		threadLocal.set(setupWebDriver());
+		WebDriver driver = setupWebDriver();
+		if (Objects.isNull(screenShotDriver)) {
+			screenShotDriver = driver;
+		}
+		threadLocal.set(driver);
 	}
 
 	/**

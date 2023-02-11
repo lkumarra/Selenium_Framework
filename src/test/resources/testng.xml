@@ -6,7 +6,7 @@
 		<listener
 			class-name="com.org.bank.listners.Listners" />
 	</listeners>
-	<test thread-count="5" name="Test" parallel="classes">
+	<test thread-count="5" name="Test">
 		<groups>
 			<run>
 				<include name="all"></include>

@@ -149,9 +149,9 @@
 						<env>${environment}</env>
 						<browser>${browser}</browser>
 					</systemProperties>
-					<suiteXmlFiles>
-						<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
-					</suiteXmlFiles>
+					<includes>
+						<include>*.*</include>
+					</includes>
 				</configuration>
 			</plugin>
 		</plugins>

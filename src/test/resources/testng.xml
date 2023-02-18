@@ -4,7 +4,7 @@
 	<listeners>
 		<listener class-name="com.org.bank.listners.Listners"></listener>
 	</listeners>
-	<test thread-count="5" name="Test">
+	<test thread-count="5" name="Test" parallel="classes">
 		<groups>
 			<run>
 				<include name="all"></include>
@@ -14,6 +14,7 @@
 			<class name="com.org.bank.tests.BasePageTest" />
 			<class name="com.org.bank.tests.CredPageTest" />
 			<class name="com.org.bank.tests.LoginPageTest" />
+			<class name="com.org.bank.tests.ManagerPageTest"/>
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

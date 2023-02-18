@@ -238,4 +238,26 @@ public class LoginPage {
 		return stringActualErrorMessage;
 	}
 
+	/**
+	 * Perform login
+	 * 
+	 * @param userName : UserName to login
+	 * @param password : Passwors to login
+	 * @return true if login successfull else false
+	 */
+	public boolean isLoginSuccessfull(String userName, String password) {
+		boolean isLoginSuccessfull = false;
+		try {
+			seleniumUtils.enterTextInWebElement(useIdField, userName, true);
+			seleniumUtils.enterTextInWebElement(passwordField, password, true);
+			seleniumUtils.performClick(loginButton);
+			isLoginSuccessfull = true;
+			logger.info("User is successfully logged in with userName : {} and password : {} ", userName, password);
+		} catch (Exception e) {
+			isLoginSuccessfull = false;
+			logger.error("User is not able to login with userName : {} and password : {}", userName, password);
+		}
+		return isLoginSuccessfull;
+	}
+
 }

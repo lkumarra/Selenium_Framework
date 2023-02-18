@@ -118,6 +118,8 @@ public class CredPage {
 	public CredPage getAndUpdateCredInDb() {
 		String userId = getUserIdValue();
 		String password = getPasswordValues();
+		System.setProperty("userId", userId);
+		System.setProperty("password", password);
 		List<Map<String, Object>> dataFromDb = dbUtils.selectQueryResult("select * from bank_cred");
 		Map<String, Object> credFromDB = null;
 		if (Objects.nonNull(dataFromDb)) {

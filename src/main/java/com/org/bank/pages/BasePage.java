@@ -46,6 +46,7 @@ public class BasePage {
 		driver.get(url);
 		logger.info("Successfully launched the url : {} with sessioId : {}", url, ((RemoteWebDriver) driver).getSessionId());
 		seleniumUtils.setImplicitWait(30);
+		seleniumUtils.maxiMizeWindow();
 	}
 
 	/**

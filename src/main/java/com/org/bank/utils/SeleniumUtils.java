@@ -3,6 +3,8 @@ package com.org.bank.utils;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
@@ -451,6 +453,28 @@ public class SeleniumUtils {
 			logger.error("Error occured file copying the screenshot at destination : {} with error message :{}",
 					destination, e.getMessage());
 		}
+	}
+
+	/**
+	 * This method will return the List of text of webelements
+	 * 
+	 * @param elementsList : List of Webelements
+	 * @return List of text of webelements
+	 */
+	public List<String> getWebElementsText(List<WebElement> elementsList) {
+		List<String> list = new ArrayList<String>();
+		try {
+			for (WebElement element : elementsList) {
+				waitForElementVisiblity(element);
+				String locatorText = getLocatorFromWebElement(element);
+				String text = element.getText();
+				logger.info("Test of locator : {} is : {}", locatorText, text);
+				list.add(element.getText());
+			}
+		} catch (Exception e) {
+			logger.error("Error occured while getting the text of webelements with error : {}", e.getMessage());
+		}
+		return list;
 	}
 
 }

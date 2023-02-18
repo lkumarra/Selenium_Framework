@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Suite">
+<suite name="Guru99Bank Test Automation Suite" verbose="10">
 	<listeners>
-		<listener class-name="com.org.bank.listners.Listners" />
+		<listener class-name="com.org.bank.listners.Listners"></listener>
 	</listeners>
-	<test thread-count="5" name="Test">
+	<test thread-count="5" name="Test" parallel="classes">
+		<groups>
+			<run>
+				<include name="all"></include>
+			</run>
+		</groups>
 		<classes>
 			<class name="com.org.bank.tests.BasePageTest" />
 			<class name="com.org.bank.tests.CredPageTest" />
 			<class name="com.org.bank.tests.LoginPageTest" />
+			<class name="com.org.bank.tests.ManagerPageTest"/>
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

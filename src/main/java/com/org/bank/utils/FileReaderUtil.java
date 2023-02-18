@@ -11,9 +11,9 @@ import com.org.bank.constants.Constants;
 import com.org.bank.exceptions.KeyNotValidException;
 import com.org.bank.exceptions.ValueNotFoundException;
 
-
 /**
- * This class contains the methods related to reading the files 
+ * This class contains the methods related to reading the files
+ * 
  * @author Lavendra Kumar Rajput
  *
  * @Date 04/03/2023
@@ -45,8 +45,9 @@ public class FileReaderUtil {
 
 	/**
 	 * Get the value of the key from propeties file
+	 * 
 	 * @param key : Key to fetch the value
-	 * @return Return the value of the key 
+	 * @return Return the value of the key
 	 * @throws KeyNotValidException
 	 * @throws ValueNotFoundException
 	 */
@@ -65,9 +66,5 @@ public class FileReaderUtil {
 			throw new KeyNotValidException(String.format("%s key is not a valid key", key));
 		}
 	}
-	
-	public static void main(String[] args) {
-		DbUtils dbUtils = new DbUtils();
-		dbUtils.insertQuery("Insert into test_status(test_case_name, test_status, test_execution_time) values ('Test 1', 'passed', 123457)");
-	}
+
 }

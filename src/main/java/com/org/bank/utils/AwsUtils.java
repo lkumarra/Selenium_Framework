@@ -51,10 +51,9 @@ public class AwsUtils {
 			response.close();
 			return secretsModal;
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Error occured while fetching the object from s3", e);
+			logger.error("Error occured while fetching the object from s3 with error : {}", e.getMessage());
 		}
-		return null;
+		return new SecretsModal();
 	}
 
 }

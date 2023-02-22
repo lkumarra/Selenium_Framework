@@ -55,13 +55,13 @@ public class LoginPage {
 	@FindBy(how = How.XPATH, using = "(//td[@align = 'right'])[2]")
 	private WebElement passWordLabel;
 
-	@FindBy(how = How.NAME, using = "uid")
+	@FindBy(how = How.XPATH, using = "//input[@name = 'uid']")
 	private WebElement useIdField;
 
-	@FindBy(how = How.NAME, using = "password")
+	@FindBy(how = How.XPATH, using = "//input[@name = 'password']")
 	private WebElement passwordField;
 
-	@FindBy(how = How.NAME, using = "btnLogin")
+	@FindBy(how = How.XPATH, using = "//input[@name = 'btnLogin']")
 	private WebElement loginButton;
 
 	@FindBy(how = How.NAME, using = "btnReset")

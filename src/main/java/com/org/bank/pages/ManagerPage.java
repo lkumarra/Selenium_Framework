@@ -45,6 +45,9 @@ public class ManagerPage {
 
 	@FindBy(xpath = "//tr[@class='heading3']")
 	private WebElement managerIdWebelement;
+	
+	@FindBy(xpath = "//a[contains(text(),'New Customer')]")
+	private WebElement newCustomerPageButton;
 
 	/**
 	 * Return the text welcome message after login
@@ -118,5 +121,10 @@ public class ManagerPage {
 			}
 		});
 		return menuOptions;
+	}
+	
+	public void clickOnNewCustomerPage() {
+		seleniumUtils.performClick(newCustomerPageButton);
+		seleniumUtils.launchUrl("https://www.demo.guru99.com/V4/manager/addcustomerpage.php");
 	}
 }

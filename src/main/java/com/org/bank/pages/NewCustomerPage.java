@@ -24,21 +24,21 @@ public class NewCustomerPage {
 	private StreamMapperUtils streamUtils;
 	private ExcelUtils excelUtils;
 
-	public NewCustomerPage(WebDriver driver) {
-		seleniumUtils = new SeleniumUtils(driver);
+	private NewCustomerPage(WebDriver driver) {
+		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
 		logger.info("Successfully created the instace of class : {} inside class : {}",
 				seleniumUtils.getClass().getName(), NewCustomerPage.class.getName());
-		excelUtils = new ExcelUtils();
+		excelUtils = ExcelUtils.newExcelUtils();
 		logger.info("Successfully created the instace of class : {} inside class : {}", excelUtils.getClass().getName(),
 				NewCustomerPage.class.getName());
-		streamUtils = new StreamMapperUtils();
+		streamUtils = StreamMapperUtils.newStreamMapperUtils();
 		logger.info("Successfully created the instace of class : {} inside class : {}",
 				streamUtils.getClass().getName(), NewCustomerPage.class.getName());
 		PageFactory.initElements(driver, this);
 	}
 
-	public NewCustomerPage() {
-
+	public static NewCustomerPage newCustomerPage(WebDriver driver) {
+		return new NewCustomerPage(driver);
 	}
 
 	@FindBy(xpath = "//p[@class = 'heading3']")

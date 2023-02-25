@@ -14,8 +14,8 @@ public class ExtentReportUtil {
 	private ExtentReports extentReports;
 	private ExtentSparkReporter extentSparkReporter;
 	private final String reportNameKey = "extentReport.name";
-	public ExtentReportUtil() {
-		FileReaderUtil fileReaderUtil =  new FileReaderUtil();	
+	private ExtentReportUtil() {
+		FileReaderUtil fileReaderUtil =  FileReaderUtil.newFileReaderUtil();	
 		extentReports = new ExtentReports();
 		String reportName = null;
 		try {
@@ -29,6 +29,10 @@ public class ExtentReportUtil {
 		extentSparkReporter.config().setEncoding("UTF-8");
 		extentSparkReporter.config().setReportName("Guru99BankReport");
 		extentReports.attachReporter(extentSparkReporter);
+	}
+	
+	public static ExtentReportUtil newExtentReportUtil() {
+		return new ExtentReportUtil();
 	}
 	
 	/**

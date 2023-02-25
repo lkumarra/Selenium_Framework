@@ -31,15 +31,19 @@ public class DbUtils {
 	 * Constructor creating object of {@link FileReaderUtil}, {@link AwsUtils},
 	 * {@link DataSource}, {@link JdbcTemplate}
 	 */
-	public DbUtils() {
-		fileReaderUtil = new FileReaderUtil();
-		awsUtils = new AwsUtils();
+	private DbUtils() {
+		fileReaderUtil = FileReaderUtil.newFileReaderUtil();
+		awsUtils = AwsUtils.newAwsUtils();
 		SecretsModal secretsModal = getSecretsValues();
 		if (Objects.nonNull(secretsModal.getJdbcUrl()) || Objects.nonNull(secretsModal.getPassword())) {
 			dataSource = new DriverManagerDataSource(secretsModal.getJdbcUrl(), secretsModal.getUserName(),
 					secretsModal.getPassword());
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
+	}
+	
+	public static DbUtils newDbUtils() {
+		return new DbUtils();
 	}
 
 	/**

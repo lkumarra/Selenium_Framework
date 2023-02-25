@@ -33,13 +33,13 @@ public class NewCustomerPageTest {
 
 	@BeforeClass(alwaysRun = true)
 	protected void initialization() {
-		driverFactory = new DriverFactory();
+		driverFactory = DriverFactory.newDriverFactory();
 		WebDriverContext.setWebDriverContext(ManagerPageTest.class.getName(), driverFactory.getWebDriver());
-		basePage = new BasePage(driverFactory.getWebDriver());
-		loginPage = new LoginPage(driverFactory.getWebDriver());
-		credPage = new CredPage(driverFactory.getWebDriver());
-		managerPage = new ManagerPage(driverFactory.getWebDriver());
-		newCustomerPage = new NewCustomerPage(driverFactory.getWebDriver());
+		basePage = BasePage.newBasePage(driverFactory.getWebDriver());
+		loginPage = LoginPage.newLoginPage(driverFactory.getWebDriver());
+		credPage = CredPage.newCredPage(driverFactory.getWebDriver());
+		managerPage = ManagerPage.newManagerPage(driverFactory.getWebDriver());
+		newCustomerPage = NewCustomerPage.newCustomerPage(driverFactory.getWebDriver());
 		softAssert = new SoftAssert();
 		basePage.initialization();
 		credPage.enterEmailIdAndSubmit().getAndUpdateCredInDb().navigateToLoginPage();

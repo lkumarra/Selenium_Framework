@@ -35,18 +35,22 @@ public class LoginPage {
 	private String labelQuery = "Select usedIdLabel,passwordLabel,submitButtonLabel,resetButtonLabel,title from LoginPage";
 	private String credentialsQuery = "Select userId, password, expectedMessage from LoginPage";
 
-	public LoginPage(WebDriver driver) {
-		seleniumUtils = new SeleniumUtils(driver);
+	private LoginPage(WebDriver driver) {
+		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
 		logger.info("Successfulyy created the instance of class : {} inside : {}", seleniumUtils.getClass().getName(),
 				LoginPage.class.getName());
-		excelUtils = new ExcelUtils();
+		excelUtils = ExcelUtils.newExcelUtils();
 		logger.info("Successfulyy created the instance of class : {} inside : {}", excelUtils.getClass().getName(),
 				LoginPage.class.getName());
-		streamMapperUtils = new StreamMapperUtils();
+		streamMapperUtils = StreamMapperUtils.newStreamMapperUtils();
 		logger.info("Successfulyy created the instance of class : {} inside : {}",
 				streamMapperUtils.getClass().getName(), LoginPage.class.getName());
 		PageFactory.initElements(driver, this);
 		logger.info("Successfully initialized the web elements of class : {}", LoginPage.class.getName());
+	}
+
+	public static LoginPage newLoginPage(WebDriver driver) {
+		return new LoginPage(driver);
 	}
 
 	@FindBy(how = How.XPATH, using = "(//td[@align = 'right'])[1]")

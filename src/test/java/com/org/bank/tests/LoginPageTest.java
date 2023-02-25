@@ -17,22 +17,21 @@ import com.org.bank.pages.CredPage;
 import com.org.bank.pages.LoginPage;
 
 @Listeners(Listners.class)
-public class LoginPageTest extends BasePageTest {
+public class LoginPageTest {
 
 	private CredPage credPage;
 	private LoginPage loginPage;
 	private BasePage basePage;
 	public DriverFactory driverFactory;
 	private SoftAssert softAssert;
-	
 
 	@BeforeClass(alwaysRun = true)
 	protected void initialization() {
-		driverFactory = new DriverFactory();
+		driverFactory = DriverFactory.newDriverFactory();
 		WebDriverContext.setWebDriverContext(LoginPageTest.class.getName(), driverFactory.getWebDriver());
-		basePage = new BasePage(driverFactory.getWebDriver());
-		loginPage = new LoginPage(driverFactory.getWebDriver());
-		credPage = new CredPage(driverFactory.getWebDriver());
+		basePage = BasePage.newBasePage(driverFactory.getWebDriver());
+		loginPage = LoginPage.newLoginPage(driverFactory.getWebDriver());
+		credPage = CredPage.newCredPage(driverFactory.getWebDriver());
 		softAssert = new SoftAssert();
 		basePage.initialization();
 		credPage.enterEmailIdAndSubmit().getAndUpdateCredInDb().navigateToLoginPage();

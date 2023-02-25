@@ -20,11 +20,15 @@ public class AwsUtils {
 
 	private StreamMapperUtils streamMapperUtils;
 
-	public AwsUtils() {
-		streamMapperUtils = new StreamMapperUtils();
-	}
-
 	Logger logger = LoggerFactory.getLogger(AwsUtils.class);
+	
+	private AwsUtils() {
+		streamMapperUtils = StreamMapperUtils.newStreamMapperUtils();
+	}
+	
+	public static AwsUtils newAwsUtils() {
+		return new AwsUtils();
+	}
 
 	/**
 	 * Map the stream to {@link SecretsModal}

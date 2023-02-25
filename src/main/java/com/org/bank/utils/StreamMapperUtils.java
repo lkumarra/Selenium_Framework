@@ -16,6 +16,13 @@ public class StreamMapperUtils {
 
 	Logger logger = LoggerFactory.getLogger(StreamMapperUtils.class);
 
+	private StreamMapperUtils() {
+		
+	}
+	
+	public static StreamMapperUtils newStreamMapperUtils() {
+		return new StreamMapperUtils();
+	}
 	/**
 	 * Mapped the Input Stream Response to the class
 	 * 

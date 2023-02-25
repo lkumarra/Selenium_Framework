@@ -22,14 +22,18 @@ public class BasePage {
 	private SeleniumUtils seleniumUtils;
 	private WebDriver driver;
 
-	public BasePage(WebDriver driver) {
+	private BasePage(WebDriver driver) {
 		this.driver = driver;
-		util = new FileReaderUtil();
+		util = FileReaderUtil.newFileReaderUtil();
 		logger.info("Successfully created the instace of class : {} inside class : {}", util.getClass().getName(),
 				BasePage.class.getName());
-		seleniumUtils = new SeleniumUtils(driver);
+		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
 		logger.info("Successfully created the instace of class : {} inside class : {}",
 				seleniumUtils.getClass().getName(), BasePage.class.getName());
+	}
+	
+	public static BasePage newBasePage(WebDriver driver) {
+		return new BasePage(driver);
 	}
 
 	/**

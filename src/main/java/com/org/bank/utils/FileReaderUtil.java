@@ -25,7 +25,7 @@ public class FileReaderUtil {
 	private FileReader fileReader;
 	private Properties properties;
 
-	public FileReaderUtil() {
+	private FileReaderUtil() {
 		try {
 			String filePath = Constants.ConfigurationFile;
 			fileReader = new FileReader(filePath);
@@ -41,6 +41,10 @@ public class FileReaderUtil {
 		} catch (FileNotFoundException e) {
 			logger.error("File not found {} ", e.getMessage().toString());
 		}
+	}
+	
+	public static FileReaderUtil newFileReaderUtil() {
+		return new FileReaderUtil();
 	}
 
 	/**

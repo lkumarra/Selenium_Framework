@@ -18,6 +18,13 @@ public class ExcelUtils {
 
 	private Logger logger = LoggerFactory.getLogger(FileReaderUtil.class);
 
+	private ExcelUtils() {
+		
+	}
+	
+	public static ExcelUtils newExcelUtils() {
+		return new ExcelUtils();
+	}
 	/**
 	 * Read the value from excel using select query
 	 * 

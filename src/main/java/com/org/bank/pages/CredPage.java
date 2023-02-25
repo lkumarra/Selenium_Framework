@@ -39,14 +39,14 @@ public class CredPage {
 	private final String passwordKey = "password";
 	private final String updateQuery = "Update bank_cred set user_id = '%s', password = '%s' where user_id = '%s'";
 
-	public CredPage(WebDriver driver) {
-		seleniumUtils = new SeleniumUtils(driver);
+	private CredPage(WebDriver driver) {
+		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
 		logger.info("Successfully created the instance of class : {} inside class : {}",
 				seleniumUtils.getClass().getName(), CredPage.class.getName());
-		dbUtils = new DbUtils();
+		dbUtils = DbUtils.newDbUtils();
 		logger.info("Successfully created the instance of class : {} inside class : {}", dbUtils.getClass().getName(),
 				CredPage.class.getName());
-		fileReaderUtil = new FileReaderUtil();
+		fileReaderUtil = FileReaderUtil.newFileReaderUtil();
 		logger.info("Successfully created the instance of class : {} inside class : {}",
 				fileReaderUtil.getClass().getName(), CredPage.class.getName());
 		PageFactory.initElements(driver, this);
@@ -58,6 +58,10 @@ public class CredPage {
 					e.getMessage());
 		}
 
+	}
+	
+	public static CredPage newCredPage(WebDriver driver) {
+		return new CredPage(driver);
 	}
 
 	@FindBy(how = How.XPATH, using = "(//h2[@style])[2]")

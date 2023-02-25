@@ -18,13 +18,13 @@ import com.org.bank.utils.FileReaderUtil;
 public class DriverFactory {
 
 	private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
-	private FileReaderUtil fileReaderUtil = new FileReaderUtil();
+	private FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil();
 	private String currentEnvironment;
 	private String currentBrowser;
 	private ThreadLocal<WebDriver> threadLocal = new ThreadLocal<WebDriver>();
 	public static WebDriver screenShotDriver;
 
-	public DriverFactory() {
+	private DriverFactory() {
 		String setEnvironment = System.getProperty("env");
 		String setBrowser = System.getProperty("browser");
 		if (Objects.isNull(setEnvironment) && Objects.isNull(setBrowser)) {
@@ -44,6 +44,13 @@ public class DriverFactory {
 			screenShotDriver = driver;
 		}
 		threadLocal.set(driver);
+	}
+	/**
+	 * Return the instance of DriverFactory Class
+	 * @return
+	 */
+	public static DriverFactory newDriverFactory() {
+		return new DriverFactory();
 	}
 
 	/**

@@ -12,7 +12,7 @@ import com.org.bank.pages.BasePage;
 import com.org.bank.pages.CredPage;
 
 @Listeners(Listners.class)
-public class CredPageTest extends BasePageTest {
+public class CredPageTest {
 
 	private BasePage basePage;
 	private CredPage credPage;
@@ -20,10 +20,10 @@ public class CredPageTest extends BasePageTest {
 
 	@BeforeClass(alwaysRun = true)
 	protected void initialization() {
-		driverFactory = new DriverFactory();
+		driverFactory = DriverFactory.newDriverFactory();
 		WebDriverContext.setWebDriverContext(CredPageTest.class.getName(), driverFactory.getWebDriver());
-		basePage = new BasePage(driverFactory.getWebDriver());
-		credPage = new CredPage(driverFactory.getWebDriver());
+		basePage = BasePage.newBasePage(driverFactory.getWebDriver());
+		credPage = CredPage.newCredPage(driverFactory.getWebDriver());
 		basePage.initialization();
 	}
 

@@ -16,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,16 +30,28 @@ import org.slf4j.LoggerFactory;
  */
 public class SeleniumUtils {
 
-	private static final int defaultTime = 30;
+	private static int defaultTime = 30;
 
 	private final Logger logger = LoggerFactory.getLogger(SeleniumUtils.class);
 
 	private WebDriver driver;
 
-	public SeleniumUtils(WebDriver driver) {
+	private SeleniumUtils(WebDriver driver) {
 		this.driver = driver;
 	}
-
+	
+	private SeleniumUtils(WebDriver driver, int waitTimeInSecond) {
+		this.driver = driver;
+		defaultTime = waitTimeInSecond;
+	}
+	
+	public static SeleniumUtils newSeleniumUtils(WebDriver driver) {
+		return new SeleniumUtils(driver);
+	}
+	
+	public static SeleniumUtils newSeleniumUtils(WebDriver driver, int waitTimeInSecond) {
+		return new SeleniumUtils(driver, waitTimeInSecond);
+	}
 	/**
 	 * 
 	 * This method will return the instance of WebDriverWait classSS
@@ -337,6 +350,13 @@ public class SeleniumUtils {
 	 * This method will maximize the window
 	 */
 	public void maxiMizeWindow() {
+		driver.manage().window().maximize();
+	}
+
+	/**
+	 * This method will full screen the window
+	 */
+	public void fullScreenWindow() {
 		driver.manage().window().fullscreen();
 	}
 
@@ -475,6 +495,61 @@ public class SeleniumUtils {
 			logger.error("Error occured while getting the text of webelements with error : {}", e.getMessage());
 		}
 		return list;
+	}
+
+	/**
+	 * Select the value from webelement using select class
+	 * 
+	 * @param element : Webelement to select
+	 * @param value   : Value to select
+	 */
+	public void selectByValue(WebElement element, String value) {
+		try {
+			waitForElementVisiblity(element);
+			String locatorText = getLocatorFromWebElement(element);
+			Select select = new Select(element);
+			select.selectByValue(value);
+			logger.info("Selected value : {} from : {}", value, locatorText);
+		} catch (Exception e) {
+			logger.error("Error while selecting the value : {} with error message : {} ", value, e.getMessage());
+		}
+	}
+
+	public void selectByIndex(WebElement element, int index) {
+		try {
+			waitForElementVisiblity(element);
+			String locatorText = getLocatorFromWebElement(element);
+			Select select = new Select(element);
+			select.selectByIndex(index);
+			logger.info("Selected index : {} from : {}", index, locatorText);
+		} catch (Exception e) {
+			logger.error("Error while selecting index : {} with error message : {}", index, e.getMessage());
+		}
+	}
+
+	public void selectByVisibleText(WebElement element, String visisbleText) {
+		try {
+			waitForElementVisiblity(element);
+			String locatorText = getLocatorFromWebElement(element);
+			Select select = new Select(element);
+			select.selectByVisibleText(visisbleText);
+			logger.info("Selected text : {} from : {}", visisbleText, locatorText);
+		} catch (Exception e) {
+			logger.error("Error while selecting visible text : {} with error message : {}", visisbleText,
+					e.getMessage());
+		}
+	}
+
+	public void deselectAll(WebElement element) {
+		try {
+			waitForElementVisiblity(element);
+			String locatorText = getLocatorFromWebElement(element);
+			Select select = new Select(element);
+			select.deselectAll();
+			logger.info("Deselected all options from : {}", locatorText);
+		} catch (Exception e) {
+			logger.error("Error while deselcting the options");
+		}
 	}
 
 }

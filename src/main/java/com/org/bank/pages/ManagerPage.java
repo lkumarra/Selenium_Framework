@@ -23,18 +23,22 @@ public class ManagerPage {
 	private ExcelUtils excelUtils;
 	private final String menuQuery = "Select * from ManagerPage";
 
-	public ManagerPage(WebDriver driver) {
-		seleniumUtils = new SeleniumUtils(driver);
+	private ManagerPage(WebDriver driver) {
+		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
 		logger.info("Successfully created the instance of class : {} inside : {}", seleniumUtils.getClass().getName(),
 				ManagerPage.class.getName());
-		excelUtils = new ExcelUtils();
+		excelUtils = ExcelUtils.newExcelUtils();
 		logger.info("Successfulyy created the instance of class : {} inside : {}", excelUtils.getClass().getName(),
 				ManagerPage.class.getName());
-		streamMapperUtils = new StreamMapperUtils();
+		streamMapperUtils = StreamMapperUtils.newStreamMapperUtils();
 		logger.info("Successfulyy created the instance of class : {} inside : {}",
 				streamMapperUtils.getClass().getName(), ManagerPage.class.getName());
 		PageFactory.initElements(driver, this);
 		logger.info("Successfully initialized the web elements of class : {}", ManagerPage.class.getName());
+	}
+
+	public static ManagerPage newManagerPage(WebDriver driver) {
+		return new ManagerPage(driver);
 	}
 
 	@FindBy(xpath = "//ul[@class='menusubnav']/li")
@@ -45,7 +49,7 @@ public class ManagerPage {
 
 	@FindBy(xpath = "//tr[@class='heading3']")
 	private WebElement managerIdWebelement;
-	
+
 	@FindBy(xpath = "//a[contains(text(),'New Customer')]")
 	private WebElement newCustomerPageButton;
 
@@ -108,21 +112,22 @@ public class ManagerPage {
 				.findFirst().get().getManageridmessage();
 		return String.format(managerIdData, managerId);
 	}
-	
+
 	/**
 	 * Get all menu options
+	 * 
 	 * @return Menu options listed on Manager Page
 	 */
-	public List<String> getAllMenuOptions(){
+	public List<String> getAllMenuOptions() {
 		List<String> menuOptions = new ArrayList<String>();
-		getManagerPageData().forEach(x->{
-			if(!x.getMenuoptions().equals("")) {
+		getManagerPageData().forEach(x -> {
+			if (!x.getMenuoptions().equals("")) {
 				menuOptions.add(x.getMenuoptions());
 			}
 		});
 		return menuOptions;
 	}
-	
+
 	public void clickOnNewCustomerPage() {
 		seleniumUtils.performClick(newCustomerPageButton);
 		seleniumUtils.launchUrl("https://www.demo.guru99.com/V4/manager/addcustomerpage.php");

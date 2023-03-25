@@ -1,29 +1,27 @@
 package com.org.bank.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.org.bank.constants.Constants;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ExtentReportUtil {
-	
-	private final Logger logger = LoggerFactory.getLogger(ExtentReportUtil.class);
-	private ExtentReports extentReports;
-	private ExtentSparkReporter extentSparkReporter;
-	private final String reportNameKey = "extentReport.name";
+
+	private final ExtentReports extentReports;
+
 	private ExtentReportUtil() {
 		FileReaderUtil fileReaderUtil =  FileReaderUtil.newFileReaderUtil();	
 		extentReports = new ExtentReports();
 		String reportName = null;
+		String reportNameKey = "extentReport.name";
 		try {
 			reportName = fileReaderUtil.getPropertyValue(reportNameKey);
 		}catch(Exception e) {
-			logger.error("Error while fetching the value for key : {}", reportNameKey);
+			log.error("Error while fetching the value for key : {}", reportNameKey);
 		}
-		extentSparkReporter = new ExtentSparkReporter(Constants.ReportPath.concat("/").concat(reportName));
+		ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(Constants.ReportPath.concat("/").concat(reportName));
 		extentSparkReporter.config().setTheme(Theme.DARK);
 		extentSparkReporter.config().setDocumentTitle("Guru99 Bank Test Automation");
 		extentSparkReporter.config().setEncoding("UTF-8");

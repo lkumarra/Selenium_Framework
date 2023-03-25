@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 
 public class WebDriverContext {
 
-	private static Hashtable<String, WebDriver> webdriverContext = new Hashtable<String, WebDriver>();
+	private static final Hashtable<String, WebDriver> webdriverContext = new Hashtable<String, WebDriver>();
 
 	public static void setWebDriverContext(String className, WebDriver driver) {
 		webdriverContext.put(className, driver);

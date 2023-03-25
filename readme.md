@@ -1,4 +1,4 @@
-##Selenium with Java Framework using TestNG, ExtentReport, and Page Object Model
+##Selenium with Java Framework using TestNG, ExtentReport, and Page Object Model##
 This is a sample Selenium framework using Java programming language, TestNG testing framework, ExtentReports for reporting, and Page Object Model (POM) for design pattern.
 
 Requirements

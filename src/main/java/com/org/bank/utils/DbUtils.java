@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.sql.DataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import com.org.bank.modals.SecretsModal;
@@ -18,13 +18,11 @@ import com.org.bank.modals.SecretsModal;
  *
  * @Date 04/03/2023
  */
+@Slf4j
 public class DbUtils {
 
-	Logger logger = LoggerFactory.getLogger(FileReaderUtil.class);
-
-	private FileReaderUtil fileReaderUtil;
-	private AwsUtils awsUtils;
-	private DataSource dataSource;
+	private final FileReaderUtil fileReaderUtil;
+	private final AwsUtils awsUtils;
 	private JdbcTemplate jdbcTemplate;
 
 	/**
@@ -36,7 +34,7 @@ public class DbUtils {
 		awsUtils = AwsUtils.newAwsUtils();
 		SecretsModal secretsModal = getSecretsValues();
 		if (Objects.nonNull(secretsModal.getJdbcUrl()) || Objects.nonNull(secretsModal.getPassword())) {
-			dataSource = new DriverManagerDataSource(secretsModal.getJdbcUrl(), secretsModal.getUserName(),
+			DataSource dataSource = new DriverManagerDataSource(secretsModal.getJdbcUrl(), secretsModal.getUserName(),
 					secretsModal.getPassword());
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
@@ -69,8 +67,8 @@ public class DbUtils {
 			secretsModal = awsUtils.getS3Object(awsRegion, awsSecretKeyId, awsSecretAccessKey, bucketName, objectKey);
 			secretsModal.setDriverClassName(driverClassName);
 		} catch (Exception e) {
-			logger.error(
-					"Error occured while fetching the data from s3 and setting in secret modal class with error : {}",
+			log.error(
+					"Error occurred while fetching the data from s3 and setting in secret modal class with error : {}",
 					e.getMessage());
 		}
 		return secretsModal;
@@ -85,15 +83,15 @@ public class DbUtils {
 		synchronized (this) {
 			if (Objects.nonNull(jdbcTemplate)) {
 				try {
-					logger.info("Query to insert data is : {}", query);
+					log.info("Query to insert data is : {}", query);
 					int result = jdbcTemplate.update(query);
-					logger.info("Rows impacted with query : {} are : {}", query, result);
+					log.info("Rows impacted with query : {} are : {}", query, result);
 				} catch (Exception e) {
-					logger.error("Error occured while inserting data with query : {} with error : {}", query,
+					log.error("Error occurred while inserting data with query : {} with error : {}", query,
 							e.getMessage());
 				}
 			} else {
-				logger.warn("Query : {} can not be executed as connection with database is not establised", query);
+				log.warn("Query : {} can not be executed as connection with database is not established", query);
 			}
 		}
 	}
@@ -109,14 +107,14 @@ public class DbUtils {
 		synchronized (this) {
 			if (Objects.nonNull(jdbcTemplate)) {
 				try {
-					logger.info("Query to select data is : {}", query);
+					log.info("Query to select data is : {}", query);
 					result = jdbcTemplate.queryForList(query);
 				} catch (Exception e) {
-					logger.error("Error occured while fetching the data from query : {} with error : {}", query,
+					log.error("Error occurred while fetching the data from query : {} with error : {}", query,
 							e.getMessage());
 				}
 			} else {
-				logger.warn("Query : {} can not be executed as connection with database is not establised", query);
+				log.warn("Query : {} can not be executed as connection with database is not established", query);
 			}
 			return result;
 		}
@@ -131,15 +129,15 @@ public class DbUtils {
 		synchronized (this) {
 			if (Objects.nonNull(jdbcTemplate)) {
 				try {
-					logger.info("Query to update data is  : {}", query);
+					log.info("Query to update data is  : {}", query);
 					int result = jdbcTemplate.update(query);
-					logger.info("Rows impacted with query : {} are : {}", query, result);
+					log.info("Rows impacted with query : {} are : {}", query, result);
 				} catch (Exception e) {
-					logger.error("Error occured while updating the data from query : {} with error : {}", query,
+					log.error("Error occurred while updating the data from query : {} with error : {}", query,
 							e.getMessage());
 				}
 			} else {
-				logger.warn("Query : {} can not be executed as connection with database is not establised", query);
+				log.warn("Query : {} can not be executed as connection with database is not established", query);
 			}
 		}
 	}
@@ -153,15 +151,15 @@ public class DbUtils {
 		synchronized (this) {
 			if (Objects.nonNull(jdbcTemplate)) {
 				try {
-					logger.info("Query to delete data is  : {}", query);
+					log.info("Query to delete data is  : {}", query);
 					int result = jdbcTemplate.update(query);
-					logger.info("Rows impacted with query : {} are : {}", query, result);
+					log.info("Rows impacted with query : {} are : {}", query, result);
 				} catch (Exception e) {
-					logger.error("Error occured while deleting the data from query : {} with error : {}", query,
+					log.error("Error occurred while deleting the data from query : {} with error : {}", query,
 							e.getMessage());
 				}
 			} else {
-				logger.warn("Query : {} can not be executed as connection with database is not establised", query);
+				log.warn("Query : {} can not be executed as connection with database is not established", query);
 			}
 		}
 	}

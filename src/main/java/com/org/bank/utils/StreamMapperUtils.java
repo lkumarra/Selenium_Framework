@@ -1,9 +1,8 @@
 package com.org.bank.utils;
 
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class contains the message related to mapping
@@ -12,9 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  * @Date 04/03/2023
  */
+@Slf4j
 public class StreamMapperUtils {
 
-	Logger logger = LoggerFactory.getLogger(StreamMapperUtils.class);
 
 	private StreamMapperUtils() {
 		
@@ -34,10 +33,10 @@ public class StreamMapperUtils {
 	public <T> T getClassMappedResponse(byte[] bs, Class<T> class1) {
 		try {
 			T response = new ObjectMapper().readValue(bs, class1);
-			logger.info("Successfully mapped the response with class : {}", class1.getName());
+			log.info("Successfully mapped the response with class : {}", class1.getName());
 			return response;
 		} catch (IOException e) {
-			logger.error("Error occured while mapping the response : {}", e.getMessage());
+			log.error("Error occurred while mapping the response : {}", e.getMessage());
 		}
 		return null;
 	}
@@ -53,10 +52,10 @@ public class StreamMapperUtils {
 	public <T> T getClassMappedResponse(String string, Class<T> class1) {
 		try {
 			T response = new ObjectMapper().readValue(string, class1);
-			logger.info("Successfully mapped the response with class : {}", class1.getName());
+			log.info("Successfully mapped the response with class : {}", class1.getName());
 			return response;
 		} catch (IOException e) {
-			logger.error("Error occured while mapping the response : {}", e.getMessage());
+			log.error("Error occurred while mapping the response : {}", e.getMessage());
 		}
 		return null;
 	}

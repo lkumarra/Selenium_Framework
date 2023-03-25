@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.codoid.products.exception.FilloException;
 import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
 import com.org.bank.constants.Constants;
 
+@Slf4j
 public class ExcelUtils {
 
-	private Logger logger = LoggerFactory.getLogger(FileReaderUtil.class);
 
 	private ExcelUtils() {
 		
@@ -37,7 +36,7 @@ public class ExcelUtils {
 			synchronized (this) {
 				Fillo fillo = new Fillo();
 				Connection connection = fillo.getConnection(Constants.ExcelFile);
-				logger.info("Successfully loaded the excel file located at path : {}", Constants.ExcelFile);
+				log.info("Successfully loaded the excel file located at path : {}", Constants.ExcelFile);
 				Recordset recordset = connection.executeQuery(query);
 				List<String> fields = recordset.getFieldNames();
 				while (recordset.next()) {
@@ -47,7 +46,7 @@ public class ExcelUtils {
 						try {
 							value = recordset.getField(field);
 						} catch (FilloException e) {
-							logger.error("Error while getting the value of fiels from excel with error message : {}",
+							log.error("Error while getting the value of fields from excel with error message : {}",
 									e.getMessage());
 						}
 						hashMap.put(field.toLowerCase(), value);
@@ -55,10 +54,10 @@ public class ExcelUtils {
 					list.add(hashMap);
 				}
 			}
-			logger.info("Successfully read the values from file with query : {}", query);
+			log.info("Successfully read the values from file with query : {}", query);
 			return list;
 		} catch (FilloException e) {
-			logger.error("Error while reading the value with query : {}", query);
+			log.error("Error while reading the value with query : {}", query);
 		}
 		return list;
 	}
@@ -76,7 +75,7 @@ public class ExcelUtils {
 			synchronized (this) {
 				Fillo fillo = new Fillo();
 				Connection connection = fillo.getConnection(Constants.ExcelFile);
-				logger.info("Successfully loaded the excel file located at path : {}", Constants.ExcelFile);
+				log.info("Successfully loaded the excel file located at path : {}", Constants.ExcelFile);
 				Recordset recordset = connection.executeQuery(query);
 				List<String> fields = recordset.getFieldNames();
 				while (recordset.next()) {
@@ -86,7 +85,7 @@ public class ExcelUtils {
 						try {
 							value = recordset.getField(field);
 						} catch (FilloException e) {
-							logger.error("Error while getting the value of fiels from excel with error message : {}",
+							log.error("Error while getting the value of fields from excel with error message : {}",
 									e.getMessage());
 						}
 						jsonObject.put(field.toLowerCase(), value);
@@ -94,10 +93,10 @@ public class ExcelUtils {
 					jsonArray.put(jsonObject);
 				}
 			}
-			logger.info("Successfully read the values from file with query : {}", query);
+			log.info("Successfully read the values from file with query : {}", query);
 			return jsonArray;
 		} catch (FilloException e) {
-			logger.error("Error while reading the value with query : {}", query);
+			log.error("Error while reading the value with query : {}", query);
 		}
 		return jsonArray;
 	}

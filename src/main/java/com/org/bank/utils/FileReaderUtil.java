@@ -5,11 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.org.bank.constants.Constants;
 import com.org.bank.exceptions.KeyNotValidException;
 import com.org.bank.exceptions.ValueNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class contains the methods related to reading the files
@@ -18,28 +17,25 @@ import com.org.bank.exceptions.ValueNotFoundException;
  *
  * @Date 04/03/2023
  */
+@Slf4j
 public class FileReaderUtil {
 
-	Logger logger = LoggerFactory.getLogger(FileReaderUtil.class);
-
-	private FileReader fileReader;
 	private Properties properties;
 
 	private FileReaderUtil() {
 		try {
 			String filePath = Constants.ConfigurationFile;
-			fileReader = new FileReader(filePath);
+			FileReader fileReader = new FileReader(filePath);
 			properties = new Properties();
-			logger.info("Successfully find the file at path {}", filePath);
+			log.info("Successfully find the file at path {}", filePath);
 			try {
 				properties.load(fileReader);
-				logger.info("Successfully load the file {}", filePath);
+				log.info("Successfully load the file {}", filePath);
 			} catch (IOException e) {
-				logger.error("Error occured while loading the file {}", e.getMessage().toString());
+				log.error("Error occurred while loading the file {}", e.getMessage());
 			}
-
 		} catch (FileNotFoundException e) {
-			logger.error("File not found {} ", e.getMessage().toString());
+			log.error("File not found {} ", e.getMessage());
 		}
 	}
 	
@@ -48,7 +44,7 @@ public class FileReaderUtil {
 	}
 
 	/**
-	 * Get the value of the key from propeties file
+	 * Get the value of the key from properties file
 	 * 
 	 * @param key : Key to fetch the value
 	 * @return Return the value of the key
@@ -57,17 +53,17 @@ public class FileReaderUtil {
 	 */
 	public String getPropertyValue(String key) throws KeyNotValidException, ValueNotFoundException {
 		if (Objects.nonNull(key)) {
-			logger.info("Key to get the value {}", key);
+			log.info("Key to get the value {}", key);
 			String value = properties.getProperty(key);
 			if (Objects.nonNull(value)) {
 				return value;
 			} else {
-				logger.warn("No Value found for the key {}", key);
+				log.warn("No Value found for the key {}", key);
 				throw new ValueNotFoundException(String.format("No value found for key : %s", key));
 			}
 		} else {
-			logger.warn("{} is not a valid key ", key);
-			throw new KeyNotValidException(String.format("%s key is not a valid key", key));
+			log.warn("{} is not a valid key ", (Object) null);
+			throw new KeyNotValidException(String.format("%s key is not a valid key", (Object) null));
 		}
 	}
 

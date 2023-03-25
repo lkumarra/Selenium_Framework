@@ -6,7 +6,7 @@
 		<file>${user.dir}/src/test/resources/logs/excecution_${myTimestamp}.log</file>
 		<append>false</append>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %log{36} - %msg%n
 			</pattern>
 		</encoder>
 	</appender>
@@ -14,15 +14,15 @@
 	<appender name="STDOUT"
 		class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %log{36} - %msg%n
 			</pattern>
 		</encoder>
 	</appender>
 
-	<logger name="jdbc" level="OFF" />
-	<logger name="jdbc.sqlonly" level="INFO" additivity="false">
+	<log name="jdbc" level="OFF" />
+	<log name="jdbc.sqlonly" level="INFO" additivity="false">
 		<appender-ref ref="FILE" />
-	</logger>
+	</log>
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT" /> <!-- Every log will apear on screen log -->

@@ -1,13 +1,12 @@
 package com.org.bank.pages;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.org.bank.modals.LoginPageModal;
 import com.org.bank.utils.ExcelUtils;
 import com.org.bank.utils.SeleniumUtils;
@@ -26,27 +25,26 @@ import java.util.stream.Collectors;
  *
  * @Date 08/02/2023
  */
-public class LoginPage {
+@Slf4j
+public final class LoginPage {
 
-	private ExcelUtils excelUtils;
-	private SeleniumUtils seleniumUtils;
-	private Logger logger = LoggerFactory.getLogger(LoginPage.class);
-	private StreamMapperUtils streamMapperUtils;
-	private String labelQuery = "Select usedIdLabel,passwordLabel,submitButtonLabel,resetButtonLabel,title from LoginPage";
-	private String credentialsQuery = "Select userId, password, expectedMessage from LoginPage";
+	private final ExcelUtils excelUtils;
+	private final SeleniumUtils seleniumUtils;
+	private final StreamMapperUtils streamMapperUtils;
+	private final String labelQuery = "Select usedIdLabel,passwordLabel,submitButtonLabel,resetButtonLabel,title from LoginPage";
 
 	private LoginPage(WebDriver driver) {
 		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
-		logger.info("Successfulyy created the instance of class : {} inside : {}", seleniumUtils.getClass().getName(),
+		log.info("Successfully created the instance of class : {} inside : {}", seleniumUtils.getClass().getName(),
 				LoginPage.class.getName());
 		excelUtils = ExcelUtils.newExcelUtils();
-		logger.info("Successfulyy created the instance of class : {} inside : {}", excelUtils.getClass().getName(),
+		log.info("Successfully created the instance of class : {} inside : {}", excelUtils.getClass().getName(),
 				LoginPage.class.getName());
 		streamMapperUtils = StreamMapperUtils.newStreamMapperUtils();
-		logger.info("Successfulyy created the instance of class : {} inside : {}",
+		log.info("Successfully created the instance of class : {} inside : {}",
 				streamMapperUtils.getClass().getName(), LoginPage.class.getName());
 		PageFactory.initElements(driver, this);
-		logger.info("Successfully initialized the web elements of class : {}", LoginPage.class.getName());
+		log.info("Successfully initialized the web elements of class : {}", LoginPage.class.getName());
 	}
 
 	public static LoginPage newLoginPage(WebDriver driver) {
@@ -78,7 +76,7 @@ public class LoginPage {
 	 */
 	public String getTitleOfLoginPage() {
 		String title = seleniumUtils.getTitle();
-		logger.info("Title of the page is : {}", title);
+		log.info("Title of the page is : {}", title);
 		return title;
 	}
 
@@ -89,7 +87,7 @@ public class LoginPage {
 	 */
 	public String getLoginAlertText() {
 		String alertText = seleniumUtils.getAlertText();
-		logger.info("Alert text is : {} ", alertText);
+		log.info("Alert text is : {} ", alertText);
 		return alertText;
 	}
 
@@ -197,10 +195,10 @@ public class LoginPage {
 	 * @return Data mapped to {@link LoginPageModal} class
 	 */
 	public List<LoginPageModal> getLoginCredentialsData() {
+		String credentialsQuery = "Select userId, password, expectedMessage from LoginPage";
 		String stringJson = excelUtils.fetchDataInJSON(credentialsQuery).toString();
 		LoginPageModal[] loginPageModal = streamMapperUtils.getClassMappedResponse(stringJson, LoginPageModal[].class);
-		List<LoginPageModal> loginPageModalList = Arrays.asList(loginPageModal);
-		return loginPageModalList;
+		return Arrays.asList(loginPageModal);
 	}
 
 	/**
@@ -209,7 +207,7 @@ public class LoginPage {
 	 * @return : Error messages
 	 */
 	public List<String> getExpectedErrorMessages() {
-		return getLoginCredentialsData().stream().map(x -> x.getExpectedmessage()).collect(Collectors.toList());
+		return getLoginCredentialsData().stream().map(LoginPageModal::getExpectedmessage).collect(Collectors.toList());
 	}
 
 	/**
@@ -228,7 +226,7 @@ public class LoginPage {
 				seleniumUtils.enterTextInWebElement(useIdField, x.getUserid(), true);
 				seleniumUtils.performClick(loginButton);
 				stringActualErrorMessage.add(seleniumUtils.getAlertText());
-			} else if (x.getUserid().equals("") && !x.getPassword().equals("")) {
+			} else if (x.getUserid().equals("")) {
 				seleniumUtils.enterTextInWebElement(passwordField, x.getPassword(), true);
 				seleniumUtils.performClick(loginButton);
 				stringActualErrorMessage.add(seleniumUtils.getAlertText());
@@ -246,20 +244,20 @@ public class LoginPage {
 	 * Perform login
 	 * 
 	 * @param userName : UserName to login
-	 * @param password : Passwors to login
-	 * @return true if login successfull else false
+	 * @param password : Password to login
+	 * @return true if login successfully else false
 	 */
-	public boolean isLoginSuccessfull(String userName, String password) {
+	public boolean isLoginSuccessful(String userName, String password) {
 		boolean isLoginSuccessfull = false;
 		try {
 			seleniumUtils.enterTextInWebElement(useIdField, userName, true);
 			seleniumUtils.enterTextInWebElement(passwordField, password, true);
 			seleniumUtils.performClick(loginButton);
 			isLoginSuccessfull = true;
-			logger.info("User is successfully logged in with userName : {} and password : {} ", userName, password);
+			log.info("User is successfully logged in with userName : {} and password : {} ", userName, password);
 		} catch (Exception e) {
 			isLoginSuccessfull = false;
-			logger.error("User is not able to login with userName : {} and password : {}", userName, password);
+			log.error("User is not able to login with userName : {} and password : {}", userName, password);
 		}
 		return isLoginSuccessfull;
 	}

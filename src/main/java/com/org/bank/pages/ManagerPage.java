@@ -3,38 +3,35 @@ package com.org.bank.pages;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.org.bank.modals.ManagerPageModal;
 import com.org.bank.utils.ExcelUtils;
 import com.org.bank.utils.SeleniumUtils;
 import com.org.bank.utils.StreamMapperUtils;
 
-public class ManagerPage {
+@Slf4j
+public final class ManagerPage {
 
-	private Logger logger = LoggerFactory.getLogger(ManagerPage.class);
-	private StreamMapperUtils streamMapperUtils;
-	private SeleniumUtils seleniumUtils;
-	private ExcelUtils excelUtils;
-	private final String menuQuery = "Select * from ManagerPage";
+	private final StreamMapperUtils streamMapperUtils;
+	private final SeleniumUtils seleniumUtils;
+	private final ExcelUtils excelUtils;
 
 	private ManagerPage(WebDriver driver) {
 		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
-		logger.info("Successfully created the instance of class : {} inside : {}", seleniumUtils.getClass().getName(),
+		log.info("Successfully created the instance of class : {} inside : {}", seleniumUtils.getClass().getName(),
 				ManagerPage.class.getName());
 		excelUtils = ExcelUtils.newExcelUtils();
-		logger.info("Successfulyy created the instance of class : {} inside : {}", excelUtils.getClass().getName(),
+		log.info("Successfully created the instance of class : {} inside : {}", excelUtils.getClass().getName(),
 				ManagerPage.class.getName());
 		streamMapperUtils = StreamMapperUtils.newStreamMapperUtils();
-		logger.info("Successfulyy created the instance of class : {} inside : {}",
+		log.info("Successfully created the instance of class : {} inside : {}",
 				streamMapperUtils.getClass().getName(), ManagerPage.class.getName());
 		PageFactory.initElements(driver, this);
-		logger.info("Successfully initialized the web elements of class : {}", ManagerPage.class.getName());
+		log.info("Successfully initialized the web elements of class : {}", ManagerPage.class.getName());
 	}
 
 	public static ManagerPage newManagerPage(WebDriver driver) {
@@ -86,6 +83,7 @@ public class ManagerPage {
 	 * @return List of ManagerPageModal class
 	 */
 	public List<ManagerPageModal> getManagerPageData() {
+		String menuQuery = "Select * from ManagerPage";
 		String managePageData = excelUtils.fetchDataInJSON(menuQuery).toString();
 		ManagerPageModal[] managerPageModals = streamMapperUtils.getClassMappedResponse(managePageData,
 				ManagerPageModal[].class);

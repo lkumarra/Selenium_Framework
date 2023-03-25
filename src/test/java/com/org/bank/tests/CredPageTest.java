@@ -7,11 +7,11 @@ import org.testng.annotations.Test;
 
 import com.org.bank.constants.WebDriverContext;
 import com.org.bank.driverFactory.DriverFactory;
-import com.org.bank.listners.Listners;
+import com.org.bank.listeners.CustomListeners;
 import com.org.bank.pages.BasePage;
 import com.org.bank.pages.CredPage;
 
-@Listeners(Listners.class)
+@Listeners(CustomListeners.class)
 public class CredPageTest {
 
 	private BasePage basePage;
@@ -26,7 +26,7 @@ public class CredPageTest {
 		credPage = CredPage.newCredPage(driverFactory.getWebDriver());
 		basePage.initialization();
 	}
-
+	
 	@Test(testName = "Verify Latest Credentials", description = "Verifying the credentials from DB and updating if outdated", priority = 0, groups = {
 			"Credentials", "all", "sanity" })
 	public void test_credentials_copy() {
@@ -35,7 +35,7 @@ public class CredPageTest {
 
 	@AfterClass(alwaysRun = true)
 	protected void tearDown() {
-		basePage.teadDown();
+		basePage.tearDown();
 	}
 
 }

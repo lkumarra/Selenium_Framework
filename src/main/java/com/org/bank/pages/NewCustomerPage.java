@@ -5,34 +5,32 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.org.bank.modals.NewCustomerPageModal;
 import com.org.bank.utils.ExcelUtils;
 import com.org.bank.utils.SeleniumUtils;
 import com.org.bank.utils.StreamMapperUtils;
 
-public class NewCustomerPage {
+@Slf4j
+public final class NewCustomerPage {
 
-	private final Logger logger = LoggerFactory.getLogger(NewCustomerPage.class);
-	private final String newCustomerPageQuery = "Select * from NewCustomerPage";
-	private SeleniumUtils seleniumUtils;
-	private StreamMapperUtils streamUtils;
-	private ExcelUtils excelUtils;
+	private final SeleniumUtils seleniumUtils;
+	private final StreamMapperUtils streamUtils;
+	private final ExcelUtils excelUtils;
 
 	private NewCustomerPage(WebDriver driver) {
 		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
-		logger.info("Successfully created the instace of class : {} inside class : {}",
+		log.info("Successfully created the instance of class : {} inside class : {}",
 				seleniumUtils.getClass().getName(), NewCustomerPage.class.getName());
 		excelUtils = ExcelUtils.newExcelUtils();
-		logger.info("Successfully created the instace of class : {} inside class : {}", excelUtils.getClass().getName(),
+		log.info("Successfully created the instance of class : {} inside class : {}", excelUtils.getClass().getName(),
 				NewCustomerPage.class.getName());
 		streamUtils = StreamMapperUtils.newStreamMapperUtils();
-		logger.info("Successfully created the instace of class : {} inside class : {}",
+		log.info("Successfully created the instance of class : {} inside class : {}",
 				streamUtils.getClass().getName(), NewCustomerPage.class.getName());
 		PageFactory.initElements(driver, this);
 	}
@@ -156,10 +154,10 @@ public class NewCustomerPage {
 	 * @return List of NewCustomerPage modal class
 	 */
 	public List<NewCustomerPageModal> getNewCustomerPageData() {
+		String newCustomerPageQuery = "Select * from NewCustomerPage";
 		String newCustomerPageData = excelUtils.fetchDataInJSON(newCustomerPageQuery).toString();
-		NewCustomerPageModal[] newCustomerPageModals = streamUtils.getClassMappedResponse(newCustomerPageData,
-				NewCustomerPageModal[].class);
-		return Arrays.asList(newCustomerPageModals);
+		return Arrays.asList( streamUtils.getClassMappedResponse(newCustomerPageData,
+				NewCustomerPageModal[].class));
 	}
 
 	/**
@@ -307,7 +305,7 @@ public class NewCustomerPage {
 	 * 
 	 * @return Validation messages
 	 */
-	public List<String> getPincodeValidationMessages() {
+	public List<String> getPinCodeValidationMessages() {
 		List<String> validationMessages = new ArrayList<String>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getPincodefield().equals("")).collect(Collectors.toList());
@@ -550,14 +548,14 @@ public class NewCustomerPage {
 	 * @return Datatable for customer field
 	 */
 	public Object[][] getCustomerFieldDataProvider() {
-		List<NewCustomerPageModal> custumerFieldInputs = getNewCustomerPageData().stream()
+		List<NewCustomerPageModal> customerFieldInputs = getNewCustomerPageData().stream()
 				.filter(x -> !x.getCustomernamefield().equals("")).collect(Collectors.toList());
 		List<NewCustomerPageModal> expectedCustomerMessage = getNewCustomerPageData().stream()
 				.filter(x -> !x.getCustomernamefield().equals("")).collect(Collectors.toList());
-		Object[][] dataTable = new Object[custumerFieldInputs.size()][1];
-		for (int i = 0; i < custumerFieldInputs.size(); i++) {
+		Object[][] dataTable = new Object[customerFieldInputs.size()][1];
+		for (int i = 0; i < customerFieldInputs.size(); i++) {
 			Hashtable<String, String> hashtable = new Hashtable<String, String>();
-			hashtable.put("input", custumerFieldInputs.get(i).getCustomernamefield());
+			hashtable.put("input", customerFieldInputs.get(i).getCustomernamefield());
 			hashtable.put("expectedMessage", expectedCustomerMessage.get(i).getCustomernameexpectedmessage());
 			dataTable[i][0] = hashtable;
 		}

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
@@ -18,8 +19,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This Class contains the method related to selenium utility
@@ -28,13 +27,12 @@ import org.slf4j.LoggerFactory;
  *
  * @Date 08/02/2023
  */
+@Slf4j
 public class SeleniumUtils {
 
 	private static int defaultTime = 30;
 
-	private final Logger logger = LoggerFactory.getLogger(SeleniumUtils.class);
-
-	private WebDriver driver;
+	private final WebDriver driver;
 
 	private SeleniumUtils(WebDriver driver) {
 		this.driver = driver;
@@ -85,24 +83,24 @@ public class SeleniumUtils {
 	}
 
 	/**
-	 * Wait for the visisblity of webelement for default 30 second
+	 * Wait for the visibility of webelement for default 30 second
 	 * 
-	 * @param element : Webelement to check the visiblity
+	 * @param element : Webelement to check the visibility
 	 */
-	public void waitForElementVisiblity(WebElement element) {
+	public void waitForElementVisibility(WebElement element) {
 		getWebdriverWait(defaultTime).until(ExpectedConditions.visibilityOf(element));
-		logger.info("Waiting for element to be visible for : {} seconds", defaultTime);
+		log.info("Waiting for element to be visible for : {} seconds", defaultTime);
 	}
 
 	/**
-	 * Wait for the visisblity of webelement for given time
+	 * Wait for the visibility of webelement for given time
 	 * 
 	 * @param element : Webelement to check visiblity
 	 * @param time    : Time to check visiblity in seconds
 	 */
-	public void waitForElementVisiblity(WebElement element, int time) {
+	public void waitForElementVisibility(WebElement element, int time) {
 		getWebdriverWait(time).until(ExpectedConditions.visibilityOf(element));
-		logger.info("Waiting for element to be visible for : {} seconds", time);
+		log.info("Waiting for element to be visible for : {} seconds", time);
 	}
 
 	/**
@@ -112,7 +110,7 @@ public class SeleniumUtils {
 	 */
 	public void waitForElementToBeClickable(WebElement element) {
 		getWebdriverWait(defaultTime).until(ExpectedConditions.elementToBeClickable(element));
-		logger.info("Waiting for element to be clickable for : {} seconds", defaultTime);
+		log.info("Waiting for element to be clickable for : {} seconds", defaultTime);
 	}
 
 	/**
@@ -123,7 +121,7 @@ public class SeleniumUtils {
 	 */
 	public void waitForElementToBeClickable(WebElement element, int time) {
 		getWebdriverWait(time).until(ExpectedConditions.elementToBeClickable(element));
-		logger.info("Waiting for element to be clickable for : {} seconds", time);
+		log.info("Waiting for element to be clickable for : {} seconds", time);
 	}
 
 	/**
@@ -131,7 +129,7 @@ public class SeleniumUtils {
 	 */
 	public void waitUntilAlertIsPresent() {
 		getWebdriverWait(defaultTime).until(ExpectedConditions.alertIsPresent());
-		logger.info("Waiting for alert to be present for  : {} seconds", defaultTime);
+		log.info("Waiting for alert to be present for  : {} seconds", defaultTime);
 	}
 
 	/**
@@ -141,26 +139,7 @@ public class SeleniumUtils {
 	 */
 	public void waitUntilAlertIsPresent(int time) {
 		getWebdriverWait(time).until(ExpectedConditions.alertIsPresent());
-		logger.info("Waiting for alert to be present for  : {} seconds", time);
-	}
-
-	/**
-	 * Wait for invisiblity of webelement for max default time of 30 second
-	 * 
-	 * @param element : Webelement to check invisiblity
-	 */
-	public void waitForInvisisblityOfElement(WebElement element) {
-		getWebdriverWait(defaultTime).until(ExpectedConditions.invisibilityOf(element));
-	}
-
-	/**
-	 * Wait for invisiblity of webelement for max given time in seconds
-	 * 
-	 * @param element : Webelement to check invisiblity
-	 * @param time    : Max time to checkin seconds
-	 */
-	public void waitForInvisisblityOfElement(WebElement element, int time) {
-		getWebdriverWait(time).until(ExpectedConditions.invisibilityOf(element));
+		log.info("Waiting for alert to be present for  : {} seconds", time);
 	}
 
 	/**
@@ -171,9 +150,9 @@ public class SeleniumUtils {
 	public void setImplicitWait(int timeInSecond) {
 		try {
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeInSecond));
-			logger.info("Implicit wait is set for : {} seconds", timeInSecond);
+			log.info("Implicit wait is set for : {} seconds", timeInSecond);
 		} catch (Exception e) {
-			logger.error("Error occured while setting the implicit wait");
+			log.error("Error occurred while setting the implicit wait");
 		}
 	}
 
@@ -186,7 +165,7 @@ public class SeleniumUtils {
 	 */
 	public void waitForExpectedText(WebElement element, String expectedText) {
 		getWebdriverWait(defaultTime).until(ExpectedConditions.textToBePresentInElement(element, expectedText));
-		logger.info("Waiting for element until text is : {} for  : {} seconds", expectedText, defaultTime);
+		log.info("Waiting for element until text is : {} for  : {} seconds", expectedText, defaultTime);
 	}
 
 	/**
@@ -199,9 +178,9 @@ public class SeleniumUtils {
 		String locator = getLocatorFromWebElement(element);
 		try {
 			getActions().click(element).build().perform();
-			logger.info("Clicking on {} using action class", locator);
+			log.info("Clicking on {} using action class", locator);
 		} catch (Exception e) {
-			logger.error("Error occured while clicking on element : {} with error message : {}", locator,
+			log.error("Error occurred while clicking on element : {} with error message : {}", locator,
 					e.getMessage());
 		}
 	}
@@ -216,9 +195,9 @@ public class SeleniumUtils {
 		String locator = getLocatorFromWebElement(element);
 		try {
 			((JavascriptExecutor) driver).executeScript("arguments[0].click()", element);
-			logger.info("Clicking on {} using javascript executor", locator);
+			log.info("Clicking on {} using javascript executor", locator);
 		} catch (Exception e) {
-			logger.error("Error occured while clicking on element : {} with error message : {}", locator,
+			log.error("Error occurred while clicking on element : {} with error message : {}", locator,
 					e.getMessage());
 		}
 	}
@@ -233,16 +212,16 @@ public class SeleniumUtils {
 		String locator = getLocatorFromWebElement(element);
 		try {
 			element.click();
-			logger.info("Clicked on {} ", locator);
+			log.info("Clicked on {} ", locator);
 		} catch (Exception e) {
-			logger.warn("Unable to click on {} using element.click() method trying anther way", locator);
+			log.warn("Unable to click on {} using element.click() method trying anther way", locator);
 			try {
 				performClickUsingActionClass(element);
 			} catch (Exception e1) {
 				try {
 					performClickUsingJSExecutor(element);
 				} catch (Exception e2) {
-
+					log.error("Error occurred while clicking on : {} with error message : {}", locator, e2.getMessage());
 				}
 			}
 		}
@@ -256,14 +235,14 @@ public class SeleniumUtils {
 	 * @return Text of the webelement
 	 */
 	public String getTextOfElement(WebElement element) {
-		waitForElementVisiblity(element);
+		waitForElementVisibility(element);
 		String locator = getLocatorFromWebElement(element);
 		try {
 			String text = element.getText();
-			logger.info("Text of {} is {}", locator, text);
+			log.info("Text of {} is {}", locator, text);
 			return text;
 		} catch (Exception exception) {
-			logger.error("Error occured while getting the text for {} with error message {}", locator,
+			log.error("Error occurred while getting the text for {} with error message {}", locator,
 					exception.getMessage());
 		}
 		return "No text is found";
@@ -278,14 +257,14 @@ public class SeleniumUtils {
 	 * @return attribute value
 	 */
 	public String getAttribute(WebElement element, String attributeName) {
-		waitForElementVisiblity(element);
+		waitForElementVisibility(element);
 		String locator = getLocatorFromWebElement(element);
 		try {
 			String text = element.getAttribute(attributeName);
-			logger.info("Attribute of {} with attribute name {} is {}", locator, attributeName, text);
+			log.info("Attribute of {} with attribute name {} is {}", locator, attributeName, text);
 			return text;
 		} catch (Exception exception) {
-			logger.error("Error occured while getting the attribute for {} with error message {}", locator,
+			log.error("Error occurred while getting the attribute for {} with error message {}", locator,
 					exception.getMessage());
 		}
 		return "No attribute value found";
@@ -300,7 +279,7 @@ public class SeleniumUtils {
 	public boolean isWebElementPresent(WebElement element) {
 		boolean isElementVisible = true;
 		try {
-			waitForElementVisiblity(element);
+			waitForElementVisibility(element);
 			isElementVisible = element.isDisplayed();
 		} catch (Exception e) {
 			isElementVisible = false;
@@ -315,14 +294,14 @@ public class SeleniumUtils {
 	 * @return True if webelement is enabled else False
 	 */
 	public boolean isWebElementEnabled(WebElement element) {
-		waitForElementVisiblity(element);
+		waitForElementVisibility(element);
 		String locator = getLocatorFromWebElement(element);
 		boolean isEnabled = true;
 		try {
 			isEnabled = element.isEnabled();
-			logger.info("{} is in enabled state {}", locator, isEnabled);
+			log.info("{} is in enabled state {}", locator, isEnabled);
 		} catch (Exception e) {
-			logger.error("Error occured while getting the element state for locator {} ", locator);
+			log.error("Error occurred while getting the element state for locator {} ", locator);
 		}
 		return isEnabled;
 	}
@@ -339,17 +318,17 @@ public class SeleniumUtils {
 				File sourceFile = element.getScreenshotAs(OutputType.FILE);
 				File destinationFile = new File(destination);
 				FileUtils.copyFile(sourceFile, destinationFile);
-				logger.info("Successfully copied the screenshot on {} ", destinationFile);
+				log.info("Successfully copied the screenshot on {} ", destinationFile);
 			}
 		} catch (Exception e) {
-			logger.error("Error occured while taking the screenshot with error message {}", e.getMessage());
+			log.error("Error occurred while taking the screenshot with error message {}", e.getMessage());
 		}
 	}
 
 	/**
 	 * This method will maximize the window
 	 */
-	public void maxiMizeWindow() {
+	public void maximizeWindow() {
 		driver.manage().window().maximize();
 	}
 
@@ -367,17 +346,17 @@ public class SeleniumUtils {
 	 */
 	public void launchUrl(String url) {
 		driver.navigate().to(url);
-		logger.info("Successfully lauched the url : {}", url);
+		log.info("Successfully launched the url : {}", url);
 	}
 
 	/**
-	 * This method will return the title of the the current page
+	 * This method will return the title of the current page
 	 * 
 	 * @return : Title of the current page
 	 */
 	public String getTitle() {
 		String title = driver.getTitle();
-		logger.info("Current page title is : {} ", title);
+		log.info("Current page title is : {} ", title);
 		return title;
 	}
 
@@ -386,7 +365,7 @@ public class SeleniumUtils {
 	 */
 	public void refresh() {
 		driver.navigate().refresh();
-		logger.info("{} : Page is successfully refreshed", getTitle());
+		log.info("{} : Page is successfully refreshed", getTitle());
 	}
 
 	/**
@@ -394,7 +373,7 @@ public class SeleniumUtils {
 	 */
 	public void navigateForward() {
 		driver.navigate().forward();
-		logger.info("Successfully navigated forward from page : {} ", driver.getTitle());
+		log.info("Successfully navigated forward from page : {} ", driver.getTitle());
 	}
 
 	/**
@@ -402,7 +381,7 @@ public class SeleniumUtils {
 	 */
 	public void navigateBackward() {
 		driver.navigate().back();
-		logger.info("Successfully navigated backward from page : {} ", driver.getTitle());
+		log.info("Successfully navigated backward from page : {} ", driver.getTitle());
 	}
 
 	/**
@@ -447,12 +426,11 @@ public class SeleniumUtils {
 			if (isAfterClear) {
 				element.clear();
 				element.sendKeys(text);
-			} else {
+			} else
 				element.sendKeys(text);
-			}
-			logger.info("Enterd text : {} in : {}", text, locator);
+			log.info("Entered text : {} in : {}", text, locator);
 		} catch (Exception e) {
-			logger.error("Error while entering text in : {} with error message : {}", locator, e.getMessage());
+			log.error("Error while entering text in : {} with error message : {}", locator, e.getMessage());
 		}
 	}
 
@@ -468,9 +446,9 @@ public class SeleniumUtils {
 		File destFile = new File(destination);
 		try {
 			FileUtils.copyFile(srcFile, destFile);
-			logger.info("Successfully copied the screenshot at destination : {}", destination);
+			log.info("Successfully copied the screenshot at destination : {}", destination);
 		} catch (IOException e) {
-			logger.error("Error occured file copying the screenshot at destination : {} with error message :{}",
+			log.error("Error occurred file copying the screenshot at destination : {} with error message :{}",
 					destination, e.getMessage());
 		}
 	}
@@ -485,14 +463,14 @@ public class SeleniumUtils {
 		List<String> list = new ArrayList<String>();
 		try {
 			for (WebElement element : elementsList) {
-				waitForElementVisiblity(element);
+				waitForElementVisibility(element);
 				String locatorText = getLocatorFromWebElement(element);
 				String text = element.getText();
-				logger.info("Test of locator : {} is : {}", locatorText, text);
+				log.info("Test of locator : {} is : {}", locatorText, text);
 				list.add(element.getText());
 			}
 		} catch (Exception e) {
-			logger.error("Error occured while getting the text of webelements with error : {}", e.getMessage());
+			log.error("Error occurred while getting the text of elements with error : {}", e.getMessage());
 		}
 		return list;
 	}
@@ -505,50 +483,50 @@ public class SeleniumUtils {
 	 */
 	public void selectByValue(WebElement element, String value) {
 		try {
-			waitForElementVisiblity(element);
+			waitForElementVisibility(element);
 			String locatorText = getLocatorFromWebElement(element);
 			Select select = new Select(element);
 			select.selectByValue(value);
-			logger.info("Selected value : {} from : {}", value, locatorText);
+			log.info("Selected value : {} from : {}", value, locatorText);
 		} catch (Exception e) {
-			logger.error("Error while selecting the value : {} with error message : {} ", value, e.getMessage());
+			log.error("Error while selecting the value : {} with error message : {} ", value, e.getMessage());
 		}
 	}
 
 	public void selectByIndex(WebElement element, int index) {
 		try {
-			waitForElementVisiblity(element);
+			waitForElementVisibility(element);
 			String locatorText = getLocatorFromWebElement(element);
 			Select select = new Select(element);
 			select.selectByIndex(index);
-			logger.info("Selected index : {} from : {}", index, locatorText);
+			log.info("Selected index : {} from : {}", index, locatorText);
 		} catch (Exception e) {
-			logger.error("Error while selecting index : {} with error message : {}", index, e.getMessage());
+			log.error("Error while selecting index : {} with error message : {}", index, e.getMessage());
 		}
 	}
 
-	public void selectByVisibleText(WebElement element, String visisbleText) {
+	public void selectByVisibleText(WebElement element, String visibleText) {
 		try {
-			waitForElementVisiblity(element);
+			waitForElementVisibility(element);
 			String locatorText = getLocatorFromWebElement(element);
 			Select select = new Select(element);
-			select.selectByVisibleText(visisbleText);
-			logger.info("Selected text : {} from : {}", visisbleText, locatorText);
+			select.selectByVisibleText(visibleText);
+			log.info("Selected text : {} from : {}", visibleText, locatorText);
 		} catch (Exception e) {
-			logger.error("Error while selecting visible text : {} with error message : {}", visisbleText,
+			log.error("Error while selecting visible text : {} with error message : {}", visibleText,
 					e.getMessage());
 		}
 	}
 
 	public void deselectAll(WebElement element) {
 		try {
-			waitForElementVisiblity(element);
+			waitForElementVisibility(element);
 			String locatorText = getLocatorFromWebElement(element);
 			Select select = new Select(element);
 			select.deselectAll();
-			logger.info("Deselected all options from : {}", locatorText);
+			log.info("Deselected all options from : {}", locatorText);
 		} catch (Exception e) {
-			logger.error("Error while deselcting the options");
+			log.error("Error while deselecting the options");
 		}
 	}
 

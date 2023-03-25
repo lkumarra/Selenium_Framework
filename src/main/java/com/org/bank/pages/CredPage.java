@@ -1,12 +1,11 @@
 package com.org.bank.pages;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.org.bank.exceptions.KeyNotValidException;
 import com.org.bank.exceptions.ValueNotFoundException;
 import com.org.bank.utils.DbUtils;
@@ -25,36 +24,32 @@ import java.util.Objects;
  *
  * @Date 08/02/2023
  */
-public class CredPage {
-
-	private Logger logger = LoggerFactory.getLogger(CredPage.class);
-	private SeleniumUtils seleniumUtils;
-	private DbUtils dbUtils;
+@Slf4j
+public final class CredPage {
+	
+	private final SeleniumUtils seleniumUtils;
+	private final DbUtils dbUtils;
 	private String emailId;
 	private String loginPageUrl;
-	private FileReaderUtil fileReaderUtil;
-	private final String testUrlKey = "testUrl";
-	private final String emailKey = "email";
-	private final String userIdKey = "user_id";
-	private final String passwordKey = "password";
-	private final String updateQuery = "Update bank_cred set user_id = '%s', password = '%s' where user_id = '%s'";
 
 	private CredPage(WebDriver driver) {
 		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
-		logger.info("Successfully created the instance of class : {} inside class : {}",
+		log.info("Successfully created the instance of class : {} inside class : {}",
 				seleniumUtils.getClass().getName(), CredPage.class.getName());
 		dbUtils = DbUtils.newDbUtils();
-		logger.info("Successfully created the instance of class : {} inside class : {}", dbUtils.getClass().getName(),
+		log.info("Successfully created the instance of class : {} inside class : {}", dbUtils.getClass().getName(),
 				CredPage.class.getName());
-		fileReaderUtil = FileReaderUtil.newFileReaderUtil();
-		logger.info("Successfully created the instance of class : {} inside class : {}",
+		FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil();
+		log.info("Successfully created the instance of class : {} inside class : {}",
 				fileReaderUtil.getClass().getName(), CredPage.class.getName());
 		PageFactory.initElements(driver, this);
 		try {
+			String testUrlKey = "testUrl";
 			loginPageUrl = fileReaderUtil.getPropertyValue(testUrlKey);
+			String emailKey = "email";
 			emailId = fileReaderUtil.getPropertyValue(emailKey);
 		} catch (KeyNotValidException | ValueNotFoundException e) {
-			logger.error("Error while getting the value for key : {} with error message : {}", "testUrl",
+			log.error("Error while getting the value for key : {} with error message : {}", "testUrl",
 					e.getMessage());
 		}
 
@@ -68,7 +63,7 @@ public class CredPage {
 	private WebElement emailIdTitle;
 
 	@FindBy(how = How.XPATH, using = "(//td[@align = 'right'])")
-	private WebElement emaiLable;
+	private WebElement emailLabel;
 
 	@FindBy(how = How.NAME, using = "emailid")
 	private WebElement emailTextBox;
@@ -130,24 +125,24 @@ public class CredPage {
 			credFromDB = dataFromDb.get(0);
 		}
 		if (Objects.nonNull(credFromDB) && !credFromDB.isEmpty()) {
+			String userIdKey = "user_id";
+			String passwordKey = "password";
 			if (!credFromDB.get(userIdKey).equals(userId) && !credFromDB.get(passwordKey).equals(password)) {
+				String updateQuery = "Update bank_cred set user_id = '%s', password = '%s' where user_id = '%s'";
 				String formattedQuery = String.format(updateQuery, userId, password, credFromDB.get("user_id"));
 				dbUtils.updateQuery(formattedQuery);
 			}
 		} else {
-			logger.warn("Updated credentials can not be updated as old data is not fetched from db");
+			log.warn("Updated credentials can not be updated as old data is not fetched from db");
 		}
 		return this;
 	}
 
 	/**
 	 * Navigate Back to Cred Page after Getting Latest Credentials
-	 * 
-	 * @return Instance of {@link CredPage} class
 	 */
-	public CredPage navigateBack() {
+	public void navigateBack() {
 		seleniumUtils.navigateBackward();
-		return this;
 	}
 
 	/**
@@ -155,7 +150,7 @@ public class CredPage {
 	 */
 	public void navigateToLoginPage() {
 		seleniumUtils.launchUrl(loginPageUrl);
-		logger.info("Navigated to : {} with updated credentials ", loginPageUrl);
+		log.info("Navigated to : {} with updated credentials ", loginPageUrl);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.org.bank.driverFactory;
 
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 /**
  * This class contains the method related ot chrome class
@@ -15,7 +16,9 @@ public class ChromerDriverManager implements DriverManager {
 	 */
 	@Override
 	public ChromeDriver getWebDriver() {
-		return new ChromeDriver();
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.addArguments("--remote-allow-origins=*");
+		return new ChromeDriver(chromeOptions);
 	}
 	
 }

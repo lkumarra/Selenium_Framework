@@ -1,10 +1,8 @@
 package com.org.bank.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.org.bank.modals.SecretsModal;
 
+import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -16,11 +14,10 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
  *
  * @Date 04/02/2023
  */
+@Slf4j
 public class AwsUtils {
 
 	private StreamMapperUtils streamMapperUtils;
-
-	Logger logger = LoggerFactory.getLogger(AwsUtils.class);
 	
 	private AwsUtils() {
 		streamMapperUtils = StreamMapperUtils.newStreamMapperUtils();
@@ -51,11 +48,11 @@ public class AwsUtils {
 			ResponseInputStream<GetObjectResponse> response = client.getObject(request);
 			SecretsModal secretsModal = streamMapperUtils.getClassMappedResponse(response.readAllBytes(),
 					SecretsModal.class);
-			logger.info("Successfully get the response from s3");
+			log.info("Successfully get the response from s3");
 			response.close();
 			return secretsModal;
 		} catch (Exception e) {
-			logger.error("Error occured while fetching the object from s3 with error : {}", e.getMessage());
+			log.error("Error occurred while fetching the object from s3 with error : {}", e.getMessage());
 		}
 		return new SecretsModal();
 	}

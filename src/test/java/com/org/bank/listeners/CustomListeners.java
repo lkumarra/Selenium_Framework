@@ -1,4 +1,4 @@
-package com.org.bank.listners;
+package com.org.bank.listeners;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -6,9 +6,8 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Objects;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
 import org.testng.ITestContext;
@@ -22,18 +21,17 @@ import com.org.bank.utils.DbUtils;
 import com.org.bank.utils.ExtentReportUtil;
 import com.org.bank.utils.SeleniumUtils;
 
-public class Listners implements ITestListener, ISuiteListener {
+@Slf4j
+public class CustomListeners implements ITestListener, ISuiteListener {
 
-	private final Logger logger = LoggerFactory.getLogger(Listners.class);
-	private DbUtils dbUtils = DbUtils.newDbUtils();
+	private final DbUtils dbUtils = DbUtils.newDbUtils();
 	private final String TOTAL_TESTS = "Total Test Cases are : %s";
 	private final String PASSED_TESTS = "Passed Test Cases are : %s";
 	private final String SKIPPED_TESTS = "Skipped Test Cases are : %s";
 	private final String FAILED_TESTS = "Failed Test Cases are : %s";
-	private String rawQuery = "Insert into test_execution_status (module_name, test_name, test_status, execution_time, execution_date) values ('%s', '%s', '%s', %s, '%s')";
-	private String suiteQuery = "Insert into test_suite_status(total_tests, passed_tests, failed_tests, skipped_tests, execution_date) values (%s, %s, %s, %s,'%s')";
-	private Hashtable<String, Integer> hashtable = new Hashtable<String, Integer>();
-	private ExtentReportUtil extentReportUtil = ExtentReportUtil.newExtentReportUtil();
+	private final String rawQuery = "Insert into test_execution_status (module_name, test_name, test_status, execution_time, execution_date) values ('%s', '%s', '%s', %s, '%s')";
+	private final Hashtable<String, Integer> hashtable = new Hashtable<String, Integer>();
+	private final ExtentReportUtil extentReportUtil = ExtentReportUtil.newExtentReportUtil();
 	ExtentReports extentReports = extentReportUtil.getExtentReports();
 	private ExtentTest extentTest;
 	JSONObject jsonObject = null;
@@ -49,7 +47,7 @@ public class Listners implements ITestListener, ISuiteListener {
 		hashtable.put(PASSED_TESTS, 0);
 		System.out.println("*********************************************************");
 		System.out.println("*********************************************************");
-		System.out.println("Execution started at : "+new Date().toString());
+		System.out.println("Execution started at : "+new Date());
 		System.out.println("*********************************************************");
 		System.out.println("*********************************************************");
 	}
@@ -57,7 +55,7 @@ public class Listners implements ITestListener, ISuiteListener {
 	public void onTestStart(ITestResult result) {
 		extentTest = extentReports.createTest(result.getName());
 		if(Objects.nonNull(jsonObject)) {
-			System.out.println(jsonObject.toString());
+			System.out.println(jsonObject);
 		}
 		jsonObject = new JSONObject();
 		jsonObject.put("testClass", result.getTestClass().getName());
@@ -161,15 +159,16 @@ public class Listners implements ITestListener, ISuiteListener {
 		hashtable.put(TOTAL_TESTS, suite.getAllMethods().size());
 		String testCaseCount = "";
 		for (String key : hashtable.keySet()) {
-			testCaseCount = testCaseCount.concat(String.format(key, hashtable.get(key)));
+			testCaseCount = testCaseCount.concat(" ").concat(String.format(key, hashtable.get(key))).concat("\n");
 		}
 		System.out.println(testCaseCount);
-		logger.info(testCaseCount);
+		log.info(testCaseCount);
 		String date = getCurrentDate();
 		Integer totalTests = hashtable.get(TOTAL_TESTS);
 		Integer passedTest = hashtable.get(PASSED_TESTS);
 		Integer failedTest = hashtable.get(FAILED_TESTS);
 		Integer skippedTests = hashtable.get(SKIPPED_TESTS);
+		String suiteQuery = "Insert into test_suite_status(total_tests, passed_tests, failed_tests, skipped_tests, execution_date) values (%s, %s, %s, %s,'%s')";
 		String query = String.format(suiteQuery, totalTests, passedTest, failedTest, skippedTests, date);
 		dbUtils.insertQuery(query);
 		extentReports.flush();

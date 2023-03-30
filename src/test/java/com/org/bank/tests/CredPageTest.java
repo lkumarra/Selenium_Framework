@@ -4,7 +4,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import com.org.bank.constants.WebDriverContext;
 import com.org.bank.driverFactory.DriverFactory;
 import com.org.bank.listeners.CustomListeners;

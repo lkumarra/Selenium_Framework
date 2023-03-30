@@ -8,7 +8,7 @@ import org.openqa.selenium.edge.EdgeDriver;
  *
  * @Date 09/02/2023
  */
-public class EdgerDriverManager implements DriverManager{
+public final class EdgerDriverManager implements DriverManager{
 
 	/**
 	 * This method will return the instance of Edge Driver Class

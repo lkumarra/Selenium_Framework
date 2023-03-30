@@ -4,7 +4,7 @@ import java.util.Hashtable;
 
 import org.openqa.selenium.WebDriver;
 
-public class WebDriverContext {
+public final class WebDriverContext {
 
 	private static final Hashtable<String, WebDriver> webDriverContext = new Hashtable<String, WebDriver>();
 

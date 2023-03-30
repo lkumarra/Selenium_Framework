@@ -9,7 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
  *
  * @Date 09/02/2023
  */
-public class ChromerDriverManager implements DriverManager {
+public final class ChromerDriverManager implements DriverManager {
 
 	/**
 	 * This method will return the instance of chrome driver class

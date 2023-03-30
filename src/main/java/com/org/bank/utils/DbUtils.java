@@ -18,7 +18,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  * @Date 04/03/2023
  */
 @Slf4j
-public class DbUtils {
+public final class DbUtils {
     private JdbcTemplate jdbcTemplate;
 
     /**

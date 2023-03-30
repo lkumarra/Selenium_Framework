@@ -9,7 +9,7 @@ import org.openqa.selenium.safari.SafariDriver;
  *
  * @Date 09/02/2023
  */
-public class SafariDriverManager implements DriverManager {
+public final class SafariDriverManager implements DriverManager {
 
 	/**
 	 * This method will return the instance of SafariDriver class

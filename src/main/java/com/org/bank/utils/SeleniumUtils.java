@@ -28,7 +28,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @Date 08/02/2023
  */
 @Slf4j
-public class SeleniumUtils {
+public final class SeleniumUtils {
 
 	private static int defaultTime = 30;
 

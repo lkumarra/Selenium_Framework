@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * @Date 04/03/2023
  */
 @Slf4j
-public class StreamMapperUtils {
+public final class StreamMapperUtils {
 
 
 	private StreamMapperUtils() {}
@@ -23,7 +23,7 @@ public class StreamMapperUtils {
 	/**
 	 * Mapped the Input Stream Response to the class
 	 * 
-	 * @param <T>    Class to mapped the response
+	 * @param <T>    Class to map the response
 	 * @param bs     Stream for which response needs to mapped
 	 * @param class1 className
 	 * @return Object of the class with mapped response
@@ -42,7 +42,7 @@ public class StreamMapperUtils {
 	/**
 	 * Mapped the string to respective class
 	 * 
-	 * @param <T>    Class to mapped the response
+	 * @param <T>    Class to map the response
 	 * @param bs     Stream for which response needs to mapped
 	 * @param class1 className
 	 * @return Object of the class with mapped response

@@ -2,7 +2,6 @@ package com.org.bank.tests;
 
 import java.util.Hashtable;
 import java.util.List;
-
 import com.org.bank.constants.CredModalContext;
 import com.org.bank.modals.CredModal;
 import org.testng.Assert;
@@ -11,7 +10,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
 import com.org.bank.constants.WebDriverContext;
 import com.org.bank.driverFactory.DriverFactory;
 import com.org.bank.pages.BasePage;

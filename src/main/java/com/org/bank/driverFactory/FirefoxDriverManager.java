@@ -8,7 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
  *
  * @Date 09/02/2023
  */
-public class FirefoxDriverManager implements DriverManager {
+public final class FirefoxDriverManager implements DriverManager {
 
 	/**
 	 * This method will return the instance of FirefoxDriver class

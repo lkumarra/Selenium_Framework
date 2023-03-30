@@ -1,7 +1,6 @@
 package com.org.bank.tests;
 
 import java.util.List;
-
 import com.org.bank.listeners.CustomListeners;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;

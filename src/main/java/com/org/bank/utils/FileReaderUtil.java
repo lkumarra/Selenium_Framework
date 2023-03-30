@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  * @Date 04/03/2023
  */
 @Slf4j
-public class FileReaderUtil {
+public final class FileReaderUtil {
 
     private Properties properties;
 

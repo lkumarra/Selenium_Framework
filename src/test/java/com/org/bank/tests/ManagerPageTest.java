@@ -1,7 +1,6 @@
 package com.org.bank.tests;
 
 import java.util.List;
-
 import com.org.bank.constants.CredModalContext;
 import com.org.bank.modals.CredModal;
 import org.testng.Assert;
@@ -9,7 +8,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
 import com.org.bank.constants.WebDriverContext;
 import com.org.bank.driverFactory.DriverFactory;
 import com.org.bank.pages.BasePage;
@@ -56,11 +54,11 @@ public class ManagerPageTest {
 					actualMessage, expectedMessage);
 			softAssert.assertEquals(actualMessage, expectedMessage, message);
 		} else {
-			Assert.fail("Login is not successfully so can not navigate to manager page");
+			Assert.fail("Login is not successful so can not navigate to manager page");
 		}
 	}
 
-	@Test(testName = "Verify managerId message", description = "Verify manager id message after successfull login", groups = {
+	@Test(testName = "Verify managerId message", description = "Verify manager id message after successful login", groups = {
 			"@all", "@sanity", "@manager" }, priority = 8)
 	protected void test_verify_ManagerId_Message() {
 		if (isLoginSuccessful) {
@@ -70,7 +68,7 @@ public class ManagerPageTest {
 					actualMessage, expectedMessage);
 			softAssert.assertEquals(actualMessage, expectedMessage, message);
 		} else {
-			Assert.fail("Login is not successfully so can not navigate to manager page");
+			Assert.fail("Login is not successful so can not navigate to manager page");
 		}
 	}
 
@@ -84,7 +82,7 @@ public class ManagerPageTest {
 					actualMenuList, expectedMenuOptions);
 			softAssert.assertEquals(actualMenuList, expectedMenuOptions, message);
 		} else {
-			Assert.fail("Login is not successfully so can not navigate to manager page");
+			Assert.fail("Login is not successful so can not navigate to manager page");
 		}
 	}
 

@@ -1,11 +1,7 @@
 package com.org.bank.pages;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-
 import com.org.bank.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -39,7 +35,7 @@ public final class NewCustomerPage {
 	private WebElement addNewCustomerHeading;
 
 	@FindBy(xpath = "//*[@name ]/parent::td/preceding-sibling::td[text()]")
-	private List<WebElement> newCustomerLables;
+	private List<WebElement> newCustomerLabels;
 
 	@FindBy(xpath = "//input[@name = 'name']")
 	private WebElement customerNameField;
@@ -126,7 +122,7 @@ public final class NewCustomerPage {
 	 * @return Fields label values from DB
 	 */
 	public List<String> getFieldsLabelsText() {
-		return seleniumUtils.getWebElementsText(newCustomerLables);
+		return seleniumUtils.getWebElementsText(newCustomerLabels);
 	}
 
 	/**
@@ -152,8 +148,8 @@ public final class NewCustomerPage {
 	public List<NewCustomerPageModal> getNewCustomerPageData() {
 		String newCustomerPageQuery = "Select * from NewCustomerPage";
 		String newCustomerPageData = excelUtils.fetchDataInJSON(newCustomerPageQuery).toString();
-		return Arrays.asList( streamUtils.getClassMappedResponse(newCustomerPageData,
-				NewCustomerPageModal[].class));
+		return Arrays.asList(Objects.requireNonNull(streamUtils.getClassMappedResponse(newCustomerPageData,
+				NewCustomerPageModal[].class)));
 	}
 
 	/**

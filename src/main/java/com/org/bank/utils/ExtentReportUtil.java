@@ -7,7 +7,7 @@ import com.org.bank.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ExtentReportUtil {
+public final class ExtentReportUtil {
 
 	private final ExtentReports extentReports;
 

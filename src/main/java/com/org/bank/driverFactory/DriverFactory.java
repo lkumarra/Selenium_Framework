@@ -15,7 +15,7 @@ import com.org.bank.utils.FileReaderUtil;
  * @Date 09/02/2023
  */
 @Slf4j
-public class DriverFactory {
+public final class DriverFactory {
 
     private final String currentBrowser;
     private final ThreadLocal<WebDriver> threadLocal = new ThreadLocal<WebDriver>();

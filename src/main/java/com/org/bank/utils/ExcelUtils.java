@@ -13,7 +13,7 @@ import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
 
 @Slf4j
-public class ExcelUtils {
+public final class ExcelUtils {
 
 	private final String filePath;
 

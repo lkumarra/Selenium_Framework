@@ -2,7 +2,8 @@ package com.org.bank.tests;
 
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
+import com.org.bank.constants.CredModalContext;
+import com.org.bank.modals.CredModal;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,8 +22,8 @@ public class ManagerPageTest {
 	private BasePage basePage;
 	private SoftAssert softAssert;
 	private boolean isLoginSuccessful;
-	private String userName;
 
+	private String userName;
 	@BeforeClass(alwaysRun = true)
 	protected void initialization() {
 		DriverFactory driverFactory = DriverFactory.newDriverFactory();
@@ -34,9 +35,9 @@ public class ManagerPageTest {
 		softAssert = new SoftAssert();
 		basePage.initialization();
 		credPage.enterEmailIdAndSubmit().getAndUpdateCredInDb().navigateToLoginPage();
-		userName = System.getProperty("userId");
-		String password = System.getProperty("password");
-		isLoginSuccessful = loginPage.isLoginSuccessful(userName, password);
+		CredModal credModal = CredModalContext.getCredModal();
+		userName = credModal.getUserName();
+		isLoginSuccessful = loginPage.isLoginSuccessful(credModal.getUserName(), credModal.getPassword());
 	}
 
 	@AfterClass(alwaysRun = true)
@@ -46,7 +47,7 @@ public class ManagerPageTest {
 	}
 
 	@Test(testName = "Verify welcome message", description = "Verify welcome message after successful login", groups = {
-			"all", "smoke", "managerpage" }, priority = 7)
+			"@all", "@smoke", "@manager" }, priority = 7)
 	protected void test_verify_Welcome_Message() {
 		if (isLoginSuccessful) {
 			String actualMessage = managerPage.getWelcomeMessageText();
@@ -60,7 +61,7 @@ public class ManagerPageTest {
 	}
 
 	@Test(testName = "Verify managerId message", description = "Verify manager id message after successfull login", groups = {
-			"all", "sanity", "managerpage" }, priority = 8)
+			"@all", "@sanity", "@manager" }, priority = 8)
 	protected void test_verify_ManagerId_Message() {
 		if (isLoginSuccessful) {
 			String actualMessage = managerPage.getManagerIdText();
@@ -73,8 +74,8 @@ public class ManagerPageTest {
 		}
 	}
 
-	@Test(testName = "Verify menu options", description = "Verfify menu options on manager page", groups = { "all",
-			"smoke", "managerpage" }, priority = 9)
+	@Test(testName = "Verify menu options", description = "Verify menu options on manager page", groups = { "@all",
+			"@smoke", "@manager" }, priority = 9)
 	protected void test_verify_menu_options() {
 		if (isLoginSuccessful) {
 			List<String> actualMenuList = managerPage.getAllMenuText();

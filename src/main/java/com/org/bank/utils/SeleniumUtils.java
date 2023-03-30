@@ -59,7 +59,6 @@ public class SeleniumUtils {
 	 */
 	private WebDriverWait getWebdriverWait(int waitTimeInSecond) {
 		return new WebDriverWait(driver, Duration.ofSeconds(waitTimeInSecond));
-
 	}
 
 	/**
@@ -524,7 +523,7 @@ public class SeleniumUtils {
 			String locatorText = getLocatorFromWebElement(element);
 			Select select = new Select(element);
 			select.deselectAll();
-			log.info("Deselected all options from : {}", locatorText);
+			log.info("Deselected @all options from : {}", locatorText);
 		} catch (Exception e) {
 			log.error("Error while deselecting the options");
 		}

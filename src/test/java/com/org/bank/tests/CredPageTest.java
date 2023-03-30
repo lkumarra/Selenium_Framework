@@ -28,7 +28,7 @@ public class CredPageTest {
 	}
 	
 	@Test(testName = "Verify Latest Credentials", description = "Verifying the credentials from DB and updating if outdated", priority = 0, groups = {
-			"Credentials", "all", "sanity" })
+			"@credentials", "@all", "@sanity" })
 	public void test_credentials_copy() {
 		credPage.enterEmailIdAndSubmit().getAndUpdateCredInDb().navigateBack();
 	}

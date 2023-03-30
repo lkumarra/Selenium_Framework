@@ -1,5 +1,6 @@
 package com.org.bank.pages;
 
+import com.org.bank.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.openqa.selenium.WebDriver;
@@ -35,16 +36,9 @@ public final class LoginPage {
 
 	private LoginPage(WebDriver driver) {
 		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
-		log.info("Successfully created the instance of class : {} inside : {}", seleniumUtils.getClass().getName(),
-				LoginPage.class.getName());
-		excelUtils = ExcelUtils.newExcelUtils();
-		log.info("Successfully created the instance of class : {} inside : {}", excelUtils.getClass().getName(),
-				LoginPage.class.getName());
+		excelUtils = ExcelUtils.newExcelUtils(Constants.ExcelFile);
 		streamMapperUtils = StreamMapperUtils.newStreamMapperUtils();
-		log.info("Successfully created the instance of class : {} inside : {}",
-				streamMapperUtils.getClass().getName(), LoginPage.class.getName());
 		PageFactory.initElements(driver, this);
-		log.info("Successfully initialized the web elements of class : {}", LoginPage.class.getName());
 	}
 
 	public static LoginPage newLoginPage(WebDriver driver) {
@@ -202,7 +196,7 @@ public final class LoginPage {
 	}
 
 	/**
-	 * Get all expected error message
+	 * Get @all expected error message
 	 * 
 	 * @return : Error messages
 	 */
@@ -211,7 +205,7 @@ public final class LoginPage {
 	}
 
 	/**
-	 * Get all error alert messages and store in List
+	 * Get @all error alert messages and store in List
 	 * 
 	 * @return : Error alert message by entring different test data
 	 */

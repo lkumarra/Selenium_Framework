@@ -2,6 +2,7 @@ package com.org.bank.driverFactory;
 
 import java.util.Objects;
 
+import com.org.bank.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 
@@ -23,7 +24,7 @@ public class DriverFactory {
         String setBrowser = System.getProperty("browser");
         if (Objects.isNull(setEnvironment) && Objects.isNull(setBrowser)) {
             try {
-                FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil();
+                FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
                 setEnvironment = fileReaderUtil.getPropertyValue("env");
                 setBrowser = fileReaderUtil.getPropertyValue("browser");
                 log.info("Setting the environment to : {} and browser to : {}", setEnvironment, setBrowser);
@@ -47,7 +48,7 @@ public class DriverFactory {
     }
 
     /**
-     * Setup the web driver;
+     * Set up the web driver;
      *
      * @return Web driver instance
      */

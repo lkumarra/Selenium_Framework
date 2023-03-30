@@ -1,10 +1,8 @@
 package com.org.bank.modals;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class NewCustomerPageModal {
 	
 	private String headingmessage;

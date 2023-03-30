@@ -15,9 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class StreamMapperUtils {
 
 
-	private StreamMapperUtils() {
-		
-	}
+	private StreamMapperUtils() {}
 	
 	public static StreamMapperUtils newStreamMapperUtils() {
 		return new StreamMapperUtils();

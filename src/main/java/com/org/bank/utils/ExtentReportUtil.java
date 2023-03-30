@@ -12,7 +12,7 @@ public class ExtentReportUtil {
 	private final ExtentReports extentReports;
 
 	private ExtentReportUtil() {
-		FileReaderUtil fileReaderUtil =  FileReaderUtil.newFileReaderUtil();	
+		FileReaderUtil fileReaderUtil =  FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
 		extentReports = new ExtentReports();
 		String reportName = null;
 		String reportNameKey = "extentReport.name";

@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.org.bank.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,14 +26,8 @@ public final class NewCustomerPage {
 
 	private NewCustomerPage(WebDriver driver) {
 		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
-		log.info("Successfully created the instance of class : {} inside class : {}",
-				seleniumUtils.getClass().getName(), NewCustomerPage.class.getName());
-		excelUtils = ExcelUtils.newExcelUtils();
-		log.info("Successfully created the instance of class : {} inside class : {}", excelUtils.getClass().getName(),
-				NewCustomerPage.class.getName());
+		excelUtils = ExcelUtils.newExcelUtils(Constants.ExcelFile);
 		streamUtils = StreamMapperUtils.newStreamMapperUtils();
-		log.info("Successfully created the instance of class : {} inside class : {}",
-				streamUtils.getClass().getName(), NewCustomerPage.class.getName());
 		PageFactory.initElements(driver, this);
 	}
 

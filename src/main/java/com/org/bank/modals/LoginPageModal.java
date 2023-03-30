@@ -1,14 +1,8 @@
 package com.org.bank.modals;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 public class LoginPageModal {
 
 	private String passwordlabel;

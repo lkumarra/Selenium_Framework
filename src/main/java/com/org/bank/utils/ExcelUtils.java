@@ -11,18 +11,18 @@ import com.codoid.products.exception.FilloException;
 import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
-import com.org.bank.constants.Constants;
 
 @Slf4j
 public class ExcelUtils {
 
+	private final String filePath;
 
-	private ExcelUtils() {
-		
+	private ExcelUtils(String filePath){
+		this.filePath = filePath;
 	}
-	
-	public static ExcelUtils newExcelUtils() {
-		return new ExcelUtils();
+
+	public static ExcelUtils newExcelUtils(String filePath){
+		return new ExcelUtils(filePath);
 	}
 	/**
 	 * Read the value from excel using select query
@@ -35,8 +35,8 @@ public class ExcelUtils {
 		try {
 			synchronized (this) {
 				Fillo fillo = new Fillo();
-				Connection connection = fillo.getConnection(Constants.ExcelFile);
-				log.info("Successfully loaded the excel file located at path : {}", Constants.ExcelFile);
+				Connection connection = fillo.getConnection(filePath);
+				log.info("Successfully loaded the excel file located at path : {}", filePath);
 				Recordset recordset = connection.executeQuery(query);
 				List<String> fields = recordset.getFieldNames();
 				while (recordset.next()) {
@@ -74,8 +74,8 @@ public class ExcelUtils {
 		try {
 			synchronized (this) {
 				Fillo fillo = new Fillo();
-				Connection connection = fillo.getConnection(Constants.ExcelFile);
-				log.info("Successfully loaded the excel file located at path : {}", Constants.ExcelFile);
+				Connection connection = fillo.getConnection(filePath);
+				log.info("Successfully loaded the excel file located at path : {}", filePath);
 				Recordset recordset = connection.executeQuery(query);
 				List<String> fields = recordset.getFieldNames();
 				while (recordset.next()) {

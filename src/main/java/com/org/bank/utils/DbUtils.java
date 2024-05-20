@@ -7,12 +7,13 @@ import java.util.Objects;
 import javax.sql.DataSource;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.jdbc.core.JdbcTemplate;
-import com.org.bank.modals.SecretsModal;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
- * This class contains the methods related to DataBase Utitlity
+ * This class contains the methods related to database query
  *
  * @author Lavendra Kumar Rajput
  * @Date 04/03/2023
@@ -47,6 +48,8 @@ public final class DbUtils {
         return new DbUtils(jdbcUrl, userName, password);
     }
 
+    @NotNull
+    @Contract("_ -> new")
     public static DbUtils newDbUtils(String jdbcUrl) {
         return new DbUtils(jdbcUrl);
     }
@@ -55,34 +58,15 @@ public final class DbUtils {
      * This method will read the secrets values from properties file
      *
      * @param query : Query to insert the data
-     * @return {@link SecretsModal}
-     * <p>
-     * <p>
-     * /**
-     * Insert the data in database
      */
     public synchronized void insertQuery(String query) {
-        synchronized (this) {
-            if (Objects.nonNull(jdbcTemplate)) {
-                try {
-                    log.info("Query to insert data is : {}", query);
-                    int result = jdbcTemplate.update(query);
-                    log.info("Rows impacted with query : {} are : {}", query, result);
-                } catch (Exception e) {
-                    log.error("Error occurred while inserting data with query : {} with error : {}", query,
-                            e.getMessage());
-                }
-            } else {
-                log.warn("Query : {} can not be executed as connection with database is not established", query);
-            }
-        }
+        update(query);
     }
 
     /**
      * Get Data from database
      *
      * @param query : Query to get data
-     * @return
      */
     public synchronized List<Map<String, Object>> selectQueryResult(String query) {
         List<Map<String, Object>> result = null;
@@ -108,28 +92,10 @@ public final class DbUtils {
      * @param query : Query to update data
      */
     public synchronized void updateQuery(String query) {
-        synchronized (this) {
-            if (Objects.nonNull(jdbcTemplate)) {
-                try {
-                    log.info("Query to update data is  : {}", query);
-                    int result = jdbcTemplate.update(query);
-                    log.info("Rows impacted with query : {} are : {}", query, result);
-                } catch (Exception e) {
-                    log.error("Error occurred while updating the data from query : {} with error : {}", query,
-                            e.getMessage());
-                }
-            } else {
-                log.warn("Query : {} can not be executed as connection with database is not established", query);
-            }
-        }
+        update(query);
     }
 
-    /**
-     * Query to delete data
-     *
-     * @param query : Query to delete data
-     */
-    public synchronized void deleteQuery(String query) {
+    private synchronized void update(String query) {
         synchronized (this) {
             if (Objects.nonNull(jdbcTemplate)) {
                 try {
@@ -144,5 +110,14 @@ public final class DbUtils {
                 log.warn("Query : {} can not be executed as connection with database is not established", query);
             }
         }
+    }
+
+    /**
+     * Query to delete data
+     *
+     * @param query : Query to delete data
+     */
+    public synchronized void deleteQuery(String query) {
+        updateQuery(query);
     }
 }

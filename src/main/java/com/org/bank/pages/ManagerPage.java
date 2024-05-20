@@ -1,8 +1,6 @@
 package com.org.bank.pages;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import com.org.bank.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
@@ -80,8 +78,8 @@ public final class ManagerPage {
     public List<ManagerPageModal> getManagerPageData() {
         String menuQuery = "Select * from ManagerPage";
         String managePageData = excelUtils.fetchDataInJSON(menuQuery).toString();
-        return Arrays.asList(streamMapperUtils.getClassMappedResponse(managePageData,
-                ManagerPageModal[].class));
+        return Arrays.asList(Objects.requireNonNull(streamMapperUtils.getClassMappedResponse(managePageData,
+                ManagerPageModal[].class)));
     }
 
     /**
@@ -90,8 +88,15 @@ public final class ManagerPage {
      * @return Welcome message data
      */
     public String getWelcomeMessage() {
-        return getManagerPageData().stream().filter(x -> !x.getWelcomemessage().equals("")).findFirst().get()
-                .getWelcomemessage();
+        String message;
+        Optional<ManagerPageModal> managerPageModal = getManagerPageData().stream().filter(x -> !x.getManageridmessage().equals(""))
+                .findFirst();
+        if (managerPageModal.isPresent()) {
+            message = managerPageModal.get().getWelcomemessage();
+        } else {
+            message = "";
+        }
+        return message;
     }
 
     /**
@@ -100,9 +105,15 @@ public final class ManagerPage {
      * @return Manager Id message
      */
     public String getManagerIdMessage(String managerId) {
-        String managerIdData = getManagerPageData().stream().filter(x -> !x.getManageridmessage().equals(""))
-                .findFirst().get().getManageridmessage();
-        return String.format(managerIdData, managerId);
+        String message;
+        Optional<ManagerPageModal> managerPageModal = getManagerPageData().stream().filter(x -> !x.getManageridmessage().equals(""))
+                .findFirst();
+        if (managerPageModal.isPresent()) {
+            message = managerPageModal.get().getManageridmessage();
+        } else {
+            message = "";
+        }
+        return String.format(message, managerId);
     }
 
     /**
@@ -111,7 +122,7 @@ public final class ManagerPage {
      * @return Menu options listed on Manager Page
      */
     public List<String> getAllMenuOptions() {
-        List<String> menuOptions = new ArrayList<String>();
+        List<String> menuOptions = new ArrayList<>();
         getManagerPageData().forEach(x -> {
             if (!x.getMenuoptions().equals("")) {
                 menuOptions.add(x.getMenuoptions());

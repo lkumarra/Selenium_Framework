@@ -28,7 +28,6 @@ public class BasePage {
             util = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
             seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
         } catch (Exception e) {
-            e.printStackTrace();
             log.error("Error occurred with error message : {} and throwable : {} ", e.getMessage(), e.getStackTrace());
         }
     }

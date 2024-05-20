@@ -12,10 +12,8 @@ import com.org.bank.modals.LoginPageModal;
 import com.org.bank.utils.ExcelUtils;
 import com.org.bank.utils.SeleniumUtils;
 import com.org.bank.utils.StreamMapperUtils;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -28,11 +26,9 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public final class LoginPage {
-
 	private final ExcelUtils excelUtils;
 	private final SeleniumUtils seleniumUtils;
 	private final StreamMapperUtils streamMapperUtils;
-	private final String labelQuery = "Select usedIdLabel,passwordLabel,submitButtonLabel,resetButtonLabel,title from LoginPage";
 
 	private LoginPage(WebDriver driver) {
 		seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
@@ -159,7 +155,7 @@ public final class LoginPage {
 	 * @return Data in list of hashmap
 	 */
 	public List<HashMap<String, Object>> getLabelText() {
-		return excelUtils.fetchData(labelQuery);
+		return excelUtils.fetchData("Select usedIdLabel,passwordLabel,submitButtonLabel,resetButtonLabel,title from LoginPage");
 	}
 
 	/**
@@ -168,7 +164,7 @@ public final class LoginPage {
 	 * @return {@link JSONArray}
 	 */
 	public JSONArray getDataInJSON() {
-		return excelUtils.fetchDataInJSON(labelQuery);
+		return excelUtils.fetchDataInJSON("Select usedIdLabel,passwordLabel,submitButtonLabel,resetButtonLabel,title from LoginPage");
 	}
 
 	/**
@@ -177,10 +173,12 @@ public final class LoginPage {
 	 * @return : Data mapped to {@link LoginPageModal} class
 	 */
 	public LoginPageModal getLoginPageLabelsText() {
-		String stringJson = excelUtils.fetchDataInJSON(labelQuery).toString();
+		String stringJson = excelUtils.fetchDataInJSON("Select usedIdLabel,passwordLabel,submitButtonLabel,resetButtonLabel,title from LoginPage").toString();
 		LoginPageModal[] loginPageModal = streamMapperUtils.getClassMappedResponse(stringJson, LoginPageModal[].class);
+		assert loginPageModal != null;
 		List<LoginPageModal> loginPageModalList = Arrays.asList(loginPageModal);
-		return loginPageModalList.stream().filter(x -> !(x.getTitle().equals(""))).findFirst().get();
+		Optional<LoginPageModal> loginPageModalOptional = loginPageModalList.stream().filter(x -> !(x.getTitle().equals(""))).findFirst();
+		return loginPageModalOptional.orElse(new LoginPageModal());
 	}
 
 	/**
@@ -192,6 +190,7 @@ public final class LoginPage {
 		String credentialsQuery = "Select userId, password, expectedMessage from LoginPage";
 		String stringJson = excelUtils.fetchDataInJSON(credentialsQuery).toString();
 		LoginPageModal[] loginPageModal = streamMapperUtils.getClassMappedResponse(stringJson, LoginPageModal[].class);
+		assert loginPageModal != null;
 		return Arrays.asList(loginPageModal);
 	}
 

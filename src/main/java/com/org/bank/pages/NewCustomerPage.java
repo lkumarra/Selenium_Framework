@@ -112,8 +112,12 @@ public final class NewCustomerPage {
 	 * @return Heading text from file
 	 */
 	public String getExpectedCustomerHeading() {
-		return getNewCustomerPageData().stream().filter(x -> !x.getHeadingmessage().equals("")).findFirst().get()
-				.getHeadingmessage();
+		var expectedMessage  = "";
+		Optional<NewCustomerPageModal> newCustomerPageModal = getNewCustomerPageData().stream().filter(x -> !x.getHeadingmessage().equals("")).findFirst();
+		if(newCustomerPageModal.isPresent()){
+			expectedMessage = newCustomerPageModal.get().getHeadingmessage();
+		}
+		return expectedMessage;
 	}
 
 	/**
@@ -146,8 +150,8 @@ public final class NewCustomerPage {
 	 * @return List of NewCustomerPage modal class
 	 */
 	public List<NewCustomerPageModal> getNewCustomerPageData() {
-		String newCustomerPageQuery = "Select * from NewCustomerPage";
-		String newCustomerPageData = excelUtils.fetchDataInJSON(newCustomerPageQuery).toString();
+		var newCustomerPageQuery = "Select * from NewCustomerPage";
+		var newCustomerPageData = excelUtils.fetchDataInJSON(newCustomerPageQuery).toString();
 		return Arrays.asList(Objects.requireNonNull(streamUtils.getClassMappedResponse(newCustomerPageData,
 				NewCustomerPageModal[].class)));
 	}
@@ -159,7 +163,7 @@ public final class NewCustomerPage {
 	 * @return : List of all messages
 	 */
 	public List<String> getCustomerNameValidationMessages() {
-		List<String> errorMessages = new ArrayList<String>();
+		List<String> errorMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getCustomernamefield().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -298,7 +302,7 @@ public final class NewCustomerPage {
 	 * @return Validation messages
 	 */
 	public List<String> getPinCodeValidationMessages() {
-		List<String> validationMessages = new ArrayList<String>();
+		List<String> validationMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getPincodefield().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -320,7 +324,7 @@ public final class NewCustomerPage {
 	}
 
 	public List<String> getPinCodeFieldExpectedMessages() {
-		List<String> expectedMessages = new ArrayList<String>();
+		List<String> expectedMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getPincodeexpectedmessage().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -330,7 +334,7 @@ public final class NewCustomerPage {
 	}
 
 	public List<String> getMobileValidationMessages() {
-		List<String> validationMessages = new ArrayList<String>();
+		List<String> validationMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getMobilenumberfield().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -357,7 +361,7 @@ public final class NewCustomerPage {
 	 * @return Expected messages for mobile field
 	 */
 	public List<String> getMobileFieldExpectedMessages() {
-		List<String> expectedMessages = new ArrayList<String>();
+		List<String> expectedMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getMobilenumberexpectedmessage().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -372,7 +376,7 @@ public final class NewCustomerPage {
 	 * @return Validation messages for state field
 	 */
 	public List<String> getStateValidationMessages() {
-		List<String> validationMessages = new ArrayList<String>();
+		List<String> validationMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getStatefield().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -399,7 +403,7 @@ public final class NewCustomerPage {
 	 * @return Expected fields for state field
 	 */
 	public List<String> getStateFieldExpectedMessages() {
-		List<String> expectedMessages = new ArrayList<String>();
+		List<String> expectedMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getStatefieldexpectedmessage().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -414,7 +418,7 @@ public final class NewCustomerPage {
 	 * @return Password field validation messages
 	 */
 	public List<String> getPasswordValidationMessages() {
-		List<String> validationMessages = new ArrayList<String>();
+		List<String> validationMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getPasswordfield().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -441,7 +445,7 @@ public final class NewCustomerPage {
 	 * @return Expected field for password field
 	 */
 	public List<String> getPasswordFieldExpectedMessages() {
-		List<String> expectedMessages = new ArrayList<String>();
+		List<String> expectedMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getPasswordexpectedmessage().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -456,7 +460,7 @@ public final class NewCustomerPage {
 	 * @return Validation messages for address field
 	 */
 	public List<String> getAddressValidationMessages() {
-		List<String> validationMessages = new ArrayList<String>();
+		List<String> validationMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getAddressfield().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -483,7 +487,7 @@ public final class NewCustomerPage {
 	 * @return Address field expected messages
 	 */
 	public List<String> getAddressFieldExpectedMessages() {
-		List<String> expectedMessages = new ArrayList<String>();
+		List<String> expectedMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getAddressexpectedmessage().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -498,7 +502,7 @@ public final class NewCustomerPage {
 	 * @return Validation messages for email field
 	 */
 	public List<String> getEmailValidationMessages() {
-		List<String> validationMessages = new ArrayList<String>();
+		List<String> validationMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getEmailfield().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -525,7 +529,7 @@ public final class NewCustomerPage {
 	 * @return Email field expected messages
 	 */
 	public List<String> getEmailFieldExpectedMessages() {
-		List<String> expectedMessages = new ArrayList<String>();
+		List<String> expectedMessages = new ArrayList<>();
 		List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
 				.filter(x -> !x.getEmailexpectedmessage().equals("")).collect(Collectors.toList());
 		newCustomerPageModals.forEach(x -> {
@@ -546,7 +550,7 @@ public final class NewCustomerPage {
 				.filter(x -> !x.getCustomernamefield().equals("")).collect(Collectors.toList());
 		Object[][] dataTable = new Object[customerFieldInputs.size()][1];
 		for (int i = 0; i < customerFieldInputs.size(); i++) {
-			Hashtable<String, String> hashtable = new Hashtable<String, String>();
+			Hashtable<String, String> hashtable = new Hashtable<>();
 			hashtable.put("input", customerFieldInputs.get(i).getCustomernamefield());
 			hashtable.put("expectedMessage", expectedCustomerMessage.get(i).getCustomernameexpectedmessage());
 			dataTable[i][0] = hashtable;

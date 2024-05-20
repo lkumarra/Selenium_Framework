@@ -18,13 +18,14 @@ import com.org.bank.utils.FileReaderUtil;
 public final class DriverFactory {
 
     private final String currentBrowser;
-    private final ThreadLocal<WebDriver> threadLocal = new ThreadLocal<WebDriver>();
+    private final ThreadLocal<WebDriver> threadLocal = new ThreadLocal<>();
     private DriverFactory() {
+        threadLocal.remove();
         String setEnvironment = System.getProperty("env");
         String setBrowser = System.getProperty("browser");
         if (Objects.isNull(setEnvironment) && Objects.isNull(setBrowser)) {
             try {
-                FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
+                var fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
                 setEnvironment = fileReaderUtil.getPropertyValue("env");
                 setBrowser = fileReaderUtil.getPropertyValue("browser");
                 log.info("Setting the environment to : {} and browser to : {}", setEnvironment, setBrowser);
@@ -55,20 +56,23 @@ public final class DriverFactory {
     private WebDriver setupWebDriver() {
         switch (currentBrowser.toLowerCase()) {
             case "firefox":
-                log.info("Launching the browser : {}", currentBrowser.toLowerCase());
+                logInfo(currentBrowser.toLowerCase());
                 return new FirefoxDriverManager().getWebDriver();
             case "edge":
-                log.info("Launching the browser : {}", currentBrowser.toLowerCase());
+                logInfo(currentBrowser.toLowerCase());
                 return new EdgerDriverManager().getWebDriver();
             case "safari":
-                log.info("Launching the browser : {}", currentBrowser.toLowerCase());
+                logInfo(currentBrowser.toLowerCase());
                 return new SafariDriverManager().getWebDriver();
             default:
-                log.info("Launching the browser : {}", currentBrowser.toLowerCase());
+                logInfo(currentBrowser.toLowerCase());
                 return new ChromerDriverManager().getWebDriver();
         }
     }
 
+    private void logInfo(String currentBrowser){
+        log.info("Launching the browser : {}", currentBrowser.toLowerCase());
+    }
     /**
      * Get the webdrivers
      *

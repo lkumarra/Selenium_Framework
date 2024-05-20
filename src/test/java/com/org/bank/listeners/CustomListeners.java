@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.Objects;
 import com.org.bank.utils.FileReaderUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
@@ -47,6 +48,7 @@ public class CustomListeners implements ITestListener, ISuiteListener {
         }
     }
 
+    @NotNull
     private String getCurrentDate() {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
     }
@@ -63,7 +65,7 @@ public class CustomListeners implements ITestListener, ISuiteListener {
         System.out.println("*********************************************************");
     }
 
-    public void onTestStart(ITestResult result) {
+    public void onTestStart(@NotNull ITestResult result) {
         extentTest = extentReports.createTest(result.getName());
         if (Objects.nonNull(jsonObject)) {
             System.out.println(jsonObject);
@@ -166,7 +168,7 @@ public class CustomListeners implements ITestListener, ISuiteListener {
         System.out.println(jsonObject.toString());
     }
 
-    public void onFinish(ISuite suite) {
+    public void onFinish(@NotNull ISuite suite) {
         hashtable.put(TOTAL_TESTS, suite.getAllMethods().size());
         String testCaseCount = "";
         for (String key : hashtable.keySet()) {

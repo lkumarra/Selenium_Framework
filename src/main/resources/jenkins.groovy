@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: "${params.GIT_PARAM}"]],
+                checkout([$class: 'GitSCM', branches: [[name: "${params.Branch}"]],
                           doGenerateSubmoduleConfigurations: false, extensions: [],
                           submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/lkumarra/Selenium_Framework.git']]])
             }

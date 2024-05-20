@@ -12,8 +12,16 @@ pipeline {
                 deleteDir()
             }
         }
+        stage('List Branches') {
+            steps {
+                bat 'git ls-remote --heads https://github.com/lkumarra/Selenium_Framework.git'
+            }
+        }
         stage('Checkout') {
             steps {
+                script {
+                    echo "Checking out branch: ${params.Branch}"
+                }
                 checkout([$class: 'GitSCM',
                           branches: [
                                   [name: "*/${params.Branch}"]

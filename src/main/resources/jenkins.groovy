@@ -30,4 +30,17 @@ pipeline {
             }
         }
     }
+    post{
+        always{
+            publishHTML(target:[
+                    allowMissing:false,
+                    alwaysLinkToLastBuild:true,
+                    keepAll:true,
+                    reportDir:"./src/test/resources/executionArtifacts/reports",
+                    reportFiles:'Guru99BankReport.html',
+                    reportName:"UI Automation Results",
+                    reportTitles:'Test Results'
+            ])
+        }
+    }
 }

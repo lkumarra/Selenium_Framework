@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat "mvn clean test -Denv=${params.environment} -Dbrowser=${params.browser} -Dgroups=${params.groups}"
+                bat "mvn clean install test"
             }
         }
     }

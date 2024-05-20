@@ -140,28 +140,6 @@
             <type>pom</type>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>sonar</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <!-- Optional URL to server. Default value is http://localhost:9000 -->
-                <sonar.host.url> http://localhost:9000 </sonar.host.url>
-
-                <sonar.host.url> http://localhost:9000 </sonar.host.url>
-
-                <sonar.login>admin</sonar.login>
-                <sonar.password>Birthday@20jan</sonar.password>
-                <!--  <sonar.jdbc.url>your database URL</sonar.jdbc.url>
-               <sonar.jdbc.driver>Your database driver</sonar.jdbc.driver>
-               <sonar.jdbc.username>DB username</sonar.jdbc.username>
-               <sonar.jdbc.password>db password</sonar.jdbc.password>        -->
-
-            </properties>
-        </profile>
-    </profiles>
     <build>
         <plugins>
             <plugin>
@@ -177,26 +155,6 @@
                         <include>*.*</include>
                     </includes>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.6</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

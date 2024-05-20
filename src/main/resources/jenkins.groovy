@@ -29,6 +29,25 @@ pipeline {
                 bat "mvn clean install test -Denv=${params.environment} -Dbrowser=${params.browser} -Dgroups=${params.groups}"
             }
         }
+        stage('Send Email Report') {
+            steps {
+                script {
+                    // Send email notification
+                    emailext (
+                            subject: "Build ${currentBuild.fullDisplayName} - ${currentBuild.result}",
+                            body: """
+                            <p>Build ${currentBuild.fullDisplayName} completed with status: ${currentBuild.result}</p>
+                            <p>Check console output at ${env.BUILD_URL} to view the results.</p>
+                            <p>Attached are the test results.</p>
+                        """,
+                            mimeType: 'text/html',
+                            to: 'Lavendra.rajputc1@gmail.com',
+                            attachLog: true,
+                            attachmentsPattern: '**/target/surefire-reports/*.xml'
+                    )
+                }
+            }
+        }
     }
     post{
         always{
@@ -41,6 +60,42 @@ pipeline {
                     reportName:"UI Automation Results",
                     reportTitles:'Test Results'
             ])
+            script {
+                // Archive test reports
+                archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
+            }
+        }
+        success {
+            script {
+                emailext (
+                        subject: "SUCCESS: Build ${currentBuild.fullDisplayName}",
+                        body: """
+                        <p>Build ${currentBuild.fullDisplayName} completed successfully.</p>
+                        <p>Check console output at ${env.BUILD_URL} to view the results.</p>
+                        <p>Attached are the test results.</p>
+                    """,
+                        mimeType: 'text/html',
+                        to: 'Lavendra.rajputc1@gmail.com',
+                        attachLog: true,
+                        attachmentsPattern: '**/target/surefire-reports/*.xml'
+                )
+            }
+        }
+        failure {
+            script {
+                emailext (
+                        subject: "FAILURE: Build ${currentBuild.fullDisplayName}",
+                        body: """
+                        <p>Build ${currentBuild.fullDisplayName} failed.</p>
+                        <p>Check console output at ${env.BUILD_URL} to view the results.</p>
+                        <p>Attached are the test results.</p>
+                    """,
+                        mimeType: 'text/html',
+                        to: 'Lavendra.rajputc1@gmail.com',
+                        attachLog: true,
+                        attachmentsPattern: '**/target/surefire-reports/*.xml'
+                )
+            }
         }
     }
 }

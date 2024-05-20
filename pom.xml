@@ -16,7 +16,7 @@
         <sl4j.version>2.0.6</sl4j.version>
         <gson.version>2.10.1</gson.version>
         <hssql.version>2.7.1</hssql.version>
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
         <postgresql.version>42.5.3</postgresql.version>
         <json.version>20190722</json.version>
         <awssdk.version>2.15.0</awssdk.version>

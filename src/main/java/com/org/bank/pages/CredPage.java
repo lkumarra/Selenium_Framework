@@ -37,12 +37,12 @@ public final class CredPage {
     private CredPage(WebDriver driver) {
         seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
         try {
-            FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
+            var fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
             dbUtils = DbUtils.newDbUtils(fileReaderUtil.getPropertyValue("jdbcUrl"), fileReaderUtil.getPropertyValue("userName"), fileReaderUtil.getPropertyValue("password"));
             PageFactory.initElements(driver, this);
-            String testUrlKey = "testUrl";
+            var testUrlKey = "testUrl";
             loginPageUrl = fileReaderUtil.getPropertyValue(testUrlKey);
-            String emailKey = "email";
+            var emailKey = "email";
             emailId = fileReaderUtil.getPropertyValue(emailKey);
         } catch (KeyNotValidException | ValueNotFoundException e) {
             log.error("Error while getting the value for key : {} with error message : {}", "testUrl",

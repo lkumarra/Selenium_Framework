@@ -1,8 +1,7 @@
 package com.org.bank.utils;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
+import java.io.Reader;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -37,18 +36,22 @@ public final class FileReaderUtil {
      *                 IOException - If an I/O error occurs.
      */
     private FileReaderUtil(String filePath) {
+        Reader fileReader = null;
         try {
-            FileReader fileReader = new FileReader(filePath);
+            fileReader = new FileReader(filePath);
             properties = new Properties();
             log.info("Successfully find the file at path {}", filePath);
+            properties.load(fileReader);
+            log.info("Successfully load the file {}", filePath);
+        } catch (Exception e) {
+            log.error("Error while reading the property file with error message : {}", e.getMessage());
+        } finally {
             try {
-                properties.load(fileReader);
-                log.info("Successfully load the file {}", filePath);
-            } catch (IOException e) {
-                log.error("Error occurred while loading the file {}", e.getMessage());
+                assert fileReader != null;
+                fileReader.close();
+            } catch (Exception e) {
+                log.error("Error occurred while closing the reader with error message : {}", e.getMessage());
             }
-        } catch (FileNotFoundException e) {
-            log.error("File not found {} ", e.getMessage());
         }
     }
 

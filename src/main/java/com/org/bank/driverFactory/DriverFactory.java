@@ -19,6 +19,7 @@ public final class DriverFactory {
 
     private final String currentBrowser;
     private final ThreadLocal<WebDriver> threadLocal = new ThreadLocal<WebDriver>();
+
     private DriverFactory() {
         String setEnvironment = System.getProperty("env");
         String setBrowser = System.getProperty("browser");
@@ -39,40 +40,55 @@ public final class DriverFactory {
         threadLocal.set(setupWebDriver());
     }
 
+
     /**
-     * Return the instance of DriverFactory Class
+     * This method is used to create a new instance of the DriverFactory class.
+     * It uses the private constructor of the DriverFactory class to create the new instance.
      *
+     * @return A new instance of the DriverFactory class.
      */
     public static DriverFactory newDriverFactory() {
         return new DriverFactory();
     }
 
     /**
-     * Set up the web driver;
+     * This method is responsible for setting up the WebDriver based on the current browser.
+     * It first creates a DriverManager object based on the current browser.
+     * Then, it logs the browser launch message and returns the WebDriver from the DriverManager.
      *
-     * @return Web driver instance
+     * @return A WebDriver instance corresponding to the current browser.
      */
     private WebDriver setupWebDriver() {
+        // Create a DriverManager object
+        DriverManager driverManager;
+
+        // Determine the type of DriverManager to create based on the current browser
         switch (currentBrowser.toLowerCase()) {
             case "firefox":
-                log.info("Launching the browser : {}", currentBrowser.toLowerCase());
-                return new FirefoxDriverManager().getWebDriver();
+                driverManager = new FirefoxDriverManager();
+                break;
             case "edge":
-                log.info("Launching the browser : {}", currentBrowser.toLowerCase());
-                return new EdgerDriverManager().getWebDriver();
+                driverManager = new EdgerDriverManager();
+                break;
             case "safari":
-                log.info("Launching the browser : {}", currentBrowser.toLowerCase());
-                return new SafariDriverManager().getWebDriver();
+                driverManager = new SafariDriverManager();
+                break;
             default:
-                log.info("Launching the browser : {}", currentBrowser.toLowerCase());
-                return new ChromerDriverManager().getWebDriver();
+                driverManager = new ChromerDriverManager();
         }
+
+        // Log the browser launch message
+        log.info("Launching the browser : {}", currentBrowser.toLowerCase());
+
+        // Return the WebDriver from the DriverManager
+        return driverManager.getWebDriver();
     }
 
     /**
-     * Get the webdrivers
+     * This method is used to get the WebDriver instance stored in the ThreadLocal variable.
+     * ThreadLocal is used to store data that will be accessed only by a specific thread.
      *
-     * @return
+     * @return The WebDriver instance for the current thread.
      */
     public WebDriver getWebDriver() {
         return threadLocal.get();

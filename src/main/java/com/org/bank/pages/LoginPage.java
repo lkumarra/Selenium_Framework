@@ -12,10 +12,8 @@ import com.org.bank.modals.LoginPageModal;
 import com.org.bank.utils.ExcelUtils;
 import com.org.bank.utils.SeleniumUtils;
 import com.org.bank.utils.StreamMapperUtils;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -155,10 +153,10 @@ public final class LoginPage {
 
 	/**
 	 * Get data in list of map from excel
-	 * 
+	 *
 	 * @return Data in list of hashmap
 	 */
-	public List<HashMap<String, Object>> getLabelText() {
+	public List<Map<String, Object>> getLabelText() {
 		return excelUtils.fetchData(labelQuery);
 	}
 
@@ -179,6 +177,7 @@ public final class LoginPage {
 	public LoginPageModal getLoginPageLabelsText() {
 		String stringJson = excelUtils.fetchDataInJSON(labelQuery).toString();
 		LoginPageModal[] loginPageModal = streamMapperUtils.getClassMappedResponse(stringJson, LoginPageModal[].class);
+		assert loginPageModal != null;
 		List<LoginPageModal> loginPageModalList = Arrays.asList(loginPageModal);
 		return loginPageModalList.stream().filter(x -> !(x.getTitle().equals(""))).findFirst().get();
 	}

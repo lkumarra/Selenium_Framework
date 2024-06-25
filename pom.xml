@@ -19,9 +19,10 @@
     </dependencyManagement>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <selenium.version>4.7.2</selenium.version>
+        <selenium.version>4.20.0</selenium.version>
         <TestNg.version>7.7.1</TestNg.version>
         <SpringJdbc.version>5.3.25</SpringJdbc.version>
         <Fillo.version>1.18</Fillo.version>
@@ -38,6 +39,8 @@
         <extentreport.version>5.0.9</extentreport.version>
         <mssql.version>9.3.1.jre8-preview</mssql.version>
         <jackson.version>2.11.0</jackson.version>
+        <restassures.version>4.2.0</restassures.version>
+        <webdrivermanager.version>5.8.0</webdrivermanager.version>
     </properties>
 
     <dependencies>
@@ -51,6 +54,23 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.1.1</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/io.rest-assured/json-path -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+            <version>5.1.1</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -141,6 +161,13 @@
         </dependency>
 
         <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.32</version>
@@ -154,7 +181,9 @@
                 <version>3.0.0-M7</version>
                 <configuration>
                     <systemProperties>
+                        <!--suppress UnresolvedMavenProperty -->
                         <env>${environment}</env>
+                        <!--suppress UnresolvedMavenProperty -->
                         <browser>${browser}</browser>
                     </systemProperties>
                     <includes>

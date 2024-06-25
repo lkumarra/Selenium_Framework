@@ -106,48 +106,78 @@ public final class CredPage {
         return this;
     }
 
+
     /**
-     * Get the latest credentials and update them in db if outdated
+     * This method is used to get and update the credentials in the database.
+     * It first retrieves the user ID and password values, and creates a new CredModal object with these values.
+     * The CredModal object is then set in the CredModalContext.
+     * The method then retrieves the data from the database and checks if the data is not empty.
+     * If the data is not empty, it checks if the user ID and password in the database are different from the retrieved values.
+     * If they are different, it updates the user ID and password in the database.
+     * If the data is empty, it inserts the user ID and password into the database.
      *
-     * @return Instance of {@link CredPage} class
+     * @return The current instance of the CredPage class.
      */
     public CredPage getAndUpdateCredInDb() {
         String userId = getUserIdValue();
         String password = getPasswordValues();
-        CredModal credModal = CredModal.builder().userName(userId).password(password).build();
-        CredModalContext.setCredModal(credModal);
-        List<Map<String, Object>> dataFromDb = dbUtils.selectQueryResult("select * from bank_cred");
-        Map<String, Object> credFromDB = null;
-        if (!dataFromDb.isEmpty()) {
-            credFromDB = dataFromDb.get(0);
-        }
-        if (Objects.nonNull(credFromDB) && !credFromDB.isEmpty()) {
-            String userIdKey = "user_id";
-            String passwordKey = "password";
-            if (!credFromDB.get(userIdKey).equals(userId) && !credFromDB.get(passwordKey).equals(password)) {
-                String updateQuery = "Update bank_cred set user_id = '%s', password = '%s' where user_id = '%s'";
-                String formattedQuery = String.format(updateQuery, userId, password, credFromDB.get("user_id"));
-                dbUtils.updateQuery(formattedQuery);
-            }
-        } else if (Objects.isNull(credFromDB)) {
-            String updateQuery = "INSERT into bank_cred (user_id ,password) values ('%s' , '%s');";
-            String formattedQuery = String.format(updateQuery, userId, password);
-            dbUtils.updateQuery(formattedQuery);
+        CredModalContext.setCredModal(CredModal.builder().userName(userId).password(password).build());
+
+        Map<String, Object> credFromDB = dbUtils.selectQueryResult("select * from bank_cred").stream().findFirst().orElse(null);
+
+        if (credFromDB != null && !credFromDB.isEmpty()) {
+            updateCredentialsIfNecessary(userId, password, credFromDB);
         } else {
-            log.warn("Updated credentials can not be updated as old data is not fetched from db");
+            insertCredentials(userId, password);
         }
+
         return this;
     }
 
     /**
-     * Navigate back to cred page after getting the latest credentials
+     * This private method is used to update the credentials in the database if necessary.
+     * It takes the user ID, password, and a Map representing the current credentials in the database as parameters.
+     * The method checks if the user ID and password in the database are different from the provided user ID and password.
+     * If they are different, it constructs an SQL update query and executes it to update the user ID and password in the database.
+     *
+     * @param userId     The user ID to be checked and potentially updated in the database.
+     * @param password   The password to be checked and potentially updated in the database.
+     * @param credFromDB A Map representing the current credentials in the database.
+     */
+    private void updateCredentialsIfNecessary(String userId, String password, Map<String, Object> credFromDB) {
+        if (!credFromDB.get("user_id").equals(userId) && !credFromDB.get("password").equals(password)) {
+            String updateQuery = String.format("Update bank_cred set user_id = '%s', password = '%s' where user_id = '%s'", userId, password, credFromDB.get("user_id"));
+            dbUtils.updateQuery(updateQuery);
+        }
+    }
+
+    /**
+     * This private method is used to insert the credentials into the database.
+     * It takes the user ID and password as parameters.
+     * The method constructs an SQL insert query and executes it to insert the user ID and password into the database.
+     *
+     * @param userId   The user ID to be inserted into the database.
+     * @param password The password to be inserted into the database.
+     */
+    private void insertCredentials(String userId, String password) {
+        String insertQuery = String.format("INSERT into bank_cred (user_id ,password) values ('%s' , '%s');", userId, password);
+        dbUtils.updateQuery(insertQuery);
+    }
+
+
+    /**
+     * This method is used to navigate back in the browser.
+     * It calls the navigateBackward method of the seleniumUtils object, which performs the back navigation.
      */
     public void navigateBack() {
         seleniumUtils.navigateBackward();
     }
 
+
     /**
-     * Navigate to login page
+     * This method is used to navigate to the login page of the application.
+     * It calls the launchUrl method of the seleniumUtils object, passing the login page URL as a parameter.
+     * After the navigation, it logs an informational message indicating that the navigation has been successful and the credentials have been updated.
      */
     public void navigateToLoginPage() {
         seleniumUtils.launchUrl(loginPageUrl);

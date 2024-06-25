@@ -21,6 +21,21 @@ public final class FileReaderUtil {
 
     private Properties properties;
 
+    /**
+     * Constructor for the FileReaderUtil class.
+     *
+     * @param filePath The path to the file that needs to be read.
+     *                 <p>
+     *                 This constructor initializes a new FileReaderUtil object. It takes a file path as a parameter,
+     *                 creates a new FileReader object with the given file path, and initializes the properties object.
+     *                 <p>
+     *                 It also logs the successful finding and loading of the file. If the file is not found, it logs an error message.
+     *                 If there is an error while loading the file, it logs an error message.
+     *                 <p>
+     *                 Exceptions:
+     *                 FileNotFoundException - If the file does not exist, is a directory rather than a regular file, or for some other reason cannot be opened for reading.
+     *                 IOException - If an I/O error occurs.
+     */
     private FileReaderUtil(String filePath) {
         try {
             FileReader fileReader = new FileReader(filePath);
@@ -41,28 +56,34 @@ public final class FileReaderUtil {
         return new FileReaderUtil(filePath);
     }
 
+
     /**
-     * Get the value of the key from properties file
+     * This method retrieves the value of a given key from the properties file.
      *
-     * @param key : Key to fetch the value
-     * @return Return the value of the key
-     * @throws KeyNotValidException
-     * @throws ValueNotFoundException
+     * @param key The key for which the value needs to be retrieved.
+     * @return The value of the given key.
+     * @throws KeyNotValidException   If the provided key is null.
+     * @throws ValueNotFoundException If no value is found for the given key.
+     *                                <p>
+     *                                The method first checks if the provided key is not null. If the key is null, it logs a warning and throws a KeyNotValidException.
+     *                                If the key is not null, it attempts to retrieve the value for the key from the properties object.
+     *                                If a value is found, it returns the value. If no value is found, it logs a warning and throws a ValueNotFoundException.
      */
     public String getPropertyValue(String key) throws KeyNotValidException, ValueNotFoundException {
-        if (Objects.nonNull(key)) {
-            log.info("Key to get the value {}", key);
-            String value = properties.getProperty(key);
-            if (Objects.nonNull(value)) {
-                return value;
-            } else {
-                log.warn("No Value found for the key {}", key);
-                throw new ValueNotFoundException(String.format("No value found for key : %s", key));
-            }
-        } else {
-            log.warn("{} is not a valid key ", (Object) null);
-            throw new KeyNotValidException(String.format("%s key is not a valid key", (Object) null));
+        if (key == null) {
+            log.warn("Key is not valid");
+            throw new KeyNotValidException("Key is not valid");
         }
+
+        log.info("Key to get the value {}", key);
+        String value = properties.getProperty(key);
+
+        if (value == null) {
+            log.warn("No Value found for the key {}", key);
+            throw new ValueNotFoundException("No value found for key : " + key);
+        }
+
+        return value;
     }
 
 }

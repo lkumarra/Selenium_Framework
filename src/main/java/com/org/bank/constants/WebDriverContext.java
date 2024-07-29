@@ -1,12 +1,16 @@
 package com.org.bank.constants;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 
 public final class WebDriverContext {
 
-    private static final Hashtable<String, WebDriver> webDriverContext = new Hashtable<String, WebDriver>();
+    private WebDriverContext() {
+    }
+
+    private static final Map<String, WebDriver> WEB_DRIVER_CONTEXT = new HashMap<>();
 
     /**
      * This static method is used to set the WebDriver context for a specific class.
@@ -18,7 +22,7 @@ public final class WebDriverContext {
      * @param driver    The WebDriver instance to be set for the class.
      */
     public static void setWebDriverContext(String className, WebDriver driver) {
-        webDriverContext.put(className, driver);
+        WEB_DRIVER_CONTEXT.put(className, driver);
     }
 
     /**
@@ -31,6 +35,6 @@ public final class WebDriverContext {
      * @return The WebDriver instance associated with the class.
      */
     public static WebDriver getWebDriverContext(String className) {
-        return webDriverContext.get(className);
+        return WEB_DRIVER_CONTEXT.get(className);
     }
 }

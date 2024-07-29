@@ -25,7 +25,7 @@ public class BasePage {
     private BasePage(WebDriver driver) {
         try {
             this.driver = driver;
-            util = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
+            util = FileReaderUtil.newFileReaderUtil(Constants.CONFIG_FILE_PATH);
             seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
         } catch (Exception e) {
             log.error("Error occurred with error message : {} and throwable : {} ", e.getMessage(), e.getStackTrace());
@@ -40,13 +40,14 @@ public class BasePage {
      * Perform initialization operation
      */
     public void initialization() {
-        String url = "";
+        String url = null;
         try {
             url = util.getPropertyValue("url");
             log.warn("Url loaded from file is : {}", url);
         } catch (Exception e) {
             log.error("Error occurred file getting the url with error message : {} ", e.getMessage());
         }
+        assert url != null;
         driver.get(url);
         log.warn("Successfully launched the url : {} with sessionId : {}", url, ((RemoteWebDriver) driver).getSessionId());
         seleniumUtils.setImplicitWait(30);

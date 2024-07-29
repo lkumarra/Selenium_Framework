@@ -12,10 +12,10 @@ public final class ExtentReportUtil {
     private final ExtentReports extentReports;
 
     private ExtentReportUtil() {
-        FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
+        FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.CONFIG_FILE_PATH);
         extentReports = new ExtentReports();
         String reportName = getReportName(fileReaderUtil);
-        ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(Constants.ReportPath.concat("/").concat(reportName));
+        ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter(Constants.REPORT_PATH.concat("/").concat(reportName));
         configureReporter(extentSparkReporter, fileReaderUtil);
         extentReports.attachReporter(extentSparkReporter);
     }

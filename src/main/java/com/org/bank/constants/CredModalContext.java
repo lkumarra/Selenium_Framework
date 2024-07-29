@@ -3,6 +3,9 @@ package com.org.bank.constants;
 import com.org.bank.modals.CredModal;
 
 public final class CredModalContext {
+
+    private CredModalContext() {
+    }
     private static CredModal credModal;
 
     /**

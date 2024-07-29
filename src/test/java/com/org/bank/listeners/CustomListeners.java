@@ -31,14 +31,14 @@ public class CustomListeners implements ITestListener, ISuiteListener {
     private final String PASSED_TESTS = "Passed Test Cases are : %s";
     private final String SKIPPED_TESTS = "Skipped Test Cases are : %s";
     private final String FAILED_TESTS = "Failed Test Cases are : %s";
-    private final Hashtable<String, Integer> hashtable = new Hashtable<String, Integer>();
+    private final Hashtable<String, Integer> hashtable = new Hashtable<>();
     private ExtentReports extentReports;
     private ExtentTest extentTest;
     JSONObject jsonObject;
 
     public CustomListeners() {
         try {
-            FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
+            FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.CONFIG_FILE_PATH);
             dbUtils = DbUtils.newDbUtils(fileReaderUtil.getPropertyValue("jdbcUrl"), fileReaderUtil.getPropertyValue("userName"), fileReaderUtil.getPropertyValue("password"));
             ExtentReportUtil extentReportUtil = ExtentReportUtil.newExtentReportUtil();
             extentReports = extentReportUtil.getExtentReports();
@@ -100,7 +100,7 @@ public class CustomListeners implements ITestListener, ISuiteListener {
 
         // If the jsonObject is not null, print it
         if (Objects.nonNull(jsonObject)) {
-            System.out.println(jsonObject);
+            System.out.println(jsonObject.toString(4));
         }
 
         // Initialize a new JSON object to store test details
@@ -199,7 +199,7 @@ public class CustomListeners implements ITestListener, ISuiteListener {
      * @param result The result object for the test case. It contains methods to access test case details.
      */
     private void captureScreenshot(ITestResult result) {
-        String screenshotName = Constants.ScreenShotDirectory.concat("/").concat(result.getName()).concat(".png");
+        String screenshotName = Constants.SCREEN_SHOT_DIR.concat("/").concat(result.getName()).concat(".png");
         SeleniumUtils seleniumUtils = SeleniumUtils.newSeleniumUtils(WebDriverContext.getWebDriverContext(result.getTestClass().getRealClass().getName()));
         seleniumUtils.takesWebPageScreenShot(screenshotName);
         extentTest.addScreenCaptureFromPath(screenshotName);
@@ -216,7 +216,7 @@ public class CustomListeners implements ITestListener, ISuiteListener {
         updateTestResult(FAILED_TESTS);
         logTestResult(result, "Failed");
         extentTest.fail(String.format("%s is failed with error message %s", result.getName(), result.getThrowable().getMessage()));
-        String screenshotName = Constants.ScreenShotDirectory.concat("/").concat(result.getName()).concat(".png");
+        String screenshotName = Constants.SCREEN_SHOT_DIR.concat("/").concat(result.getName()).concat(".png");
         SeleniumUtils seleniumUtils = SeleniumUtils.newSeleniumUtils(WebDriverContext.getWebDriverContext(result.getTestClass().getRealClass().getName()));
         seleniumUtils.takesWebPageScreenShot(screenshotName);
         extentTest.addScreenCaptureFromPath(screenshotName);
@@ -232,7 +232,7 @@ public class CustomListeners implements ITestListener, ISuiteListener {
      * @param context The test context that has finished execution. It contains methods to access test context details.
      */
     public void onFinish(ITestContext context) {
-        System.out.println(jsonObject.toString());
+        System.out.println(jsonObject.toString(4));
     }
 
     /**

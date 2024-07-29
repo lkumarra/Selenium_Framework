@@ -26,7 +26,7 @@ public final class ManagerPage {
 
     private ManagerPage(WebDriver driver) {
         seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
-        excelUtils = ExcelUtils.newExcelUtils(Constants.ExcelFile);
+        excelUtils = ExcelUtils.newExcelUtils(Constants.EXCEL_FILE_PATH);
         streamMapperUtils = StreamMapperUtils.newStreamMapperUtils();
         PageFactory.initElements(driver, this);
     }

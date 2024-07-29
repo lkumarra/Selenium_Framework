@@ -22,9 +22,13 @@ public final class NewCustomerPage {
     private final StreamMapperUtils streamUtils;
     private final ExcelUtils excelUtils;
 
+    private static final String BLANK = "Blank";
+
+    private static final String SPACE = "Space";
+
     private NewCustomerPage(WebDriver driver) {
         seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
-        excelUtils = ExcelUtils.newExcelUtils(Constants.ExcelFile);
+        excelUtils = ExcelUtils.newExcelUtils(Constants.EXCEL_FILE_PATH);
         streamUtils = StreamMapperUtils.newStreamMapperUtils();
         PageFactory.initElements(driver, this);
     }
@@ -183,11 +187,11 @@ public final class NewCustomerPage {
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
                 .filter(x -> !x.getCustomernamefield().equals("")).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getCustomernamefield().equals("Blank")) {
+            if (x.getCustomernamefield().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(customerNameField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(customerNameMessage));
-            } else if (x.getCustomernamefield().equals("Space")) {
+            } else if (x.getCustomernamefield().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(customerNameField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(customerNameMessage));
@@ -213,11 +217,11 @@ public final class NewCustomerPage {
      * @return A string representing a validation message for the 'Customer Name' field.
      */
     public String getCustomerNameValidationMessages(String input) {
-        if (input.equals("Blank")) {
+        if (input.equals(BLANK)) {
             seleniumUtils.enterTextInWebElement(customerNameField, "", true);
             seleniumUtils.performClick(addNewCustomerHeading);
             return seleniumUtils.getTextOfElement(customerNameMessage);
-        } else if (input.equals("Space")) {
+        } else if (input.equals(SPACE)) {
             seleniumUtils.enterTextInWebElement(customerNameField, " ", true);
             seleniumUtils.performClick(addNewCustomerHeading);
             return seleniumUtils.getTextOfElement(customerNameMessage);
@@ -257,11 +261,11 @@ public final class NewCustomerPage {
      * @return A list of strings, each representing a validation message for the 'Date of Birth' field.
      */
     public List<String> getDateOfBirthValidationMessages() {
-        List<String> errorMessages = new ArrayList<String>();
+        List<String> errorMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
                 .filter(x -> !x.getDateofbirthfield().equals("")).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getDateofbirthfield().equals("Blank")) {
+            if (x.getDateofbirthfield().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(dobField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(dateFieldMessage));
@@ -304,15 +308,15 @@ public final class NewCustomerPage {
      * @return A list of strings, each representing a validation message for the 'City' field.
      */
     public List<String> getCityFieldValidationMessages() {
-        List<String> errorMessages = new ArrayList<String>();
+        List<String> errorMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
                 .filter(x -> !x.getCityfield().equals("")).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getCityfield().equals("Blank")) {
+            if (x.getCityfield().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(cityField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(cityFieldMessage));
-            } else if (x.getCityfield().equals("Space")) {
+            } else if (x.getCityfield().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(cityField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(cityFieldMessage));
@@ -354,15 +358,15 @@ public final class NewCustomerPage {
      * @return A list of strings, each representing a validation message for the 'Pin Code' field.
      */
     public List<String> getPinCodeValidationMessages() {
-        List<String> validationMessages = new ArrayList<String>();
+        List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
                 .filter(x -> !x.getPincodefield().equals("")).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getPincodefield().equals("Blank")) {
+            if (x.getPincodefield().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(pinCodeField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(pinCodeFieldMessage));
-            } else if (x.getPincodefield().equals("Space")) {
+            } else if (x.getPincodefield().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(pinCodeField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(pinCodeFieldMessage));
@@ -403,15 +407,15 @@ public final class NewCustomerPage {
      * @return A list of strings, each representing a validation message for the 'Mobile Number' field.
      */
     public List<String> getMobileValidationMessages() {
-        List<String> validationMessages = new ArrayList<String>();
+        List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
                 .filter(x -> !x.getMobilenumberfield().equals("")).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getMobilenumberfield().equals("Blank")) {
+            if (x.getMobilenumberfield().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(mobileNumberField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(mobileNumberFieldMessage));
-            } else if (x.getMobilenumberfield().equals("Space")) {
+            } else if (x.getMobilenumberfield().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(mobileNumberField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(mobileNumberFieldMessage));
@@ -454,15 +458,15 @@ public final class NewCustomerPage {
      * @return A list of strings, each representing a validation message for the 'State' field.
      */
     public List<String> getStateValidationMessages() {
-        List<String> validationMessages = new ArrayList<String>();
+        List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
                 .filter(x -> !x.getStatefield().equals("")).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getStatefield().equals("Blank")) {
+            if (x.getStatefield().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(stateField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(stateFieldMessage));
-            } else if (x.getStatefield().equals("Space")) {
+            } else if (x.getStatefield().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(stateField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(stateFieldMessage));
@@ -504,15 +508,15 @@ public final class NewCustomerPage {
      * @return A list of strings, each representing a validation message for the 'Password' field.
      */
     public List<String> getPasswordValidationMessages() {
-        List<String> validationMessages = new ArrayList<String>();
+        List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
                 .filter(x -> !x.getPasswordfield().equals("")).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getPasswordfield().equals("Blank")) {
+            if (x.getPasswordfield().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(passwordField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(passwordFieldMessage));
-            } else if (x.getPasswordfield().equals("Space")) {
+            } else if (x.getPasswordfield().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(passwordField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(passwordFieldMessage));
@@ -554,15 +558,15 @@ public final class NewCustomerPage {
      * @return A list of strings, each representing a validation message for the 'Address' field.
      */
     public List<String> getAddressValidationMessages() {
-        List<String> validationMessages = new ArrayList<String>();
+        List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
                 .filter(x -> !x.getAddressfield().equals("")).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getAddressfield().equals("Blank")) {
+            if (x.getAddressfield().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(addressField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(addressFieldMessage));
-            } else if (x.getAddressfield().equals("Space")) {
+            } else if (x.getAddressfield().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(addressField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(addressFieldMessage));
@@ -603,15 +607,15 @@ public final class NewCustomerPage {
      * @return A list of strings, each representing a validation message for the 'Email' field.
      */
     public List<String> getEmailValidationMessages() {
-        List<String> validationMessages = new ArrayList<String>();
+        List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
                 .filter(x -> !x.getEmailfield().equals("")).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getEmailfield().equals("Blank")) {
+            if (x.getEmailfield().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(emailIdField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(emailIdFieldMessage));
-            } else if (x.getEmailfield().equals("Space")) {
+            } else if (x.getEmailfield().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(emailIdField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(emailIdFieldMessage));
@@ -658,7 +662,7 @@ public final class NewCustomerPage {
 
         Object[][] dataTable = new Object[customerFieldInputs.size()][1];
         for (int i = 0; i < customerFieldInputs.size(); i++) {
-            Hashtable<String, String> hashtable = new Hashtable<String, String>();
+            Map<String, String> hashtable = new HashMap<>();
             hashtable.put("input", customerFieldInputs.get(i).getCustomernamefield());
             hashtable.put("expectedMessage", customerFieldInputs.get(i).getCustomernameexpectedmessage());
             dataTable[i][0] = hashtable;

@@ -1,4 +1,4 @@
-package com.org.bank.driverFactory;
+package com.org.bank.driverfactory;
 
 import org.openqa.selenium.safari.SafariDriver;
 

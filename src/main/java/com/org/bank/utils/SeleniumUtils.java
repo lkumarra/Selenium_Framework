@@ -29,7 +29,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 @Slf4j
 public final class SeleniumUtils {
 
-    private static int defaultTime = 30;
+    private int defaultTime = 30;
 
     private final WebDriver driver;
 
@@ -519,7 +519,7 @@ public final class SeleniumUtils {
      */
     public void dismissAlert() {
         waitUntilAlertIsPresent();
-        driver.switchTo().alert().accept();
+        driver.switchTo().alert().dismiss();
     }
 
     /**
@@ -584,7 +584,7 @@ public final class SeleniumUtils {
      * @return A list of Strings representing the text of each WebElement in the input list.
      */
     public List<String> getWebElementsText(List<WebElement> elementsList) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         try {
             for (WebElement element : elementsList) {
                 waitForElementVisibility(element);

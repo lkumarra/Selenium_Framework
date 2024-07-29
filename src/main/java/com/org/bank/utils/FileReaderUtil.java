@@ -36,22 +36,13 @@ public final class FileReaderUtil {
      *                 IOException - If an I/O error occurs.
      */
     private FileReaderUtil(String filePath) {
-        Reader fileReader = null;
-        try {
-            fileReader = new FileReader(filePath);
+        try(FileReader fileReader = new FileReader(filePath)) {
             properties = new Properties();
             log.info("Successfully find the file at path {}", filePath);
             properties.load(fileReader);
             log.info("Successfully load the file {}", filePath);
         } catch (Exception e) {
             log.error("Error while reading the property file with error message : {}", e.getMessage());
-        } finally {
-            try {
-                assert fileReader != null;
-                fileReader.close();
-            } catch (Exception e) {
-                log.error("Error occurred while closing the reader with error message : {}", e.getMessage());
-            }
         }
     }
 

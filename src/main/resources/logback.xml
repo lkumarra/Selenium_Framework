@@ -20,14 +20,13 @@
 	</appender>
 
 	<log name="jdbc" level="OFF" />
-	<log name="jdbc.sqlonly" level="INFO" additivity="false">
+	<log name="org.testng" level="OFF" />
+	<log name="jdbc.sqlonly" level="WARN" additivity="false">
 		<appender-ref ref="FILE" />
 	</log>
-
 	<root level="INFO">
 		<appender-ref ref="STDOUT" /> <!-- Every log will apear on screen log --><!-- Every log will apear on file -->
 	</root>
-
 	<root level="INFO"><!-- Every log will apear on screen log -->
 		<appender-ref ref="FILE" />   <!-- Every log will apear on file -->
 	</root>

@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import com.org.bank.constants.WebDriverContext;
-import com.org.bank.driverFactory.DriverFactory;
+import com.org.bank.driverfactory.DriverFactory;
 import com.org.bank.listeners.CustomListeners;
 import com.org.bank.pages.BasePage;
 import com.org.bank.pages.CredPage;
@@ -35,6 +35,7 @@ public class CredPageTest {
 	@AfterClass(alwaysRun = true)
 	protected void tearDown() {
 		basePage.tearDown();
+		driverFactory.removeThreadLocal();
 	}
 
 }

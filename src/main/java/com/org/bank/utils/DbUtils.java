@@ -20,6 +20,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 public final class DbUtils {
     private final JdbcTemplate jdbcTemplate;
 
+    private static final String ROWS_IMPACTED = "Rows impacted with query : {} are : {}";
+
     /**
      * Constructor creating object of {@link FileReaderUtil}},
      * {@link DataSource}, {@link JdbcTemplate}
@@ -67,7 +69,7 @@ public final class DbUtils {
         try {
             log.info("Query to insert data is : {}", query);
             int result = jdbcTemplate.update(query);
-            log.info("Rows impacted with query : {} are : {}", query, result);
+            log.info(ROWS_IMPACTED, query, result);
         } catch (Exception e) {
             log.error("Error occurred while inserting data with query : {} with error : {}", query, e.getMessage());
         }
@@ -107,7 +109,7 @@ public final class DbUtils {
         try {
             log.info("Query to update data is  : {}", query);
             int result = jdbcTemplate.update(query);
-            log.info("Rows impacted with query : {} are : {}", query, result);
+            log.info(ROWS_IMPACTED, query, result);
         } catch (Exception e) {
             log.error("Error occurred while updating the data from query : {} with error : {}", query, e.getMessage());
         }
@@ -126,7 +128,7 @@ public final class DbUtils {
         try {
             log.info("Query to delete data is  : {}", query);
             int result = jdbcTemplate.update(query);
-            log.info("Rows impacted with query : {} are : {}", query, result);
+            log.info(ROWS_IMPACTED, query, result);
         } catch (Exception e) {
             log.error("Error occurred while deleting the data from query : {} with error : {}", query, e.getMessage());
         }

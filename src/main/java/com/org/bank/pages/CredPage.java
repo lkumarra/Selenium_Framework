@@ -37,7 +37,7 @@ public final class CredPage {
     private CredPage(WebDriver driver) {
         seleniumUtils = SeleniumUtils.newSeleniumUtils(driver);
         try {
-            var fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
+            var fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.CONFIG_FILE_PATH);
             dbUtils = DbUtils.newDbUtils(fileReaderUtil.getPropertyValue("jdbcUrl"), fileReaderUtil.getPropertyValue("userName"), fileReaderUtil.getPropertyValue("password"));
             PageFactory.initElements(driver, this);
             var testUrlKey = "testUrl";

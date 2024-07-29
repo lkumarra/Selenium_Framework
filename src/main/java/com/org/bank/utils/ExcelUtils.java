@@ -50,11 +50,7 @@ public final class ExcelUtils {
             while (recordset.next()) {
                 Map<String, Object> row = new HashMap<>();
                 for (String field : fields) {
-                    try {
-                        row.put(field.toLowerCase(), recordset.getField(field));
-                    } catch (FilloException e) {
-                        log.error("Error while getting the value of fields from excel with error message : {}", e.getMessage());
-                    }
+                    row.put(field.toLowerCase(), recordset.getField(field));
                 }
                 list.add(row);
             }
@@ -90,11 +86,7 @@ public final class ExcelUtils {
             while (recordset.next()) {
                 JSONObject jsonObject = new JSONObject();
                 for (String field : fields) {
-                    try {
-                        jsonObject.put(field.toLowerCase(), recordset.getField(field));
-                    } catch (FilloException e) {
-                        log.error("Error while getting the value of fields from excel with error message : {}", e.getMessage());
-                    }
+                    jsonObject.put(field.toLowerCase(), recordset.getField(field));
                 }
                 jsonArray.put(jsonObject);
             }

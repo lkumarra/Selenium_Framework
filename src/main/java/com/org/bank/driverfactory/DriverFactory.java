@@ -1,4 +1,4 @@
-package com.org.bank.driverFactory;
+package com.org.bank.driverfactory;
 
 import java.util.Objects;
 
@@ -18,14 +18,14 @@ import com.org.bank.utils.FileReaderUtil;
 public final class DriverFactory {
 
     private final String currentBrowser;
-    private final ThreadLocal<WebDriver> threadLocal = new ThreadLocal<WebDriver>();
+    private final ThreadLocal<WebDriver> threadLocal = new ThreadLocal<>();
 
     private DriverFactory() {
         String setEnvironment = System.getProperty("env");
         String setBrowser = System.getProperty("browser");
         if (Objects.isNull(setEnvironment) && Objects.isNull(setBrowser)) {
             try {
-                FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.ConfigurationFile);
+                FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.CONFIG_FILE_PATH);
                 setEnvironment = fileReaderUtil.getPropertyValue("env");
                 setBrowser = fileReaderUtil.getPropertyValue("browser");
                 log.info("Setting the environment to : {} and browser to : {}", setEnvironment, setBrowser);
@@ -92,6 +92,10 @@ public final class DriverFactory {
      */
     public WebDriver getWebDriver() {
         return threadLocal.get();
+    }
+
+    public void removeThreadLocal(){
+        threadLocal.remove();
     }
 
 }

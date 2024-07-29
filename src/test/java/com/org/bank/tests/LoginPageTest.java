@@ -1,7 +1,5 @@
 package com.org.bank.tests;
 
-import java.util.List;
-
 import com.org.bank.listeners.CustomListeners;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -10,7 +8,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import com.org.bank.constants.WebDriverContext;
-import com.org.bank.driverFactory.DriverFactory;
+import com.org.bank.driverfactory.DriverFactory;
 import com.org.bank.pages.BasePage;
 import com.org.bank.pages.CredPage;
 import com.org.bank.pages.LoginPage;

@@ -2,15 +2,17 @@ package com.org.bank.constants;
 
 public final class Constants {
 
-	private final static String CurrentUserDirectory = System.getProperty("user.dir");
-	public final static String ConfigurationFile = String.format("%s/src/main/resources/Configuration.properties",
-			CurrentUserDirectory);
-	public final static String ExcelFile = String.format("%s/src/test/resources/testData/Guru99BankTestData.xlsx",
-			CurrentUserDirectory);
-	public final static String TextFile = String.format("%s/src/main/resources/Guru99Framework.txt",
-			CurrentUserDirectory);
-	public final static String ReportPath = String.format("%s/src/test/resources/executionArtifacts/reports",
-			CurrentUserDirectory);
-	public final static String ScreenShotDirectory = String.format("%s/src/test/resources/executionArtifacts/screenshots",
-			CurrentUserDirectory);
+    private Constants(){}
+
+    private static final String CURRENT_USER_DIR = System.getProperty("user.dir");
+    public static final String CONFIG_FILE_PATH = String.format("%s/src/main/resources/Configuration.properties",
+            CURRENT_USER_DIR);
+    public static final String EXCEL_FILE_PATH = String.format("%s/src/test/resources/testData/Guru99BankTestData.xlsx",
+            CURRENT_USER_DIR);
+    public static final String TEXT_FILE_PATH = String.format("%s/src/main/resources/Guru99Framework.txt",
+            CURRENT_USER_DIR);
+    public static final String REPORT_PATH = String.format("%s/src/test/resources/executionArtifacts/reports",
+            CURRENT_USER_DIR);
+    public static final String SCREEN_SHOT_DIR = String.format("%s/src/test/resources/executionArtifacts/screenshots",
+            CURRENT_USER_DIR);
 }

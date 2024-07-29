@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import com.org.bank.constants.WebDriverContext;
-import com.org.bank.driverFactory.DriverFactory;
+import com.org.bank.driverfactory.DriverFactory;
 import com.org.bank.pages.BasePage;
 import com.org.bank.pages.CredPage;
 import com.org.bank.pages.LoginPage;

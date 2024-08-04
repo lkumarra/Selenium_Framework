@@ -1,5 +1,6 @@
 package com.org.bank.driverfactory;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -23,7 +24,9 @@ public final class ChromerDriverManager implements DriverManager {
      */
     @Override
     public ChromeDriver getWebDriver() {
+        WebDriverManager.chromiumdriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setBinary("/usr/bin/chromium");
         chromeOptions.addArguments("--headless");
         chromeOptions.addArguments("--no-sandbox");
         chromeOptions.addArguments("--disable-dev-shm-usage");

@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat "mvn clean install test -Denv=${params.environment} -Dbrowser=${params.browser} -Dgroups=${params.groups}"
+                sh "mvn clean install test -Denv=${params.environment} -Dbrowser=${params.browser} -Dgroups=${params.groups}"
             }
         }
         stage('Send Email Report') {
@@ -47,18 +47,14 @@ pipeline {
     }
     post {
         always {
-            publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: "./src/test/resources/executionArtifacts/reports",
-                    reportFiles: 'Guru99BankReport.html',
-                    reportName: "UI Automation Results",
-                    reportTitles: 'Test Results'
-            ])
             script {
                 // Archive test reports
                 archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
+            }
+            script {
+                // Generate HTML report from the test results (this can be done using an external tool or script)
+                sh "./generate-report.sh"
+                archiveArtifacts artifacts: 'path/to/generated/report.html', allowEmptyArchive: true
             }
         }
         success {

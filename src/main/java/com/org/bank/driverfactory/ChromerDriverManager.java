@@ -1,5 +1,6 @@
 package com.org.bank.driverfactory;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -9,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
  * @author Lavendra Kumar Rajput
  * @Date 09/02/2023
  */
+@Slf4j
 public final class ChromerDriverManager implements DriverManager {
 
 
@@ -26,6 +28,7 @@ public final class ChromerDriverManager implements DriverManager {
         chromeOptions.addArguments("--no-sandbox");
         chromeOptions.addArguments("--disable-dev-shm-usage");
         chromeOptions.addArguments("--disable-gpu");
+        log.info("Chrome options are set");
         return new ChromeDriver(chromeOptions);
     }
 }

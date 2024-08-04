@@ -7,28 +7,6 @@ pipeline {
         string(name: 'Branch', defaultValue: 'master', description: 'Git branch to build from')
     }
     stages {
-        stage("Setup Environment") {
-            steps {
-                script {
-                    // Install Maven
-                    sh '''
-                    # Install necessary dependencies
-                    apt-get update && apt-get install -y wget unzip
-
-                    # Download Maven
-                    MAVEN_VERSION=3.8.5
-                    wget https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
-                    tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt
-                    ln -s /opt/apache-maven-${MAVEN_VERSION} /opt/maven
-
-                    # Set Maven environment variables
-                    echo "M2_HOME=/opt/maven" >> /etc/environment
-                    echo "PATH=\$M2_HOME/bin:\$PATH" >> /etc/environment
-                    source /etc/environment
-                    '''
-                }
-            }
-        }
         stage("Checkout") {
             steps {
                 script {

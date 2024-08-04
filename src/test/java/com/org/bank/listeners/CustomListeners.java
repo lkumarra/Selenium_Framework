@@ -34,7 +34,7 @@ public class CustomListeners implements ITestListener, ISuiteListener {
     private final Hashtable<String, Integer> hashtable = new Hashtable<>();
     private ExtentReports extentReports;
     private ExtentTest extentTest;
-    JSONObject jsonObject;
+    JSONObject jsonObject = new JSONObject();
 
     public CustomListeners() {
         try {
@@ -103,8 +103,6 @@ public class CustomListeners implements ITestListener, ISuiteListener {
             System.out.println(jsonObject.toString(4));
         }
 
-        // Initialize a new JSON object to store test details
-        jsonObject = new JSONObject();
 
         // Store the name of the test class in the JSON object
         jsonObject.put("testClass", result.getTestClass().getName());

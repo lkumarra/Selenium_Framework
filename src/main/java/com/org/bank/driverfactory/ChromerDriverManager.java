@@ -22,6 +22,10 @@ public final class ChromerDriverManager implements DriverManager {
     @Override
     public ChromeDriver getWebDriver() {
         ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless");
+        chromeOptions.addArguments("--no-sandbox");
+        chromeOptions.addArguments("--disable-dev-shm-usage");
+        chromeOptions.addArguments("--disable-gpu");
         return new ChromeDriver(chromeOptions);
     }
 }

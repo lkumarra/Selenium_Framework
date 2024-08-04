@@ -194,8 +194,14 @@
                         <browser>${browser}</browser>
                     </systemProperties>
                     <includes>
-                        <include>*.*</include>
+                        <include>**/*Test.java</include> <!-- Adjust according to your test file pattern -->
                     </includes>
+                    <systemPropertyVariables>
+                        <property>
+                            <name>testng.xml</name>
+                            <value>${basedir}/src/test/resources/testng.xml</value>
+                        </property>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>

@@ -7,6 +7,28 @@ pipeline {
         string(name: 'Branch', defaultValue: 'master', description: 'Git branch to build from')
     }
     stages {
+        stage("Setup Environment") {
+            steps {
+                script {
+                    // Install Maven
+                    sh '''
+                    # Install necessary dependencies
+                    apt-get update && apt-get install -y wget unzip
+
+                    # Download Maven
+                    MAVEN_VERSION=3.8.5
+                    wget https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+                    tar -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt
+                    ln -s /opt/apache-maven-${MAVEN_VERSION} /opt/maven
+
+                    # Set Maven environment variables
+                    echo "M2_HOME=/opt/maven" >> /etc/environment
+                    echo "PATH=\$M2_HOME/bin:\$PATH" >> /etc/environment
+                    source /etc/environment
+                    '''
+                }
+            }
+        }
         stage("Checkout") {
             steps {
                 script {
@@ -47,14 +69,18 @@ pipeline {
     }
     post {
         always {
+            publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: "./src/test/resources/executionArtifacts/reports",
+                    reportFiles: 'Guru99BankReport.html',
+                    reportName: "UI Automation Results",
+                    reportTitles: 'Test Results'
+            ])
             script {
                 // Archive test reports
                 archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', allowEmptyArchive: true
-            }
-            script {
-                // Generate HTML report from the test results (this can be done using an external tool or script)
-                sh "./generate-report.sh"
-                archiveArtifacts artifacts: 'path/to/generated/report.html', allowEmptyArchive: true
             }
         }
         success {

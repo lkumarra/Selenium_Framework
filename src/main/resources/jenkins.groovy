@@ -4,7 +4,7 @@ pipeline {
         string(name: 'browser', defaultValue: 'chrome', description: 'Choose Browser')
         string(name: 'groups', defaultValue: 'all', description: 'Choose Test Group')
         string(name: 'environment', defaultValue: 'jenkins', description: 'Choose Environment')
-        gitParameter(name: 'Branch', type: 'PT_BRANCH', defaultValue: 'master', description: 'Git branch to build from', branch: '', useRepository: 'https://github.com/lkumarra/Selenium_Framework.git', sortMode: 'ASCENDING', selectedValue: 'DEFAULT', quickFilterEnabled: true)
+        string(name: 'Branch', defaultValue: 'master', description: 'Git branch to build from')
     }
     stages {
         stage("Checkout") {

@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "mvn clean install test -Denv=${params.environment} -Dbrowser=${params.browser} -Dgroups=${params.groups}"
+                sh "mvn clean test -Denv=${params.environment} -Dbrowser=${params.browser} -Dgroups=${params.groups}"
             }
         }
         stage('Send Email Report') {

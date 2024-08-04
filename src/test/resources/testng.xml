@@ -3,6 +3,7 @@
 <suite name="Guru99Bank Test Automation Suite" verbose="0">
     <listeners>
         <listener class-name="com.org.bank.listeners.CustomListeners"/>
+        <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
     </listeners>
     <test thread-count="4" name="Test" parallel="classes">
         <groups>

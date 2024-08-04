@@ -7,16 +7,12 @@ pipeline {
         gitParameter(name: 'Branch', type: 'PT_BRANCH', defaultValue: 'master', description: 'Git branch to build from', branch: '', useRepository: 'https://github.com/lkumarra/Selenium_Framework.git', sortMode: 'ASCENDING', selectedValue: 'DEFAULT', quickFilterEnabled: true)
     }
     stages {
-        stage("Clean Workspace") {
-            steps {
-                deleteDir()
-            }
-        }
-        stage('Checkout') {
+        stage("Checkout") {
             steps {
                 script {
                     echo "Checking out branch: ${params.Branch}"
                 }
+                deleteDir()
                 checkout([$class: 'GitSCM',
                           branches: [[name: "${params.Branch}"]],
                           userRemoteConfigs: [[url: 'https://github.com/lkumarra/Selenium_Framework.git']],
@@ -49,16 +45,16 @@ pipeline {
             }
         }
     }
-    post{
-        always{
-            publishHTML(target:[
-                    allowMissing:false,
-                    alwaysLinkToLastBuild:true,
-                    keepAll:true,
-                    reportDir:"./src/test/resources/executionArtifacts/reports",
-                    reportFiles:'Guru99BankReport.html',
-                    reportName:"UI Automation Results",
-                    reportTitles:'Test Results'
+    post {
+        always {
+            publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: "./src/test/resources/executionArtifacts/reports",
+                    reportFiles: 'Guru99BankReport.html',
+                    reportName: "UI Automation Results",
+                    reportTitles: 'Test Results'
             ])
             script {
                 // Archive test reports

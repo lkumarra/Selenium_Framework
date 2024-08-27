@@ -1,6 +1,6 @@
 package com.org.bank.constants;
 
-import com.org.bank.modals.CredModal;
+import com.org.bank.models.CredModal;
 import lombok.Getter;
 import lombok.Setter;
 

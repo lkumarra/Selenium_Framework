@@ -22,21 +22,24 @@ public final class DriverFactory {
 
     private DriverFactory() {
         String setEnvironment = System.getProperty("env");
+        log.info("Env from property file is : {} ....", setEnvironment);
         String setBrowser = System.getProperty("browser");
-        if (Objects.isNull(setEnvironment) && Objects.isNull(setBrowser)) {
+        log.info("Browser from property file is : {} ....", setBrowser);
+        if ((Objects.isNull(setEnvironment) && Objects.isNull(setBrowser)) || (setEnvironment.isBlank() && setBrowser.isBlank())) {
             try {
                 FileReaderUtil fileReaderUtil = FileReaderUtil.newFileReaderUtil(Constants.CONFIG_FILE_PATH);
                 setEnvironment = fileReaderUtil.getPropertyValue("env");
+                log.info("Execution environment set to : {}", setEnvironment);
                 setBrowser = fileReaderUtil.getPropertyValue("browser");
-                log.info("Setting the environment to : {} and browser to : {}", setEnvironment, setBrowser);
+                log.info("Browser for execution is set to : {}", setBrowser);
             } catch (Exception e) {
-                assert log != null;
                 log.error("Error occurred while setting the env variables with error message : {} ", e.getMessage());
             }
         }
         String currentEnvironment = setEnvironment;
         currentBrowser = setBrowser;
-        log.info("Current environment is : {} and browser is {} : ", currentEnvironment, currentBrowser);
+        log.info("Current environment is : {}", currentEnvironment);
+        log.info("Browser for running is : {}", currentBrowser);
         threadLocal.set(setupWebDriver());
     }
 
@@ -73,6 +76,9 @@ public final class DriverFactory {
             case "safari":
                 driverManager = new SafariDriverManager();
                 break;
+            case "remote":
+                driverManager = new RemoteDriverManager();
+                break;
             default:
                 driverManager = new ChromerDriverManager();
         }
@@ -94,7 +100,7 @@ public final class DriverFactory {
         return threadLocal.get();
     }
 
-    public void removeThreadLocal(){
+    public void removeThreadLocal() {
         threadLocal.remove();
     }
 

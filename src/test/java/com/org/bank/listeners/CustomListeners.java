@@ -1,5 +1,7 @@
 package com.org.bank.listeners;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -65,6 +67,11 @@ public class CustomListeners implements ITestListener, ISuiteListener {
      * @param suite The TestNG suite that is starting execution.
      */
     public void onStart(ISuite suite) {
+        try (FileWriter writer = new FileWriter(Constants.RETRY_FILE_PATH)) {
+            writer.write("");
+        } catch (IOException e) {
+            log.error("Stack trace is : {}", Arrays.toString(e.getStackTrace()));
+        }
         // Initialize the count of total tests to 0
         hashtable.put(TOTAL_TESTS, 0);
         // Initialize the count of failed tests to 0
@@ -75,6 +82,7 @@ public class CustomListeners implements ITestListener, ISuiteListener {
         hashtable.put(PASSED_TESTS, 0);
         // Print a message indicating the start of execution
         printExecutionStartMessage();
+
     }
 
     /**
@@ -145,6 +153,11 @@ public class CustomListeners implements ITestListener, ISuiteListener {
         captureScreenshot(result);
         jsonObject.put("testCaseResult", "Failed");
         jsonObject.put("failureStackTrace", Arrays.toString(result.getThrowable().getStackTrace()));
+        try (FileWriter writer = new FileWriter(Constants.RETRY_FILE_PATH, true)) {
+            writer.write(result.getTestClass().getName() + "#" + result.getMethod().getMethodName() + "\n");
+        } catch (IOException e) {
+            log.error("Stack trace is : {}", Arrays.toString(e.getStackTrace()));
+        }
     }
 
     /**

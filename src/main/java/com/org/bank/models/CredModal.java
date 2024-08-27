@@ -1,4 +1,4 @@
-package com.org.bank.modals;
+package com.org.bank.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

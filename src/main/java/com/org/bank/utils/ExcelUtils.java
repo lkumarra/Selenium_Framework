@@ -18,6 +18,8 @@ public final class ExcelUtils {
 
     private final String filePath;
 
+    private final String FILE_LOADED_MESSAGE = "Successfully loaded the excel file located at path : {}";
+
     private ExcelUtils(String filePath) {
         this.filePath = filePath;
     }
@@ -44,7 +46,7 @@ public final class ExcelUtils {
         try {
             Fillo fillo = new Fillo();
             Connection connection = fillo.getConnection(filePath);
-            log.info("Successfully loaded the excel file located at path : {}", filePath);
+            log.info(FILE_LOADED_MESSAGE, filePath);
             Recordset recordset = connection.executeQuery(query);
             List<String> fields = recordset.getFieldNames();
             while (recordset.next()) {
@@ -80,7 +82,7 @@ public final class ExcelUtils {
         try {
             Fillo fillo = new Fillo();
             Connection connection = fillo.getConnection(filePath);
-            log.info("Successfully loaded the excel file located at path : {}", filePath);
+            log.info(FILE_LOADED_MESSAGE, filePath);
             Recordset recordset = connection.executeQuery(query);
             List<String> fields = recordset.getFieldNames();
             while (recordset.next()) {

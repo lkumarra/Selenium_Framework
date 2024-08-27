@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import com.org.bank.modals.LoginPageModal;
+import com.org.bank.models.LoginPageModal;
 import com.org.bank.utils.ExcelUtils;
 import com.org.bank.utils.SeleniumUtils;
 import com.org.bank.utils.StreamMapperUtils;
@@ -178,7 +178,7 @@ public final class LoginPage {
         LoginPageModal[] loginPageModal = streamMapperUtils.getClassMappedResponse(stringJson, LoginPageModal[].class);
         assert loginPageModal != null;
         List<LoginPageModal> loginPageModalList = Arrays.asList(loginPageModal);
-        Optional<LoginPageModal> loginPageModalOptional = loginPageModalList.stream().filter(x -> !(x.getTitle().equals(""))).findFirst();
+        Optional<LoginPageModal> loginPageModalOptional = loginPageModalList.stream().filter(x -> !(x.getTitle().isEmpty())).findFirst();
         return loginPageModalOptional.orElse(new LoginPageModal());
     }
 
@@ -201,7 +201,7 @@ public final class LoginPage {
      * @return : Error messages
      */
     public List<String> getExpectedErrorMessages() {
-        return getLoginCredentialsData().stream().map(LoginPageModal::getExpectedmessage).collect(Collectors.toList());
+        return getLoginCredentialsData().stream().map(LoginPageModal::getExpectedMessage).collect(Collectors.toList());
     }
 
     /**
@@ -213,19 +213,19 @@ public final class LoginPage {
         List<LoginPageModal> loginPageModalList = getLoginCredentialsData();
         List<String> stringActualErrorMessage = new ArrayList<>();
         loginPageModalList.forEach(x -> {
-            if (x.getUserid().equals("") && x.getPassword().equals("")) {
+            if (x.getUserId().isEmpty() && x.getPassword().isEmpty()) {
                 seleniumUtils.performClick(loginButton);
                 stringActualErrorMessage.add(seleniumUtils.getAlertText());
-            } else if (!x.getUserid().equals("") && x.getPassword().equals("")) {
-                seleniumUtils.enterTextInWebElement(useIdField, x.getUserid(), true);
+            } else if (!x.getUserId().isEmpty() && x.getPassword().isEmpty()) {
+                seleniumUtils.enterTextInWebElement(useIdField, x.getUserId(), true);
                 seleniumUtils.performClick(loginButton);
                 stringActualErrorMessage.add(seleniumUtils.getAlertText());
-            } else if (x.getUserid().equals("")) {
+            } else if (x.getUserId().isEmpty()) {
                 seleniumUtils.enterTextInWebElement(passwordField, x.getPassword(), true);
                 seleniumUtils.performClick(loginButton);
                 stringActualErrorMessage.add(seleniumUtils.getAlertText());
             } else {
-                seleniumUtils.enterTextInWebElement(useIdField, x.getUserid(), true);
+                seleniumUtils.enterTextInWebElement(useIdField, x.getUserId(), true);
                 seleniumUtils.enterTextInWebElement(passwordField, x.getPassword(), true);
                 seleniumUtils.performClick(loginButton);
                 stringActualErrorMessage.add(seleniumUtils.getAlertText());

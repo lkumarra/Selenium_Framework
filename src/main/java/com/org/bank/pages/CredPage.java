@@ -2,7 +2,7 @@ package com.org.bank.pages;
 
 import com.org.bank.constants.Constants;
 import com.org.bank.constants.CredModalContext;
-import com.org.bank.modals.CredModal;
+import com.org.bank.models.CredModal;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,9 +15,7 @@ import com.org.bank.utils.DbUtils;
 import com.org.bank.utils.FileReaderUtil;
 import com.org.bank.utils.SeleniumUtils;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * This class contains the methods and webelements related to CredPage of the

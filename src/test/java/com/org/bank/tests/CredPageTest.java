@@ -1,16 +1,14 @@
 package com.org.bank.tests;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
+import com.epam.reportportal.testng.ReportPortalTestNGListener;
+import org.testng.annotations.*;
 import com.org.bank.constants.WebDriverContext;
 import com.org.bank.driverfactory.DriverFactory;
 import com.org.bank.listeners.CustomListeners;
 import com.org.bank.pages.BasePage;
 import com.org.bank.pages.CredPage;
 
-@Listeners(CustomListeners.class)
+@Listeners({CustomListeners.class, ReportPortalTestNGListener.class})
 public class CredPageTest {
 
 	private BasePage basePage;

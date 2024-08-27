@@ -1,11 +1,9 @@
 package com.org.bank.tests;
 
+import com.epam.reportportal.testng.ReportPortalTestNGListener;
 import com.org.bank.listeners.CustomListeners;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import com.org.bank.constants.WebDriverContext;
 import com.org.bank.driverfactory.DriverFactory;
@@ -13,7 +11,7 @@ import com.org.bank.pages.BasePage;
 import com.org.bank.pages.CredPage;
 import com.org.bank.pages.LoginPage;
 
-@Listeners(CustomListeners.class)
+@Listeners({CustomListeners.class, ReportPortalTestNGListener.class})
 public class LoginPageTest {
 
     private LoginPage loginPage;
@@ -58,11 +56,11 @@ public class LoginPageTest {
     private void test_verify_userId_label() {
         softAssert.assertEquals(
                 loginPage.getUserIDLabelText().trim(),
-                loginPage.getLoginPageLabelsText().getUsedidlabel().trim(),
+                loginPage.getLoginPageLabelsText().getUsedIdLabel().trim(),
                 String.format(
                         "Actual label is : %s and expected is : %s",
                         loginPage.getUserIDLabelText().trim(),
-                        loginPage.getLoginPageLabelsText().getUsedidlabel().trim()
+                        loginPage.getLoginPageLabelsText().getUsedIdLabel().trim()
                 )
         );
     }
@@ -72,11 +70,11 @@ public class LoginPageTest {
     private void test_verify_password_test() {
         softAssert.assertEquals(
                 loginPage.getPasswordLabelText(),
-                loginPage.getLoginPageLabelsText().getPasswordlabel(),
+                loginPage.getLoginPageLabelsText().getPasswordLabel(),
                 String.format(
                         "Actual label is : %s and expected is : %s",
                         loginPage.getPasswordLabelText(),
-                        loginPage.getLoginPageLabelsText().getPasswordlabel()
+                        loginPage.getLoginPageLabelsText().getPasswordLabel()
                 )
         );
     }
@@ -86,11 +84,11 @@ public class LoginPageTest {
     private void test_verify_submit_button_label() {
         softAssert.assertEquals(
                 loginPage.getLoginButtonText(),
-                loginPage.getLoginPageLabelsText().getSubmitbuttonlabel(),
+                loginPage.getLoginPageLabelsText().getSubmitButtonLabel(),
                 String.format(
                         "Actual label is : %s and expected is : %s",
                         loginPage.getLoginButtonText(),
-                        loginPage.getLoginPageLabelsText().getSubmitbuttonlabel()
+                        loginPage.getLoginPageLabelsText().getSubmitButtonLabel()
                 )
         );
     }
@@ -100,11 +98,11 @@ public class LoginPageTest {
     private void test_verify_reset_button_label() {
         softAssert.assertEquals(
                 loginPage.getResetButtonText(),
-                loginPage.getLoginPageLabelsText().getResetbuttonlabel(),
+                loginPage.getLoginPageLabelsText().getResetButtonLabel(),
                 String.format(
                         "Actual label is : %s and expected is : %s",
                         loginPage.getResetButtonText(),
-                        loginPage.getLoginPageLabelsText().getResetbuttonlabel()
+                        loginPage.getLoginPageLabelsText().getResetButtonLabel()
                 )
         );
     }

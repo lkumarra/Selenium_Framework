@@ -3,13 +3,12 @@ package com.org.bank.tests;
 import java.util.Hashtable;
 import java.util.List;
 
+import com.epam.reportportal.testng.ReportPortalTestNGListener;
 import com.org.bank.constants.CredModalContext;
-import com.org.bank.modals.CredModal;
+import com.org.bank.listeners.CustomListeners;
+import com.org.bank.models.CredModal;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import com.org.bank.constants.WebDriverContext;
 import com.org.bank.driverfactory.DriverFactory;
@@ -19,6 +18,7 @@ import com.org.bank.pages.LoginPage;
 import com.org.bank.pages.ManagerPage;
 import com.org.bank.pages.NewCustomerPage;
 
+@Listeners({CustomListeners.class, ReportPortalTestNGListener.class})
 public class NewCustomerPageTest {
 
     private BasePage basePage;

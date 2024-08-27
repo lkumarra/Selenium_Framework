@@ -2,12 +2,12 @@ package com.org.bank.tests;
 
 import java.util.List;
 
+import com.epam.reportportal.testng.ReportPortalTestNGListener;
 import com.org.bank.constants.CredModalContext;
-import com.org.bank.modals.CredModal;
+import com.org.bank.listeners.CustomListeners;
+import com.org.bank.models.CredModal;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import com.org.bank.constants.WebDriverContext;
 import com.org.bank.driverfactory.DriverFactory;
@@ -16,6 +16,7 @@ import com.org.bank.pages.CredPage;
 import com.org.bank.pages.LoginPage;
 import com.org.bank.pages.ManagerPage;
 
+@Listeners({CustomListeners.class, ReportPortalTestNGListener.class})
 public class ManagerPageTest {
 
     private ManagerPage managerPage;
@@ -54,7 +55,6 @@ public class ManagerPageTest {
             Assert.fail("Login is not successful so can not navigate to manager page");
             return;
         }
-
         String actualMessage = managerPage.getWelcomeMessageText();
         String expectedMessage = managerPage.getWelcomeMessage();
         softAssert.assertEquals(actualMessage, expectedMessage,
@@ -68,7 +68,6 @@ public class ManagerPageTest {
             Assert.fail("Login is not successful so can not navigate to manager page");
             return;
         }
-
         String actualMessage = managerPage.getManagerIdText();
         String expectedMessage = managerPage.getManagerIdMessage(userName);
         softAssert.assertEquals(actualMessage, expectedMessage,
@@ -82,7 +81,6 @@ public class ManagerPageTest {
             Assert.fail("Login is not successful so can not navigate to manager page");
             return;
         }
-
         List<String> actualMenuList = managerPage.getAllMenuText();
         List<String> expectedMenuOptions = managerPage.getAllMenuOptions();
         softAssert.assertEquals(actualMenuList, expectedMenuOptions,

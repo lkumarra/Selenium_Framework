@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import com.org.bank.modals.NewCustomerPageModal;
+import com.org.bank.models.NewCustomerPageModal;
 import com.org.bank.utils.ExcelUtils;
 import com.org.bank.utils.SeleniumUtils;
 import com.org.bank.utils.StreamMapperUtils;
@@ -122,7 +122,7 @@ public final class NewCustomerPage {
      */
     public String getExpectedCustomerHeading() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getHeadingmessage)
+                .map(NewCustomerPageModal::getHeadingMessage)
                 .filter(StringUtils::isNotBlank)
                 .findFirst()
                 .orElse("Default Heading");
@@ -148,7 +148,7 @@ public final class NewCustomerPage {
      */
     public List<String> getExpectedLabelMessages() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getFieldslabel)
+                .map(NewCustomerPageModal::getFieldsLabel)
                 .filter(StringUtils::isNotBlank)
                 .collect(Collectors.toList());
     }
@@ -185,18 +185,18 @@ public final class NewCustomerPage {
     public List<String> getCustomerNameValidationMessages() {
         List<String> errorMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
-                .filter(x -> !x.getCustomernamefield().equals("")).collect(Collectors.toList());
+                .filter(x -> !x.getCustomerNameField().isEmpty()).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getCustomernamefield().equals(BLANK)) {
+            if (x.getCustomerNameField().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(customerNameField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(customerNameMessage));
-            } else if (x.getCustomernamefield().equals(SPACE)) {
+            } else if (x.getCustomerNameField().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(customerNameField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(customerNameMessage));
             } else {
-                seleniumUtils.enterTextInWebElement(customerNameField, x.getCustomernamefield(), true);
+                seleniumUtils.enterTextInWebElement(customerNameField, x.getCustomerNameField(), true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(customerNameMessage));
             }
@@ -242,8 +242,8 @@ public final class NewCustomerPage {
      */
     public List<String> getCustomerNameExpectedMessages() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getCustomernameexpectedmessage)
-                .filter(x -> !x.equals(""))
+                .map(NewCustomerPageModal::getCustomerNameExpectedMessage)
+                .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
     }
 
@@ -263,14 +263,14 @@ public final class NewCustomerPage {
     public List<String> getDateOfBirthValidationMessages() {
         List<String> errorMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
-                .filter(x -> !x.getDateofbirthfield().equals("")).collect(Collectors.toList());
+                .filter(x -> !x.getDateOfBirthField().isEmpty()).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getDateofbirthfield().equals(BLANK)) {
+            if (x.getDateOfBirthField().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(dobField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(dateFieldMessage));
             } else {
-                seleniumUtils.enterTextInWebElement(dobField, x.getDateofbirthfield(), true);
+                seleniumUtils.enterTextInWebElement(dobField, x.getDateOfBirthField(), true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(dateFieldMessage));
             }
@@ -288,8 +288,8 @@ public final class NewCustomerPage {
      */
     public List<String> getDateOfBirthExpectedMessages() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getDateofbirthexpectedmessage)
-                .filter(x -> !x.equals(""))
+                .map(NewCustomerPageModal::getDateOfBirthExpectedMessage)
+                .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
     }
 
@@ -310,18 +310,18 @@ public final class NewCustomerPage {
     public List<String> getCityFieldValidationMessages() {
         List<String> errorMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
-                .filter(x -> !x.getCityfield().equals("")).collect(Collectors.toList());
+                .filter(x -> !x.getCityField().isEmpty()).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getCityfield().equals(BLANK)) {
+            if (x.getCityField().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(cityField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(cityFieldMessage));
-            } else if (x.getCityfield().equals(SPACE)) {
+            } else if (x.getCityField().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(cityField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(cityFieldMessage));
             } else {
-                seleniumUtils.enterTextInWebElement(cityField, x.getCityfield(), true);
+                seleniumUtils.enterTextInWebElement(cityField, x.getCityField(), true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 errorMessages.add(seleniumUtils.getTextOfElement(cityFieldMessage));
             }
@@ -339,8 +339,8 @@ public final class NewCustomerPage {
      */
     public List<String> getCityFieldExpectedMessages() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getCityfieldexpectedmessage)
-                .filter(x -> !x.equals(""))
+                .map(NewCustomerPageModal::getCityFieldExpectedMessage)
+                .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
     }
 
@@ -360,18 +360,18 @@ public final class NewCustomerPage {
     public List<String> getPinCodeValidationMessages() {
         List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
-                .filter(x -> !x.getPincodefield().equals("")).collect(Collectors.toList());
+                .filter(x -> !x.getPincodeField().isEmpty()).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getPincodefield().equals(BLANK)) {
+            if (x.getPincodeField().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(pinCodeField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(pinCodeFieldMessage));
-            } else if (x.getPincodefield().equals(SPACE)) {
+            } else if (x.getPincodeField().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(pinCodeField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(pinCodeFieldMessage));
             } else {
-                seleniumUtils.enterTextInWebElement(pinCodeField, x.getPincodefield(), true);
+                seleniumUtils.enterTextInWebElement(pinCodeField, x.getPincodeField(), true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(pinCodeFieldMessage));
             }
@@ -388,8 +388,8 @@ public final class NewCustomerPage {
      */
     public List<String> getPinCodeFieldExpectedMessages() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getPincodeexpectedmessage)
-                .filter(x -> !x.equals(""))
+                .map(NewCustomerPageModal::getPinCodeExpectedMessage)
+                .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
     }
 
@@ -409,18 +409,18 @@ public final class NewCustomerPage {
     public List<String> getMobileValidationMessages() {
         List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
-                .filter(x -> !x.getMobilenumberfield().equals("")).collect(Collectors.toList());
+                .filter(x -> !x.getMobileNumberField().isEmpty()).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getMobilenumberfield().equals(BLANK)) {
+            if (x.getMobileNumberField().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(mobileNumberField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(mobileNumberFieldMessage));
-            } else if (x.getMobilenumberfield().equals(SPACE)) {
+            } else if (x.getMobileNumberField().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(mobileNumberField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(mobileNumberFieldMessage));
             } else {
-                seleniumUtils.enterTextInWebElement(mobileNumberField, x.getMobilenumberfield(), true);
+                seleniumUtils.enterTextInWebElement(mobileNumberField, x.getMobileNumberField(), true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(mobileNumberFieldMessage));
             }
@@ -438,8 +438,8 @@ public final class NewCustomerPage {
      */
     public List<String> getMobileFieldExpectedMessages() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getMobilenumberexpectedmessage)
-                .filter(x -> !x.equals(""))
+                .map(NewCustomerPageModal::getMobileNumberExpectedMessage)
+                .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
     }
 
@@ -460,18 +460,18 @@ public final class NewCustomerPage {
     public List<String> getStateValidationMessages() {
         List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
-                .filter(x -> !x.getStatefield().equals("")).collect(Collectors.toList());
+                .filter(x -> !x.getStateField().isEmpty()).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getStatefield().equals(BLANK)) {
+            if (x.getStateField().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(stateField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(stateFieldMessage));
-            } else if (x.getStatefield().equals(SPACE)) {
+            } else if (x.getStateField().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(stateField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(stateFieldMessage));
             } else {
-                seleniumUtils.enterTextInWebElement(stateField, x.getStatefield(), true);
+                seleniumUtils.enterTextInWebElement(stateField, x.getStateField(), true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(stateFieldMessage));
             }
@@ -489,8 +489,8 @@ public final class NewCustomerPage {
      */
     public List<String> getStateFieldExpectedMessages() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getStatefieldexpectedmessage)
-                .filter(x -> !x.equals(""))
+                .map(NewCustomerPageModal::getStateFieldExpectedMessage)
+                .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
     }
 
@@ -510,18 +510,18 @@ public final class NewCustomerPage {
     public List<String> getPasswordValidationMessages() {
         List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
-                .filter(x -> !x.getPasswordfield().equals("")).collect(Collectors.toList());
+                .filter(x -> !x.getPasswordField().isEmpty()).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getPasswordfield().equals(BLANK)) {
+            if (x.getPasswordField().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(passwordField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(passwordFieldMessage));
-            } else if (x.getPasswordfield().equals(SPACE)) {
+            } else if (x.getPasswordField().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(passwordField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(passwordFieldMessage));
             } else {
-                seleniumUtils.enterTextInWebElement(passwordField, x.getPasswordfield(), true);
+                seleniumUtils.enterTextInWebElement(passwordField, x.getPasswordField(), true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(passwordFieldMessage));
             }
@@ -539,8 +539,8 @@ public final class NewCustomerPage {
      */
     public List<String> getPasswordFieldExpectedMessages() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getPasswordexpectedmessage)
-                .filter(x -> !x.equals(""))
+                .map(NewCustomerPageModal::getPasswordExpectedMessage)
+                .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
     }
 
@@ -560,18 +560,18 @@ public final class NewCustomerPage {
     public List<String> getAddressValidationMessages() {
         List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
-                .filter(x -> !x.getAddressfield().equals("")).collect(Collectors.toList());
+                .filter(x -> !x.getAddressField().isEmpty()).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getAddressfield().equals(BLANK)) {
+            if (x.getAddressField().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(addressField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(addressFieldMessage));
-            } else if (x.getAddressfield().equals(SPACE)) {
+            } else if (x.getAddressField().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(addressField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(addressFieldMessage));
             } else {
-                seleniumUtils.enterTextInWebElement(addressField, x.getAddressfield(), true);
+                seleniumUtils.enterTextInWebElement(addressField, x.getAddressField(), true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(addressFieldMessage));
             }
@@ -588,8 +588,8 @@ public final class NewCustomerPage {
      */
     public List<String> getAddressFieldExpectedMessages() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getAddressexpectedmessage)
-                .filter(x -> !x.equals(""))
+                .map(NewCustomerPageModal::getAddressExpectedMessage)
+                .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
     }
 
@@ -609,18 +609,18 @@ public final class NewCustomerPage {
     public List<String> getEmailValidationMessages() {
         List<String> validationMessages = new ArrayList<>();
         List<NewCustomerPageModal> newCustomerPageModals = getNewCustomerPageData().stream()
-                .filter(x -> !x.getEmailfield().equals("")).collect(Collectors.toList());
+                .filter(x -> !x.getEmailField().isEmpty()).collect(Collectors.toList());
         newCustomerPageModals.forEach(x -> {
-            if (x.getEmailfield().equals(BLANK)) {
+            if (x.getEmailField().equals(BLANK)) {
                 seleniumUtils.enterTextInWebElement(emailIdField, "", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(emailIdFieldMessage));
-            } else if (x.getEmailfield().equals(SPACE)) {
+            } else if (x.getEmailField().equals(SPACE)) {
                 seleniumUtils.enterTextInWebElement(emailIdField, " ", true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(emailIdFieldMessage));
             } else {
-                seleniumUtils.enterTextInWebElement(emailIdField, x.getEmailfield(), true);
+                seleniumUtils.enterTextInWebElement(emailIdField, x.getEmailField(), true);
                 seleniumUtils.performClick(addNewCustomerHeading);
                 validationMessages.add(seleniumUtils.getTextOfElement(emailIdFieldMessage));
             }
@@ -638,8 +638,8 @@ public final class NewCustomerPage {
      */
     public List<String> getEmailFieldExpectedMessages() {
         return getNewCustomerPageData().stream()
-                .map(NewCustomerPageModal::getEmailexpectedmessage)
-                .filter(x -> !x.equals(""))
+                .map(NewCustomerPageModal::getEmailExpectedMessage)
+                .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
     }
 
@@ -657,14 +657,13 @@ public final class NewCustomerPage {
      */
     public Object[][] getCustomerFieldDataProvider() {
         List<NewCustomerPageModal> customerFieldInputs = getNewCustomerPageData().stream()
-                .filter(x -> !x.getCustomernamefield().equals(""))
+                .filter(x -> !x.getCustomerNameField().isEmpty())
                 .collect(Collectors.toList());
-
         Object[][] dataTable = new Object[customerFieldInputs.size()][1];
         for (int i = 0; i < customerFieldInputs.size(); i++) {
-            Map<String, String> hashtable = new HashMap<>();
-            hashtable.put("input", customerFieldInputs.get(i).getCustomernamefield());
-            hashtable.put("expectedMessage", customerFieldInputs.get(i).getCustomernameexpectedmessage());
+            Map<String, String> hashtable = new Hashtable<>();
+            hashtable.put("input", customerFieldInputs.get(i).getCustomerNameField());
+            hashtable.put("expectedMessage", customerFieldInputs.get(i).getCustomerNameExpectedMessage());
             dataTable[i][0] = hashtable;
         }
         return dataTable;

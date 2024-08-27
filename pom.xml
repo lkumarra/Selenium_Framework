@@ -6,93 +6,71 @@
     <artifactId>Guru99BankAutomationF</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.azure</groupId>
-                <artifactId>azure-sdk-bom</artifactId>
-                <version>1.2.14</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <selenium.version>4.20.0</selenium.version>
-        <TestNg.version>7.7.1</TestNg.version>
-        <SpringJdbc.version>5.3.25</SpringJdbc.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <selenium.version>4.13.0</selenium.version>
+        <TestNg.version>7.8.0</TestNg.version>
+        <SpringJdbc.version>5.3.30</SpringJdbc.version>
         <Fillo.version>1.18</Fillo.version>
-        <sl4j.version>2.0.6</sl4j.version>
+        <sl4j.version>2.0.9</sl4j.version>
         <gson.version>2.10.1</gson.version>
         <hssql.version>2.7.1</hssql.version>
-        <lombok.version>1.18.20</lombok.version>
-        <postgresql.version>42.5.3</postgresql.version>
-        <json.version>20190722</json.version>
-        <awssdk.version>2.15.0</awssdk.version>
-        <commonio.version>2.11.0</commonio.version>
-        <json.version>20190722</json.version>
-        <logbackcore.version>1.4.5</logbackcore.version>
+        <lombok.version>1.18.34</lombok.version>
+        <postgresql.version>42.6.0</postgresql.version>
+        <json.version>20230227</json.version>
+        <awssdk.version>2.20.28</awssdk.version>
+        <commonio.version>2.14.0</commonio.version>
+        <logbackcore.version>1.4.11</logbackcore.version>
         <extentreport.version>5.0.9</extentreport.version>
-        <mssql.version>9.3.1.jre8-preview</mssql.version>
-        <jackson.version>2.11.0</jackson.version>
-        <restassured.version>4.2.0</restassured.version>
-        <webdrivermanager.version>5.8.0</webdrivermanager.version>
+        <mssql.version>8.4.0</mssql.version>
+        <jackson.version>2.15.2</jackson.version>
+        <restassured.version>4.5.1</restassured.version>
+        <webdrivermanager.version>5.6.4</webdrivermanager.version>
+        <poi.xml>5.2.3</poi.xml>
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
-            <version>2.6</version>
+            <version>3.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
         </dependency>
-
-
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>${restassured.version}</version>
             <scope>test</scope>
         </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/io.rest-assured/json-path -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>json-path</artifactId>
-            <version>5.1.1</version>
+            <version>${restassured.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${sl4j.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${TestNg.version}</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
@@ -103,17 +81,11 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-identity</artifactId>
-        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commonio.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.codoid.products</groupId>
             <artifactId>fillo</artifactId>
@@ -125,13 +97,11 @@
             <artifactId>json</artifactId>
             <version>${json.version}</version>
         </dependency>
-
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>${logbackcore.version}</version>
         </dependency>
-
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -139,29 +109,20 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>${mssql.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
             <version>${extentreport.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>${webdrivermanager.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.epam.reportportal</groupId>
             <artifactId>agent-java-testng</artifactId>
@@ -172,36 +133,54 @@
             <artifactId>logger-java-log4j</artifactId>
             <version>5.0.0</version>
         </dependency>
-
-
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.32</version>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-otlp</artifactId>
+            <version>1.24.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.0.1-jre</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M7</version>
+                <version>2.22.2</version>
                 <configuration>
                     <systemProperties>
-                        <!--suppress UnresolvedMavenProperty -->
                         <env>${environment}</env>
-                        <!--suppress UnresolvedMavenProperty -->
                         <browser>${browser}</browser>
                     </systemProperties>
-                    <includes>
-                        <include>**/*Test.java</include> <!-- Adjust according to your test file pattern -->
-                    </includes>
+<!--                    <includes>-->
+<!--                        <include>**/*Test.java</include>-->
+<!--                    </includes>-->
                     <systemPropertyVariables>
                         <property>
                             <name>testng.xml</name>
                             <value>${basedir}/src/test/resources/testng.xml</value>
                         </property>
                     </systemPropertyVariables>
+                    <forkCount>1</forkCount>
+                    <reuseForks>true</reuseForks>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>

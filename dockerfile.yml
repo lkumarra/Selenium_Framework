@@ -1,0 +1,63 @@
+version: '3.8'
+services:
+
+  # Selenium Hub
+  selenium-hub:
+    image: selenium/hub:4.23.0
+    container_name: selenium-hub
+    platform: linux/amd64
+    ports:
+      - "4444:4444"
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2.0"
+    mem_limit: 4g
+    cpus: "2.0"
+
+  # Chrome Node
+  chrome:
+    image: selenium/node-chrome:127.0-20240727
+    container_name: chrome
+    platform: linux/amd64
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - VNC_PASSWORD=1234
+    depends_on:
+      - selenium-hub
+    mem_limit: 4g
+    cpus: "2.0"
+
+  # Firefox Node
+  firefox:
+    image: selenium/node-firefox:128.0-20240727
+    container_name: firefox
+    platform: linux/amd64
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - VNC_PASSWORD=1234
+    depends_on:
+      - selenium-hub
+    mem_limit: 4g
+    cpus: "2.0"
+
+  # Java TestNG Project
+  test-runner:
+    image: maven:3.8.6-openjdk-11
+    container_name: test-runner
+    platform: linux/amd64
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    depends_on:
+      - selenium-hub
+      - chrome
+      - firefox
+    command: ["sh", "-c", "mvn clean test"]
+    mem_limit: 4g
+    cpus: "2.0"

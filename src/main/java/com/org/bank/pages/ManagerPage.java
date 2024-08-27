@@ -12,7 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import com.org.bank.modals.ManagerPageModal;
+import com.org.bank.models.ManagerPageModal;
 import com.org.bank.utils.ExcelUtils;
 import com.org.bank.utils.SeleniumUtils;
 import com.org.bank.utils.StreamMapperUtils;
@@ -103,7 +103,7 @@ public final class ManagerPage {
      */
     public String getWelcomeMessage() {
         return getManagerPageData().stream()
-                .map(ManagerPageModal::getWelcomemessage)
+                .map(ManagerPageModal::getWelcomeMessage)
                 .filter(StringUtils::isNotEmpty)
                 .findFirst()
                 .orElse("");
@@ -122,7 +122,7 @@ public final class ManagerPage {
      */
     public String getManagerIdMessage(String managerId) {
         return getManagerPageData().stream()
-                .map(ManagerPageModal::getManageridmessage)
+                .map(ManagerPageModal::getManagerIdMessage)
                 .filter(StringUtils::isNotEmpty)
                 .findFirst()
                 .map(message -> String.format(message, managerId))
@@ -141,7 +141,7 @@ public final class ManagerPage {
      */
     public List<String> getAllMenuOptions() {
         return getManagerPageData().stream()
-                .map(ManagerPageModal::getMenuoptions)
+                .map(ManagerPageModal::getMenuOptions)
                 .filter(StringUtils::isNotEmpty)
                 .collect(Collectors.toList());
     }

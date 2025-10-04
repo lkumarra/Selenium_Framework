@@ -183,6 +183,7 @@ public class CustomListeners implements ITestListener, ISuiteListener {
      * @param key The key representing the type of test result.
      */
     private void updateTestResult(String key) {
+        hashtable.put(TOTAL_TESTS, hashtable.getOrDefault(TOTAL_TESTS, 0) + 1);
         hashtable.put(key, hashtable.getOrDefault(key, 0) + 1);
     }
 
@@ -244,6 +245,15 @@ public class CustomListeners implements ITestListener, ISuiteListener {
      */
     public void onFinish(ITestContext context) {
         System.out.println(jsonObject.toString(4));
+        int total = context.getAllTestMethods().length;
+        int passed = context.getPassedTests().size();
+        int failed = context.getFailedTests().size();
+        int skipped = context.getSkippedTests().size();
+
+        System.out.println("Total: " + total);
+        System.out.println("Passed: " + passed);
+        System.out.println("Failed: " + failed);
+        System.out.println("Skipped: " + skipped);
     }
 
     /**
@@ -254,12 +264,12 @@ public class CustomListeners implements ITestListener, ISuiteListener {
      * @param suite The TestNG suite that has finished execution. It contains methods to access suite details.
      */
     public void onFinish(ISuite suite) {
-        hashtable.put(TOTAL_TESTS, suite.getAllMethods().size());
         printTestCaseCount();
         logTestSuiteStatus();
         extentReports.flush();
         printExecutionCompletionMessage();
     }
+
 
     /**
      * This method prints the count of test cases for each status (total, passed, failed, skipped).

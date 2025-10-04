@@ -1,13 +1,8 @@
 package com.org.bank.driverfactory;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * This class contains the method related ot chrome class
@@ -27,13 +22,12 @@ public final class ChromerDriverManager implements DriverManager {
      * @return A new instance of ChromeDriver with the specified options.
      */
     @Override
-    public RemoteWebDriver getWebDriver() {
-        // WebDriverManager.chromiumdriver().setup();
+    public ChromeDriver getWebDriver() {
         ChromeOptions chromeOptions = new ChromeOptions();
-        // chromeOptions.addArguments("--headless");
-        //chromeOptions.addArguments("--no-sandbox");
-        // chromeOptions.addArguments("--disable-dev-shm-usage");
-        //chromeOptions.addArguments("--disable-gpu");
+        chromeOptions.addArguments("--headless");
+        chromeOptions.addArguments("--no-sandbox");
+        chromeOptions.addArguments("--disable-dev-shm-usage");
+        chromeOptions.addArguments("--disable-gpu");
         chromeOptions.addArguments("--ignore-ssl-errors=yes");
         chromeOptions.addArguments("--ignore-certificate-errors");
         return new ChromeDriver(chromeOptions);

@@ -1,8 +1,6 @@
 package com.org.bank.utils;
 
 import java.io.FileReader;
-import java.io.Reader;
-import java.util.Objects;
 import java.util.Properties;
 
 import com.org.bank.exceptions.KeyNotValidException;

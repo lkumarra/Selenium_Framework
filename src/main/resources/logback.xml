@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<timestamp key="myTimestamp"
-		datePattern="yyyy-MM-dd'_'HH-mm-ss.SSS" />
-	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-		<file>${user.dir}/src/test/resources/logs/excecution_${myTimestamp}.log</file>
-		<append>false</append>
-		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-			</pattern>
-		</encoder>
-	</appender>
+    <timestamp key="myTimestamp" datePattern="yyyy-MM-dd'_'HH-mm-ss.SSS"/>
 
-	<appender name="STDOUT"
-		class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<pattern>%blue(%d{yyyy-MM-dd HH:mm:ss.SSS}) %green([%thread]) %highlight(%-5level) %cyan(%logger{36}) - %msg%n
-			</pattern>
-		</encoder>
-	</appender>
+    <!-- File Appender: Logs to a file with a timestamp in the filename -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${user.dir}/src/test/resources/logs/execution_${myTimestamp}.log</file>
+        <append>false</append>
+        <encoder>
+            <!-- Includes date, time, thread, log level, class, method, and line number -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
 
-	<log name="jdbc" level="OFF" />
-	<log name="org.testng" level="OFF" />
-	<log name="jdbc.sqlonly" level="WARN" additivity="false">
-		<appender-ref ref="FILE" />
-	</log>
-	<root level="INFO">
-		<appender-ref ref="STDOUT" /> <!-- Every log will apear on screen log --><!-- Every log will apear on file -->
-	</root>
-	<root level="INFO"><!-- Every log will apear on screen log -->
-		<appender-ref ref="FILE" />   <!-- Every log will apear on file -->
-	</root>
+    <!-- Console Appender: Logs to the console with colors and highlighting -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Add color and highlight different parts of the log -->
+            <pattern>%highlight(%d{yyyy-MM-dd HH:mm:ss.SSS}) %boldGreen([%thread]) %highlight(%-5level) %boldCyan(%logger{36}.%M:%L) - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- Disable JDBC and TestNG logging -->
+    <logger name="jdbc" level="OFF"/>
+    <logger name="org.testng" level="OFF"/>
+
+    <!-- Log only WARN level for SQL-related logs -->
+    <logger name="jdbc.sqlonly" level="WARN" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <!-- Root Logger: Log everything to both console and file -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/> <!-- Logs appear in console -->
+        <appender-ref ref="FILE"/>   <!-- Logs appear in file -->
+    </root>
 </configuration>
